@@ -20,6 +20,14 @@ export class ApiService {
   ): Observable<T> {
     return this.request<T>("GET", path, { params, ...options });
   }
+
+  post<T>(
+    path: string,
+    body: unknown,
+    options?: { showLoader?: boolean }
+  ): Observable<T> {
+    return this.request<T>("POST", path, { body, ...options });
+  }
   
 
   private request<T>(

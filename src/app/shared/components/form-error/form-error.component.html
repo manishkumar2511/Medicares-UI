@@ -1,0 +1,31 @@
+<ng-container *ngIf="shouldShowError()">
+  <!-- Required -->
+  <small class="form-error-text" 
+         *ngIf="form.get(controlName)?.hasError('required')">
+    {{ requiredMessage || 'This field is required' }}
+  </small>
+
+  <!-- Invalid phone -->
+  <small class="form-error-text" 
+         *ngIf="form.get(controlName)?.hasError('invalidPhone')">
+    {{ invalidMessage || 'Invalid input' }}
+  </small>
+
+  <!-- Password mismatch -->
+  <small class="form-error-text" 
+         *ngIf="form.get(controlName)?.hasError('passwordMismatch')">
+    {{ passwordMismatchMessage || 'Passwords do not match' }}
+  </small>
+
+  <!-- Min length -->
+  <small class="form-error-text" 
+         *ngIf="form.get(controlName)?.hasError('minlength')">
+    {{ minLengthMessage }}
+  </small>
+
+  <!-- Max length -->
+  <small class="form-error-text" 
+         *ngIf="form.get(controlName)?.hasError('maxlength')">
+    {{ maxLengthMessage }}
+  </small>
+</ng-container>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -15,6 +15,7 @@ import { DropdownModule } from 'primeng/dropdown';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
 
     ButtonModule,
     CardModule,
@@ -23,12 +24,13 @@ import { DropdownModule } from 'primeng/dropdown';
     DropdownModule
   ],
   exports: [
-    FormsModule,          
+    FormsModule,
+    ReactiveFormsModule,         
     ButtonModule,
     CardModule,
     InputTextModule,
     PasswordModule,
-    DropdownModule
+    DropdownModule,
   ]
 })
 export class PrimematerialModule { }

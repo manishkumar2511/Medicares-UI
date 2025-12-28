@@ -1,137 +1,148 @@
 <div class="register-wrapper">
-  <form class="register-form" (ngSubmit)="register()">
-
+  <form
+    class="register-form"
+    [formGroup]="ownerRegistrationForm"
+    (ngSubmit)="submitOwnerRegistration()"
+  >
     <h2 class="register-title">Owner Registration</h2>
 
     <div class="register-columns">
 
       <!-- LEFT COLUMN -->
       <div class="register-col">
-
         <section class="register-section">
           <h3>Personal Information</h3>
 
           <div class="form-group">
             <label>First Name</label>
-            <input
-              pInputText
-              class="form-control"
-              [(ngModel)]="model.firstName"
-              name="firstName"
-              required />
+            <input pInputText formControlName="firstName" />
+            <app-form-error
+              [form]="ownerRegistrationForm"
+              controlName="firstName"
+              message="First name is required">
+            </app-form-error>
           </div>
 
           <div class="form-group">
             <label>Last Name</label>
-            <input
-              pInputText
-              class="form-control"
-              [(ngModel)]="model.lastName"
-              name="lastName"
-              required />
+            <input pInputText formControlName="lastName" />
+            <app-form-error
+              [form]="ownerRegistrationForm"
+              controlName="lastName"
+              message="Last name is required">
+            </app-form-error>
           </div>
 
           <div class="form-group">
             <label>Email</label>
-            <input
-              pInputText
-              type="email"
-              class="form-control"
-              [(ngModel)]="model.email"
-              name="email"
-              required />
+            <input pInputText type="email" formControlName="email" />
+            <app-form-error
+              [form]="ownerRegistrationForm"
+              controlName="email"
+              message="Please enter a valid email">
+            </app-form-error>
           </div>
 
           <div class="form-group">
             <label>Password</label>
             <p-password
-                [(ngModel)]="model.password"
-                name="password"
-                [toggleMask]="true"
-                [feedback]="false">
+              formControlName="password"
+              [toggleMask]="true"
+              [feedback]="false">
             </p-password>
+            <app-form-error
+              [form]="ownerRegistrationForm"
+              controlName="password"
+              message="Password is required (min 6 characters)">
+            </app-form-error>
           </div>
 
           <div class="form-group">
-            <label>Confirm Password</label>
-            <p-password
-                [(ngModel)]="model.confirmPassword"
-                name="confirmPassword"
-                [toggleMask]="true"
-                [feedback]="false"
-                required>
-            </p-password>
-          </div>
+          <label>Confirm Password</label>
+          <p-password formControlName="confirmPassword" [toggleMask]="true" [feedback]="false"></p-password>
+
+          <app-form-error
+            [form]="ownerRegistrationForm"
+            controlName="confirmPassword"
+            requiredMessage="Confirm password is required"
+            passwordMismatchMessage="Passwords do not match">
+          </app-form-error>
+        </div>
 
           <div class="form-group">
             <label>Phone Number</label>
-            <input
-              pInputText
-              class="form-control"
-              [(ngModel)]="model.phoneNumber"
-              name="phoneNumber"
-              required />
-          </div>
+            <input pInputText formControlName="phoneNumber" />
 
+            <app-form-error
+              [form]="ownerRegistrationForm"
+              controlName="phoneNumber"
+              requiredMessage="Phone number is required"
+              invalidMessage="Please enter a valid 10-digit phone number">
+            </app-form-error>
+          </div>
         </section>
       </div>
 
       <!-- RIGHT COLUMN -->
       <div class="register-col">
-
         <section class="register-section">
           <h3>Address Information</h3>
 
           <div class="form-group">
             <label>Address Line</label>
-            <input
-              pInputText
-              class="form-control"
-              [(ngModel)]="model.addressLine"
-              name="addressLine"
-              required />
+            <input pInputText formControlName="addressLine" />
+            <app-form-error
+              [form]="ownerRegistrationForm"
+              controlName="addressLine"
+              message="Address is required">
+            </app-form-error>
           </div>
 
           <div class="form-group">
             <label>City</label>
-            <input
-              pInputText
-              class="form-control"
-              [(ngModel)]="model.city"
-              name="city"
-              required />
+            <input pInputText formControlName="city" />
+            <app-form-error
+              [form]="ownerRegistrationForm"
+              controlName="city"
+              message="City is required">
+            </app-form-error>
           </div>
 
           <div class="form-group">
             <label>Postal Code</label>
-            <input
-              pInputText
-              class="form-control"
-              [(ngModel)]="model.postalCode"
-              name="postalCode"
-              required />
+            <input pInputText formControlName="postalCode" />
+            <app-form-error
+              [form]="ownerRegistrationForm"
+              controlName="postalCode"
+              message="Postal code is required">
+            </app-form-error>
           </div>
 
           <div class="form-group">
             <label>State</label>
             <p-dropdown
-              class="form-control"
               [options]="states"
               optionLabel="name"
               optionValue="id"
-              [(ngModel)]="model.stateId"
-              name="stateId"
-              placeholder="Select State">
+              placeholder="Select State"
+              formControlName="stateId">
             </p-dropdown>
+            <app-form-error
+              [form]="ownerRegistrationForm"
+              controlName="stateId"
+              message="Please select a state">
+            </app-form-error>
           </div>
-
         </section>
       </div>
 
     </div>
 
-    <button type="submit" class="register-btn">
-      Register Owner
+    <button
+      pButton
+      type="submit"
+      label="Register Owner"
+      class="register-btn">
     </button>
 
   </form>

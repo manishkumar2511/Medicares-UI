@@ -9,7 +9,6 @@ export class CommonService {
     apiService = inject(ApiService);
 
     getState(): Observable<State[]> {
-        debugger;
     return this.apiService.get<State[]>("state/get-all").pipe(
       catchError((error: Result<unknown>) => {
         return throwError(() => error.messages);
