@@ -8,6 +8,7 @@ import { FormHelpers } from '../../../core/helpers';
 import { FormErrorComponent } from '../../../shared';
 import { ToastService } from '../../../core/services';
 import { OwnerService } from '../../../core/services/owner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-owner-registration',
@@ -23,6 +24,7 @@ export class OwnerRegistrationComponent implements OnInit {
   private commonService = inject(CommonService);
   private ownerService = inject(OwnerService);   
   private toastService = inject(ToastService);
+  private router = inject(Router);
   private fb = inject(FormBuilder);
   states: State[] = [];
   ownerRegistrationForm!: FormGroup;
@@ -81,6 +83,7 @@ private initOwnerRegistrationForm(): void {
 
       this.ownerRegistrationForm.reset();
       this.selectedProfileImage = null;
+      this.router.navigate(['/account/login']);
     },
     error: () => {
       this.toastService.error(); 
