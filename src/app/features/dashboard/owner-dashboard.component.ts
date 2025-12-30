@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { PrimematerialModule } from '../../core/primematerial.module';
 
 @Component({
@@ -10,6 +10,7 @@ import { PrimematerialModule } from '../../core/primematerial.module';
     styleUrl: './owner-dashboard.component.scss'
 })
 export class OwnerDashboardComponent implements OnInit {
+    private platformId = inject(PLATFORM_ID);
     public chartData: any;
     public chartOptions: any;
     public pieData: any;
@@ -45,7 +46,9 @@ export class OwnerDashboardComponent implements OnInit {
     ];
 
     ngOnInit() {
-        this.initCharts();
+        if (isPlatformBrowser(this.platformId)) {
+            this.initCharts();
+        }
     }
 
     public downloadReport(report: any) {
