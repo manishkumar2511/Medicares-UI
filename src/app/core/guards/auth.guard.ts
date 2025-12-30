@@ -5,9 +5,9 @@ import { AuthService } from "../services";
 export const AuthGuard: CanActivateFn = () => {
   const authService = inject(AuthService) as AuthService;
   const router = inject(Router);
-//   if (authService.isAuthenticated()) {
-//     return true;
-//   }
+  //   if (authService.isAuthenticated()) {
+  //     return true;
+  //   }
   router.navigate(["/login"]);
   return false;
 };

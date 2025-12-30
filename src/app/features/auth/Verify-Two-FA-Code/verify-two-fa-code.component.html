@@ -1,0 +1,95 @@
+<section class="auth-page-sec">
+  <div class="auth-container">
+    <div class="auth-card fade-in">
+      <div class="auth-content">
+        <!-- Brand Header (Pill Style with Navbar-matching text design) -->
+        <div class="auth-brand">
+          <div class="brand-pill">
+            <span class="brand-m">M</span><span class="brand-rest">edicares</span>
+          </div>
+        </div>
+
+        <div class="auth-header">
+          <h1 class="auth-title">Security Verification</h1>
+          <p class="auth-subtitle">
+            We've sent a 6-digit verification code to
+            <span class="user-email">{{ email || "your email" }}</span>.
+            Please enter it below to secure your account.
+          </p>
+        </div>
+
+        <!-- Alert Messages -->
+        <div class="alert-container">
+          @if (error) {
+          <div class="alert alert-danger slide-in">
+            <i class="pi pi-exclamation-circle"></i>
+            <span>{{ error }}</span>
+          </div>
+          }
+          @if (resendSuccess) {
+          <div class="alert alert-success slide-in">
+            <i class="pi pi-check-circle"></i>
+            <span>{{ resendSuccess }}</span>
+          </div>
+          }
+        </div>
+
+        @if (!submitted) {
+        <form (ngSubmit)="onSubmit()" class="auth-form">
+          <div class="otp-group">
+            <div class="otp-container">
+              <p-inputOtp [(ngModel)]="codeStr" [length]="6" [integerOnly]="true" name="codeStr" required></p-inputOtp>
+            </div>
+            <p class="otp-hint">Enter the code from your email</p>
+          </div>
+
+          <button pButton type="submit" class="verify-btn" [disabled]="loading || codeStr.length < 6"
+            [loading]="loading">
+            @if (!loading) {
+            <i class="pi pi-shield mr-2"></i>
+            }
+            <span class="btn-text">Verify Account</span>
+          </button>
+        </form>
+
+        <div class="resend-section">
+          <p>Didn't receive the code?</p>
+          <button pButton type="button" class="resend-action-btn" [class.cooldown-active]="resendCooldown > 0"
+            [disabled]="!canResend" [loading]="resending" (click)="resendCode()">
+            @if (resendCooldown > 0) {
+            <i class="pi pi-clock"></i>
+            <span>Resend in {{ resendCooldown }}s</span>
+            } @else {
+            <i class="pi pi-refresh"></i>
+            <span>Resend Verification Code</span>
+            }
+          </button>
+        </div>
+
+        <div class="auth-footer">
+          <a class="back-link" [routerLink]="['/account/login']">
+            <i class="pi pi-arrow-left"></i>
+            <span>Back to Sign In</span>
+          </a>
+        </div>
+        }
+
+        @if (submitted) {
+        <div class="success-screen scale-in">
+          <div class="success-icon-wrapper">
+            <div class="success-icon">
+              <i class="pi pi-check"></i>
+            </div>
+            <div class="success-ripple"></div>
+          </div>
+          <h3>Verified Successfully!</h3>
+          <p>Your identity has been confirmed. Redirecting to your dashboard...</p>
+          <div class="loading-bar">
+            <div class="loading-progress"></div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -3,23 +3,69 @@
     <div class="login-card-content">
       <div class="login-form-section">
         <h2 class="login-title">Welcome Back</h2>
-        <form (ngSubmit)="submit()">
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+          <!-- EMAIL -->
           <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" type="email" class="form-control" placeholder="Enter your email" [(ngModel)]="email" name="email" />
+            <label>Email</label>
+            <input
+              type="email"
+              class="form-control"
+              placeholder="Enter your email"
+              formControlName="email"
+            />
+
+            <app-form-error
+              [form]="loginForm"
+              controlName="email"
+              requiredMessage="Email is required"
+              invalidMessage="Enter a valid email"
+            />
           </div>
+
+          <!-- PASSWORD -->
           <div class="form-group">
-            <label for="password">Password</label>
-            <input id="password" type="password" class="form-control" placeholder="Enter your password" [(ngModel)]="password" name="password" />
+            <label>Password</label>
+            <p-password
+              formControlName="password"
+              [toggleMask]="true"
+              [feedback]="false"
+              [promptLabel]="'Enter your password'"
+              [placeholder]="'Enter your password'"
+            ></p-password>
+
+            <app-form-error
+              [form]="loginForm"
+              controlName="password"
+              requiredMessage="Password is required"
+              minLengthMessage="Password must be at least 6 characters"
+            ></app-form-error>
           </div>
+
+          <!-- API / LOGIN ERROR (FORM LEVEL) -->
+          @if (error) {
+            <small class="form-error-text">
+              {{ error }}
+            </small>
+          }
+
           <div class="login-btn-row">
-            <button type="submit" class="login-btn primary-btn">Login</button>
-            <button type="button" class="login-btn tertiary-btn">Forgot Password</button>
+            <button
+              type="submit"
+              class="login-btn primary-btn"
+              [disabled]="loading"
+            >
+              {{ loading ? 'Logging in...' : 'Login' }}
+            </button>
+
+            <button type="button" class="login-btn tertiary-btn">
+              Forgot Password
+            </button>
           </div>
-          <div *ngIf="message" class="form-message">{{ message }}</div>
+
         </form>
       </div>
-      
     </div>
   </div>
 </div>

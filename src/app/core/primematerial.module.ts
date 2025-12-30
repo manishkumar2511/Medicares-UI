@@ -7,6 +7,7 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputOtpModule } from 'primeng/inputotp';
 
 
 
@@ -21,16 +22,18 @@ import { DropdownModule } from 'primeng/dropdown';
     CardModule,
     InputTextModule,
     PasswordModule,
-    DropdownModule
+    DropdownModule,
+    InputOtpModule
   ],
   exports: [
     FormsModule,
-    ReactiveFormsModule,         
+    ReactiveFormsModule,
     ButtonModule,
     CardModule,
     InputTextModule,
     PasswordModule,
     DropdownModule,
+    InputOtpModule,
   ]
 })
 export class PrimematerialModule { }

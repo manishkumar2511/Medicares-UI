@@ -1,124 +1,92 @@
 <nav class="navbar">
   <div class="nav-container">
+
     <div class="nav-header-row">
       <div class="nav-logo">
         <a class="brand" (click)="navigateToHome()" aria-label="Medicares home">
+
           <!-- Dark-mode full logo -->
-          <svg *ngIf="isDarkMode" class="logo-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" role="img" aria-labelledby="medFullTitleInline">
-            <title id="medFullTitleInline">Medicares full logo</title>
+          <svg *ngIf="isDarkMode"
+               class="logo-full"
+               xmlns="http://www.w3.org/2000/svg"
+               viewBox="0 0 260 64">
             <defs>
-              <linearGradient id="gFullInline" x1="0" x2="1">
+              <linearGradient id="gDark" x1="0" x2="1">
                 <stop offset="0" stop-color="#A8EEFF"/>
                 <stop offset="1" stop-color="#19B6E6"/>
               </linearGradient>
             </defs>
-            <g transform="translate(0,0)">
-              <circle cx="32" cy="32" r="30" fill="#ffffff"/>
-              <circle cx="32" cy="28" r="20" fill="url(#gFullInline)"/>
-              <rect x="30" y="20" width="6" height="20" rx="2" fill="#ffffff"/>
-              <rect x="20" y="28" width="20" height="6" rx="2" fill="#ffffff"/>
-              <path d="M18 44c6-8 14-12 22-12 4 0 8 2 12 4" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
-            </g>
+            <circle cx="32" cy="32" r="30" fill="#ffffff"/>
+            <circle cx="32" cy="28" r="20" fill="url(#gDark)"/>
+            <rect x="30" y="20" width="6" height="20" rx="2" fill="#ffffff"/>
+            <rect x="20" y="28" width="20" height="6" rx="2" fill="#ffffff"/>
             <g transform="translate(74,44)">
-              <text x="0" y="0" font-family="Poppins, Arial, sans-serif" font-weight="700" font-size="36" fill="#ffffff">M</text>
-              <text x="22" y="0" font-family="Poppins, Arial, sans-serif" font-weight="600" font-size="28" fill="#ffffff">edicares</text>
+              <text x="0" y="0" font-size="36" fill="#ffffff">M</text>
+              <text x="22" y="0" font-size="28" fill="#ffffff">edicares</text>
             </g>
           </svg>
 
           <!-- Light-mode full logo -->
-          <svg *ngIf="!isDarkMode" class="logo-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" role="img" aria-labelledby="medFullColorTitleInline">
-            <title id="medFullColorTitleInline">Medicares full logo (color)</title>
+          <svg *ngIf="!isDarkMode"
+               class="logo-full"
+               xmlns="http://www.w3.org/2000/svg"
+               viewBox="0 0 260 64">
             <defs>
-              <linearGradient id="gFullColorInline" x1="0" x2="1">
+              <linearGradient id="gLight" x1="0" x2="1">
                 <stop offset="0" stop-color="#A8EEFF"/>
                 <stop offset="1" stop-color="#19B6E6"/>
               </linearGradient>
             </defs>
-            <g transform="translate(0,0)">
-              <circle cx="32" cy="32" r="30" fill="#ffffff"/>
-              <circle cx="32" cy="28" r="20" fill="url(#gFullColorInline)"/>
-              <rect x="30" y="20" width="6" height="20" rx="2" fill="#ffffff"/>
-              <rect x="20" y="28" width="20" height="6" rx="2" fill="#ffffff"/>
-              <path d="M18 44c6-8 14-12 22-12 4 0 8 2 12 4" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
-            </g>
+            <circle cx="32" cy="32" r="30" fill="#ffffff"/>
+            <circle cx="32" cy="28" r="20" fill="url(#gLight)"/>
+            <rect x="30" y="20" width="6" height="20" rx="2" fill="#ffffff"/>
+            <rect x="20" y="28" width="20" height="6" rx="2" fill="#ffffff"/>
             <g transform="translate(74,44)">
-              <text x="0" y="0" font-family="Poppins, Arial, sans-serif" font-weight="700" font-size="36" fill="#ffffff">M</text>
-              <text x="22" y="0" font-family="Poppins, Arial, sans-serif" font-weight="600" font-size="28" fill="#ffffff">edicares</text>
+              <text x="0" y="0" font-size="36" fill="#2E7D5F">M</text>
+              <text x="22" y="0" font-size="28" fill="#2E7D5F">edicares</text>
             </g>
           </svg>
 
-          <!-- Compact badge shown on mobile (kept for small screens) -->
-          <svg class="logo-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-labelledby="medBadgeInline">
-            <title id="medBadgeInline">Medicares badge</title>
-            <defs>
-              <linearGradient id="badgeGradInline" x1="0" x2="1">
-                <stop offset="0" stop-color="#A8EEFF"/>
-                <stop offset="1" stop-color="#19B6E6"/>
-              </linearGradient>
-            </defs>
+          <!-- Mobile badge -->
+          <svg class="logo-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="46" fill="#ffffff"/>
-            <circle cx="50" cy="46" r="30" fill="url(#badgeGradInline)"/>
+            <circle cx="50" cy="46" r="30" fill="#19B6E6"/>
             <rect x="46" y="34" width="8" height="30" rx="3" fill="#ffffff"/>
             <rect x="34" y="42" width="30" height="8" rx="3" fill="#ffffff"/>
-            <path d="M30 62c6-8 14-12 22-12 4 0 8 2 12 4" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
           </svg>
 
-          <!-- Accessible label -->
-          <span class="sr-only">Medicares</span>
         </a>
-      </div>   
+      </div>
+
+      <!-- Hamburger -->
       <div class="hamburger" (click)="toggleMobileMenu()">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </div>
     </div>
-    <div class="nav-menu" [class.active]="mobileMenuOpen">
-  <!-- Hide the main nav links when any user is logged in -->
-  <ng-container *ngIf="!auth.currentUser()">
-        <a class="nav-link" (click)="navigateToHome()">Home</a>
-        <a routerLink="/pricing" class="nav-link" (click)="closeMenu()">Pricing</a>
-        <a routerLink="/about" class="nav-link" (click)="closeMenu()">About</a>
-        <a routerLink="/contact" class="nav-link" (click)="closeMenu()">Contact</a>
-      </ng-container>
 
-      <!-- Shown when logged in -->
-      <ng-container *ngIf="currentUser">
-        <!-- If role is SuperAdmin -->
-        <ng-container *ngIf="isSuperAdmin(); else normalRole">
-          <a routerLink="/dashboard" class="nav-link" (click)="closeMenu()">Dashboard</a>
-          <a routerLink="/stores" class="nav-link" (click)="closeMenu()">Stores</a>
-        </ng-container>
-      
-        <!-- Other roles -->
-        <ng-template #normalRole>
-          <a routerLink="/dashboard" class="nav-link" (click)="closeMenu()">Dashboard</a>
-          <a routerLink="/transactions" class="nav-link" (click)="closeMenu()">Transactions</a>
-          <a routerLink="/sales" class="nav-link" (click)="closeMenu()">Sales</a>
-        </ng-template>
-      </ng-container>
+    <!-- NAV MENU -->
+    <div class="nav-menu" [class.active]="mobileMenuOpen">
+
+      <a class="nav-link" (click)="navigateToHome()">Home</a>
+
+      <a routerLink="/pricing" class="nav-link" (click)="closeMenu()">Pricing</a>
+      <a routerLink="/about" class="nav-link" (click)="closeMenu()">About</a>
+      <a routerLink="/contact" class="nav-link" (click)="closeMenu()">Contact</a>
 
       <div class="nav-buttons">
-  <ng-container *ngIf="!auth.currentUser(); else loggedIn">
-          <a class="nav-link" (click)="navigateToLogin()">Login</a>
-          <a class="nav-link" (click)="navigateToOwnerRegistration()">Get Started</a>
-        </ng-container>
-        <ng-template #loggedIn>
-          <div class="user-badge" title="Logged in user">
-            <span class="user-email">{{ auth.currentUser()?.email }}</span>
-            <div class="avatar-wrapper" (click)="toggleUserMenu()" style="cursor: pointer;">
-              <div class="avatar">{{ (auth.currentUser()?.email || '') | slice:0:1 | uppercase }}</div>
-              <span class="status-dot"></span>
-            </div>
-            <div class="user-menu" *ngIf="userMenuOpen">
-              <button class="logout-btn" (click)="logout()">Logout</button>
-            </div>
-          </div>
-        </ng-template>
+        <a class="nav-link" (click)="navigateToLogin()">Login</a>
+        <a class="nav-link" (click)="navigateToOwnerRegistration()">Get Started</a>
 
-        <i class="pi" [ngClass]="isDarkMode ? 'pi-moon' : 'pi-sun'" (click)="toggleTheme()"
-          style="font-size: 1.5rem; cursor: pointer; margin-left: 1rem; color: var(--text-primary);"></i>
+        <!-- Dark / Light toggle -->
+        <i class="pi"
+           [ngClass]="isDarkMode ? 'pi-moon' : 'pi-sun'"
+           (click)="toggleTheme()"
+           style="font-size: 1.5rem; cursor: pointer; margin-left: 1rem;">
+        </i>
       </div>
+
     </div>
   </div>
 </nav>

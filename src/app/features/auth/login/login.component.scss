@@ -206,3 +206,17 @@
   }
 }
 }
+
+
+:host ::ng-deep .p-password {
+  width: 100%;
+}
+
+:host ::ng-deep .p-password .p-inputtext {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color, #E0E0E0);
+  background: var(--background-light, #FAFAFA);
+}

@@ -1,0 +1,1 @@
+export * from "./verify-two-fa-code.component";

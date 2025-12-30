@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, RouterModule, ButtonModule],
-  templateUrl: './navbar.component.html',
+  templateUrl:'./navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
@@ -55,15 +55,15 @@ export class NavbarComponent {
     this.userMenuOpen = !this.userMenuOpen;
   }
 
-  get currentUser() {
-    // return reactive current user from the auth signal so template updates
-    return this.auth.currentUser();
-  }
+  // get currentUser() {
+  //   // return reactive current user from the auth signal so template updates
+  //   return this.auth.currentUser();
+  // }
 
-  isSuperAdmin(): boolean {
-    const cu = this.auth.currentUser();
-    return !!(cu && cu.role === 'SuperAdmin');
-  }
+  // isSuperAdmin(): boolean {
+  //   const cu = this.auth.currentUser();
+  //   return !!(cu && cu.role === 'SuperAdmin');
+  // }
 
   logout(): void {
     this.auth.logout();
