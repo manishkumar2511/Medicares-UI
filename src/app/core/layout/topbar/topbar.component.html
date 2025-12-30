@@ -1,0 +1,110 @@
+<header
+  class="topbar"
+  [class.guest-mode]="!(isAuthenticated$ | async)"
+  [class.auth-mode]="isAuthenticated$ | async">
+
+  <div class="topbar-container">
+
+    <!-- LEFT : LOGO -->
+    <div class="topbar-left">
+      <a class="brand" (click)="navigateToHome()" aria-label="Medicares home">
+
+        @if (isDarkMode()) {
+          <!-- DARK THEME LOGO -->
+          <svg class="logo-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64">
+            <defs>
+              <linearGradient id="gDark" x1="0" x2="1">
+                <stop offset="0" stop-color="#A8EEFF"/>
+                <stop offset="1" stop-color="#19B6E6"/>
+              </linearGradient>
+            </defs>
+            <circle cx="32" cy="32" r="30" fill="#ffffff"/>
+            <circle cx="32" cy="28" r="20" fill="url(#gDark)"/>
+            <rect x="30" y="20" width="6" height="20" rx="2" fill="#ffffff"/>
+            <rect x="20" y="28" width="20" height="6" rx="2" fill="#ffffff"/>
+            <g transform="translate(74,44)">
+              <text x="0" y="0" font-size="36" fill="#ffffff">M</text>
+              <text x="22" y="0" font-size="28" fill="#ffffff">edicares</text>
+            </g>
+          </svg>
+        } @else {
+          <!-- LIGHT THEME LOGO (TEXT ALSO WHITE) -->
+          <svg class="logo-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64">
+            <defs>
+              <linearGradient id="gLight" x1="0" x2="1">
+                <stop offset="0" stop-color="#A8EEFF"/>
+                <stop offset="1" stop-color="#19B6E6"/>
+              </linearGradient>
+            </defs>
+            <circle cx="32" cy="32" r="30" fill="#ffffff"/>
+            <circle cx="32" cy="28" r="20" fill="url(#gLight)"/>
+            <rect x="30" y="20" width="6" height="20" rx="2" fill="#ffffff"/>
+            <rect x="20" y="28" width="20" height="6" rx="2" fill="#ffffff"/>
+            <g transform="translate(74,44)">
+              <text x="0" y="0" font-size="36" fill="#ffffff">M</text>
+              <text x="22" y="0" font-size="28" fill="#ffffff">edicares</text>
+            </g>
+          </svg>
+        }
+
+      </a>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="topbar-right">
+
+      <!-- DESKTOP NAV (GUEST) -->
+      @if (!(isAuthenticated$ | async)) {
+        <nav class="topbar-nav desktop-only">
+          <a routerLink="/home" class="nav-link">Home</a>
+          <a routerLink="/pricing" class="nav-link">Pricing</a>
+          <a routerLink="/about" class="nav-link">About</a>
+          <a routerLink="/contact" class="nav-link">Contact</a>
+          <a (click)="navigateToLogin()" class="nav-link">Login</a>
+          <a (click)="navigateToOwnerRegistration()" class="nav-link cta">Get Started</a>
+        </nav>
+      }
+
+      <!-- THEME TOGGLE (DESKTOP) -->
+      <i
+        class="pi theme-toggle desktop-only"
+        [ngClass]="isDarkMode() ? 'pi-sun' : 'pi-moon'"
+        (click)="toggleTheme()">
+      </i>
+
+      <!-- HAMBURGER (MOBILE) -->
+      <div class="hamburger mobile-only" (click)="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MOBILE MENU -->
+  @if (mobileMenuOpen) {
+    <div class="mobile-menu">
+
+      <a routerLink="/home" (click)="closeMobileMenu()">Home</a>
+      <a routerLink="/pricing" (click)="closeMobileMenu()">Pricing</a>
+      <a routerLink="/about" (click)="closeMobileMenu()">About</a>
+      <a routerLink="/contact" (click)="closeMobileMenu()">Contact</a>
+      <a (click)="navigateToLogin(); closeMobileMenu()">Login</a>
+      <a (click)="navigateToOwnerRegistration(); closeMobileMenu()">Get Started</a>
+
+      <!-- THEME TOGGLE (MOBILE) -->
+      <div
+            class="mobile-theme-toggle"
+            (click)="toggleTheme(); closeMobileMenu()">
+
+            <i class="pi" [ngClass]="isDarkMode() ? 'pi-sun' : 'pi-moon'"></i>
+
+            <span>
+                {{ isDarkMode() ? 'Light Mode' : 'Dark Mode' }}
+            </span>
+        </div>
+
+    </div>
+  }
+</header>

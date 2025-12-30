@@ -1,0 +1,60 @@
+<div class="sidebar" [class.collapsed]="!isOpen">
+    <div class="sidebar-header">
+        <div class="brand-area" (click)="onToggle()">
+            <div class="logo-circle">
+                <i class="pi pi-heart-fill"></i>
+            </div>
+            @if (isOpen) {
+            <span class="brand-name">Medicares</span>
+            }
+        </div>
+    </div>
+
+    <div class="sidebar-body">
+        <ul class="nav-list">
+            @for (item of menuItems; track item.title) {
+            @if (item.position !== 'bottom') {
+            <li class="nav-item" [class.has-sub]="item.subItems">
+                @if (!item.subItems) {
+                <a [routerLink]="item.href" routerLinkActive="active" class="nav-link"
+                    [pTooltip]="!isOpen ? item.title : ''" tooltipPosition="right" (click)="onMenuItemClick(item)">
+                    <i [class]="item.icon"></i>
+                    @if (isOpen) {
+                    <span>{{ item.title }}</span>
+                    }
+                </a>
+                } @else {
+                <div class="nav-group-title" *ngIf="isOpen">{{ item.title }}</div>
+                @for (sub of item.subItems; track sub.title) {
+                <a [routerLink]="sub.href" routerLinkActive="active" class="nav-link sub-link"
+                    [pTooltip]="!isOpen ? sub.title : ''" tooltipPosition="right">
+                    <i [class]="sub.icon"></i>
+                    @if (isOpen) {
+                    <span>{{ sub.title }}</span>
+                    }
+                </a>
+                }
+                }
+            </li>
+            }
+            }
+        </ul>
+    </div>
+
+    <div class="sidebar-footer" *ngIf="user$ | async as user">
+        @if (isOpen) {
+        <div class="user-card">
+            <p-avatar [image]="user.profileImageUrl || 'assets/images/default-avatar.png'" shape="circle"></p-avatar>
+            <div class="user-details">
+                <span class="name">{{ user.firstName }}</span>
+                <span class="role">{{ user.role }}</span>
+            </div>
+            <button pButton icon="pi pi-sign-out" class="p-button-text p-button-secondary logout-btn"
+                (click)="logout()"></button>
+        </div>
+        } @else {
+        <button pButton icon="pi pi-sign-out" class="p-button-text p-button-secondary w-full" (click)="logout()"
+            pTooltip="Logout" tooltipPosition="right"></button>
+        }
+    </div>
+</div>

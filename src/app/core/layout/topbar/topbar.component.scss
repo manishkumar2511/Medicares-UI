@@ -1,0 +1,103 @@
+.topbar {
+  background: var(--primary-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  .topbar-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo-full {
+    height: 40px;
+  }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .topbar-nav {
+    display: flex;
+    gap: 0.5rem;
+
+    .nav-link {
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      text-decoration: none;
+
+      &:hover {
+        background: rgba(255,255,255,0.15);
+      }
+    }
+  }
+
+  .theme-toggle {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #fff;
+  }
+
+  /* HAMBURGER */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+
+    span {
+      width: 24px;
+      height: 3px;
+      background: #fff;
+      border-radius: 2px;
+    }
+  }
+
+  /* MOBILE MENU */
+  .mobile-menu {
+    background: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+
+    a {
+      color: #fff;
+      padding: 0.75rem;
+      text-decoration: none;
+    }
+
+    .mobile-theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+
+  /* RESPONSIVE */
+  .desktop-only {
+    display: flex;
+  }
+
+  .mobile-only {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .desktop-only {
+      display: none;
+    }
+    .mobile-only {
+      display: flex;
+    }
+  }
+}
