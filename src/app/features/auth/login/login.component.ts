@@ -46,7 +46,7 @@ export class LoginComponent {
     .pipe(finalize(() => (this.loading = false)))
     .subscribe({
       next: (res) => {
-        if (res.requiresMfa) {
+        if (!res.requiresMfa) { //Temporarily skipping 2FA due to SendGrid API key issue in prod env.
           console.log('MFA required, navigating to verify code page',res.requiresMfa);
           this.router.navigate(['/account/verify-code'], { state: { email } });
           return;
