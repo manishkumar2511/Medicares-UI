@@ -25,7 +25,7 @@ export class SidebarComponent implements OnInit {
     private authService = inject(AuthService);
     private router = inject(Router);
     public user$ = this.authService.user$;
-    public menuItems: NavMenuItem[] = [];
+    public menuItems: NavMenuItem[] = []; 
 
     ngOnInit() {
         this.authService.user$.subscribe(user => {
