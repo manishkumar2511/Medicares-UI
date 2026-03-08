@@ -150,10 +150,13 @@ export class AuthService {
       .pipe(
         tap((res) => {
           this.handleSuccessfulAuth(res);
-          this.tokenRefreshSubject.next(res.token?.accessToken ?? null);
+          const newAccessToken = typeof res.token === 'string' ? res.token : (res.token as any)?.accessToken ?? null;
+          this.tokenRefreshSubject.next(newAccessToken);
           this.refreshTokenInProgress = false;
         }),
-        map((res) => res.token?.accessToken ?? ''),
+        map((res) => {
+          return typeof res.token === 'string' ? res.token : (res.token as any)?.accessToken ?? '';
+        }),
         catchError((err) => {
           this.refreshTokenInProgress = false;
           this.clearAuthState();
@@ -194,11 +197,18 @@ export class AuthService {
   private handleSuccessfulAuth(response: LoginResponse): void {
     if (response.requiresMfa) return;
 
-    const accessToken = response.token?.accessToken;
+    // Handle string or object token formats based on the Api implementation
+    const accessToken = typeof response.token === 'string'
+      ? response.token
+      : (response.token as any)?.accessToken;
+
     const refreshToken = response.refreshToken;
     const user = response.user;
 
-    if (!accessToken || !user) return;
+    if (!accessToken || !user) {
+      console.warn("Failed to complete auth: Missing token or user", response);
+      return;
+    }
 
     const mappedUser: User = {
       id: user.id,

@@ -1,8 +1,20 @@
 <div class="sidebar" [class.collapsed]="!isOpen">
     <div class="sidebar-header">
         <div class="brand-area" (click)="onToggle()">
-            <div class="logo-circle">
-                <i class="pi pi-heart-fill"></i>
+            <div class="logo-circle" style="background: transparent; color: inherit;">
+                <svg width="40" height="40" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gSide" x1="0" x2="1">
+                            <stop offset="0" stop-color="#A8EEFF" />
+                            <stop offset="1" stop-color="#19B6E6" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="32" cy="32" r="32"
+                        [attr.fill]="themeService.isDarkMode() ? 'var(--background-secondary)' : '#ffffff'" />
+                    <circle cx="32" cy="28" r="24" fill="url(#gSide)" />
+                    <rect x="29" y="16" width="6" height="24" rx="2" fill="#ffffff" />
+                    <rect x="16" y="25" width="24" height="6" rx="2" fill="#ffffff" />
+                </svg>
             </div>
             @if (isOpen) {
             <span class="brand-name">Medicares</span>
@@ -16,7 +28,8 @@
             @if (item.position !== 'bottom') {
             <li class="nav-item" [class.has-sub]="item.subItems">
                 @if (!item.subItems) {
-                <a [routerLink]="item.href" routerLinkActive="active" class="nav-link"
+                <a [routerLink]="item.href" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: item.href === '/dashboard' }" class="nav-link"
                     [pTooltip]="!isOpen ? item.title : ''" tooltipPosition="right" (click)="onMenuItemClick(item)">
                     <i [class]="item.icon"></i>
                     @if (isOpen) {
@@ -24,16 +37,26 @@
                     }
                 </a>
                 } @else {
-                <div class="nav-group-title" *ngIf="isOpen">{{ item.title }}</div>
-                @for (sub of item.subItems; track sub.title) {
-                <a [routerLink]="sub.href" routerLinkActive="active" class="nav-link sub-link"
-                    [pTooltip]="!isOpen ? sub.title : ''" tooltipPosition="right">
-                    <i [class]="sub.icon"></i>
+                <a class="nav-link cursor-pointer" (click)="onMenuItemClick(item)"
+                    [pTooltip]="!isOpen ? item.title : ''" tooltipPosition="right">
+                    <i [class]="item.icon"></i>
                     @if (isOpen) {
-                    <span>{{ sub.title }}</span>
+                    <span>{{ item.title }}</span>
+                    <i class="pi pi-angle-down ms-auto chev" [class.open]="isMenuOpen(item)"></i>
                     }
                 </a>
-                }
+
+                <div class="submenu" [class.open]="isOpen ? isMenuOpen(item) : true" [class.collapsed]="!isOpen">
+                    @for (sub of item.subItems; track sub.title) {
+                    <a [routerLink]="sub.href" routerLinkActive="active" class="nav-link sub-link"
+                        [pTooltip]="!isOpen ? sub.title : ''" tooltipPosition="right" (click)="onMenuItemClick(sub)">
+                        <i [class]="sub.icon"></i>
+                        @if (isOpen) {
+                        <span>{{ sub.title }}</span>
+                        }
+                    </a>
+                    }
+                </div>
                 }
             </li>
             }
@@ -44,17 +67,34 @@
     <div class="sidebar-footer" *ngIf="user$ | async as user">
         @if (isOpen) {
         <div class="user-card">
-            <p-avatar [image]="user.profileImageUrl || 'assets/images/default-avatar.png'" shape="circle"></p-avatar>
-            <div class="user-details">
-                <span class="name">{{ user.firstName }}</span>
-                <span class="role">{{ user.role }}</span>
+            @if (user.profileImageUrl) {
+            <p-avatar [image]="user.profileImageUrl" shape="circle"></p-avatar>
+            } @else {
+            <p-avatar [label]="getInitial(user)" shape="circle" styleClass="initial-avatar"></p-avatar>
+            }
+            <div class="user-details" [pTooltip]="user.email" tooltipPosition="top">
+                <span class="name">{{ user.firstName || 'User' }} {{ user.lastName || '' }}</span>
+                <span class="role">{{ user.email || user.role }}</span>
             </div>
-            <button pButton icon="pi pi-sign-out" class="p-button-text p-button-secondary logout-btn"
-                (click)="logout()"></button>
+            <button pButton [icon]="themeService.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"
+                class="p-button-text p-button-secondary theme-btn mr-1" (click)="toggleTheme()" pTooltip="Toggle Theme"
+                tooltipPosition="top"></button>
+            <button pButton icon="pi pi-sign-out" class="p-button-text p-button-secondary logout-btn" (click)="logout()"
+                pTooltip="Logout" tooltipPosition="top"></button>
         </div>
         } @else {
-        <button pButton icon="pi pi-sign-out" class="p-button-text p-button-secondary w-full" (click)="logout()"
-            pTooltip="Logout" tooltipPosition="right"></button>
+        <div class="d-flex flex-column align-items-center w-full">
+            @if (user.profileImageUrl) {
+            <p-avatar [image]="user.profileImageUrl" shape="circle" class="mb-2"></p-avatar>
+            } @else {
+            <p-avatar [label]="getInitial(user)" shape="circle" styleClass="initial-avatar mb-2"></p-avatar>
+            }
+            <button pButton [icon]="themeService.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"
+                class="p-button-text p-button-secondary w-full mb-1" (click)="toggleTheme()" pTooltip="Toggle Theme"
+                tooltipPosition="right"></button>
+            <button pButton icon="pi pi-sign-out" class="p-button-text p-button-secondary w-full" (click)="logout()"
+                pTooltip="Logout" tooltipPosition="right"></button>
+        </div>
         }
     </div>
 </div>

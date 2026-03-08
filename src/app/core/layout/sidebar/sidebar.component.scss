@@ -72,13 +72,34 @@
         margin: 0;
     }
 
-    .nav-group-title {
-        padding: 1.5rem 1.5rem 0.5rem;
-        font-size: 0.7rem;
-        font-weight: 700;
-        color: var(--text-secondary);
-        text-transform: uppercase;
-        letter-spacing: 1px;
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    .chev {
+        transition: transform 0.3s ease;
+        margin-left: auto;
+
+        &.open {
+            transform: rotate(180deg);
+        }
+    }
+
+    .submenu {
+        display: none;
+        overflow: hidden;
+
+        &.open {
+            display: block;
+        }
+
+        &.collapsed {
+            display: block !important;
+
+            .sub-link {
+                margin-left: 4px;
+            }
+        }
     }
 
     .nav-link {
@@ -121,6 +142,12 @@
 .sidebar-footer {
     padding: 1.25rem 1rem;
     border-top: 1px solid var(--border-color);
+
+    ::ng-deep .initial-avatar {
+        background-color: var(--primary-color) !important;
+        color: #fff !important;
+        font-weight: bold;
+    }
 
     .user-card {
         display: flex;

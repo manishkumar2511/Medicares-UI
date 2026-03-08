@@ -48,7 +48,7 @@ export const AdminSidebarMenuItems: NavMenuItem[] = [
     position: "top",
   },
   {
-    title: "Medical Store Operations",
+    title: "Operations",
     href: "#",
     icon: "pi pi-shopping-bag",
     position: "top",
