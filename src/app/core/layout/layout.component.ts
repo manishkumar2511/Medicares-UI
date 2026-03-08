@@ -28,14 +28,22 @@ export class LayoutComponent implements OnInit {
         this.checkScreenSize();
     }
 
+    private lastWidth = 0;
+
     private checkScreenSize() {
         if (typeof window !== 'undefined') {
-            const isMobile = window.innerWidth <= 991;
-            if (isMobile) {
-                this.isSidebarOpen.set(true); // Icons visible by default on mobile
-            } else {
-                this.isSidebarOpen.set(true);
+            const currentWidth = window.innerWidth;
+            if (currentWidth === this.lastWidth) return;
+
+            const wasMobile = this.lastWidth <= 991;
+            const isMobile = currentWidth <= 991;
+
+            // Only force a state change if we cross the breakpoint
+            if (this.lastWidth === 0 || (wasMobile !== isMobile)) {
+                this.isSidebarOpen.set(true); // Default to open/strip visible
             }
+
+            this.lastWidth = currentWidth;
         }
     }
 
