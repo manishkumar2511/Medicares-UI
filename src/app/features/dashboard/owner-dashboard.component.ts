@@ -1,6 +1,8 @@
 import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { PrimematerialModule } from '../../core/primematerial.module';
+import { LayoutComponent } from '../../core/layout/layout.component';
+import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
     selector: 'app-owner-dashboard',
@@ -11,10 +13,21 @@ import { PrimematerialModule } from '../../core/primematerial.module';
 })
 export class OwnerDashboardComponent implements OnInit {
     private platformId = inject(PLATFORM_ID);
+    private layout = inject(LayoutComponent); // Inject parent layout
+    private themeService = inject(ThemeService);
+
     public chartData: any;
     public chartOptions: any;
     public pieData: any;
     public pieOptions: any;
+
+    toggleSidebar() {
+        this.layout.toggleSidebar();
+    }
+
+    isDarkMode() {
+        return this.themeService.isDarkMode();
+    }
 
     public statsCards = [
         { title: 'Total Pharmacies', value: '12', icon: 'pi pi-home', color: '#19B6E6', trend: '+2', trendIcon: 'pi pi-arrow-up' },

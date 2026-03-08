@@ -7,6 +7,10 @@ import { ThemeService } from '../../services/theme.service';
 import { NavMenuItem } from '../../interfaces/nav-menu-item';
 import { MenuItem } from 'primeng/api';
 
+import { filter, map } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, NavigationEnd } from '@angular/router';
+
 @Component({
     selector: 'app-topbar',
     standalone: true,
@@ -19,14 +23,36 @@ export class TopbarComponent {
     @Output() toggleSidebar = new EventEmitter<void>();
 
     private authService = inject(AuthService);
-    private themeService = inject(ThemeService);
+    public themeService = inject(ThemeService);
     private router = inject(Router);
+    private activatedRoute = inject(ActivatedRoute);
 
     mobileMenuOpen = false;
+    public pageTitle = '';
 
     public user$ = this.authService.user$;
     public isAuthenticated$ = this.authService.isAuthenticated$;
     public isDarkMode = this.themeService.isDarkMode;
+
+    constructor() {
+        this.updatePageTitle();
+        this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd)
+        ).subscribe(() => this.updatePageTitle());
+    }
+
+    private updatePageTitle() {
+        try {
+            let route = this.activatedRoute.root;
+            while (route.firstChild) {
+                route = route.firstChild;
+            }
+            // Use ?. for safety
+            this.pageTitle = route.snapshot?.title || route.snapshot?.data?.['title'] || '';
+        } catch (e) {
+            this.pageTitle = '';
+        }
+    }
 
     public breadcrumbItems: MenuItem[] = [
         { label: 'Home', routerLink: '/' },

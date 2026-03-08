@@ -1,7 +1,7 @@
 <div class="sidebar" [class.collapsed]="!isOpen">
     <div class="sidebar-header">
         <div class="brand-area" (click)="onToggle()">
-            <div class="logo-circle" style="background: transparent; color: inherit;">
+            <div class="logo-circle">
                 <svg width="40" height="40" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <linearGradient id="gSide" x1="0" x2="1">
@@ -9,8 +9,7 @@
                             <stop offset="1" stop-color="#19B6E6" />
                         </linearGradient>
                     </defs>
-                    <circle cx="32" cy="32" r="32"
-                        [attr.fill]="themeService.isDarkMode() ? 'var(--background-secondary)' : '#ffffff'" />
+                    <circle cx="32" cy="32" r="32" fill="#ffffff" />
                     <circle cx="32" cy="28" r="24" fill="url(#gSide)" />
                     <rect x="29" y="16" width="6" height="24" rx="2" fill="#ffffff" />
                     <rect x="16" y="25" width="24" height="6" rx="2" fill="#ffffff" />
@@ -65,36 +64,31 @@
     </div>
 
     <div class="sidebar-footer" *ngIf="user$ | async as user">
-        @if (isOpen) {
         <div class="user-card">
             @if (user.profileImageUrl) {
-            <p-avatar [image]="user.profileImageUrl" shape="circle"></p-avatar>
+            <p-avatar [image]="user.profileImageUrl" shape="circle" [styleClass]="!isOpen ? 'mb-2' : ''"></p-avatar>
             } @else {
-            <p-avatar [label]="getInitial(user)" shape="circle" styleClass="initial-avatar"></p-avatar>
+            <p-avatar [label]="getInitial(user)" shape="circle"
+                [styleClass]="'initial-avatar ' + (!isOpen ? 'mb-2' : '')"></p-avatar>
             }
-            <div class="user-details" [pTooltip]="user.email" tooltipPosition="top">
-                <span class="name">{{ user.firstName || 'User' }} {{ user.lastName || '' }}</span>
-                <span class="role">{{ user.email || user.role }}</span>
+
+            @if (isOpen) {
+            <div class="user-details">
+                <span class="name">{{ user.firstName || 'User' }}</span>
+                <span class="role">{{ user.email }}</span>
             </div>
-            <button pButton [icon]="themeService.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"
-                class="p-button-text p-button-secondary theme-btn mr-1" (click)="toggleTheme()" pTooltip="Toggle Theme"
-                tooltipPosition="top"></button>
-            <button pButton icon="pi pi-sign-out" class="p-button-text p-button-secondary logout-btn" (click)="logout()"
-                pTooltip="Logout" tooltipPosition="top"></button>
-        </div>
-        } @else {
-        <div class="d-flex flex-column align-items-center justify-content-center w-100">
-            @if (user.profileImageUrl) {
-            <p-avatar [image]="user.profileImageUrl" shape="circle" class="mb-2"></p-avatar>
-            } @else {
-            <p-avatar [label]="getInitial(user)" shape="circle" styleClass="initial-avatar mb-2"></p-avatar>
             }
-            <button pButton [icon]="themeService.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"
-                class="p-button-text p-button-secondary w-full mb-1" (click)="toggleTheme()" pTooltip="Toggle Theme"
-                tooltipPosition="right"></button>
-            <button pButton icon="pi pi-sign-out" class="p-button-text p-button-secondary w-full" (click)="logout()"
-                pTooltip="Logout" tooltipPosition="right"></button>
         </div>
-        }
+
+        <div class="footer-action-btns">
+            <div (click)="toggleTheme()" class="footer-action-btn" pTooltip="Toggle Theme"
+                [tooltipPosition]="isOpen ? 'top' : 'right'">
+                <i [class]="themeService.isDarkMode() ? 'pi pi-sun' : 'pi pi-moon'"></i>
+            </div>
+            <div (click)="logout()" class="footer-action-btn" pTooltip="Logout"
+                [tooltipPosition]="isOpen ? 'top' : 'right'">
+                <i class="pi pi-sign-out"></i>
+            </div>
+        </div>
     </div>
 </div>

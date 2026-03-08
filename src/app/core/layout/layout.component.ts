@@ -32,7 +32,7 @@ export class LayoutComponent implements OnInit {
         if (typeof window !== 'undefined') {
             const isMobile = window.innerWidth <= 991;
             if (isMobile) {
-                this.isSidebarOpen.set(false);
+                this.isSidebarOpen.set(true); // Icons visible by default on mobile
             } else {
                 this.isSidebarOpen.set(true);
             }

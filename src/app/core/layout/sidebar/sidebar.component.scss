@@ -14,159 +14,137 @@
     display: flex;
     flex-direction: column;
 
+    @media (max-width: 991px) {
+        width: 80px !important;
+        position: fixed; // FIXED STRIP ON THE LEFT
+        left: 0;
+        top: 0;
+        bottom: 0;
+        height: 100vh;
+        height: 100dvh;
+        z-index: 1101;
+        background: var(--background-primary);
+        border-right: 1px solid var(--border-color);
+        transition: all 0.3s ease;
+        padding-top: 0; // REVERTED PADDING
+
+        &.collapsed {
+            background: transparent !important;
+            border-right: none;
+            width: 0 !important;
+            transform: translateX(-100%);
+
+            .sidebar-body,
+            .sidebar-footer,
+            .sidebar-header {
+                transform: translateX(-100%);
+                visibility: hidden;
+            }
+        }
+    }
+
+    @media (max-width: 600px) {
+        width: 70px !important;
+    }
+
     &.collapsed {
         width: 80px;
 
-        @media (max-width: 600px) {
-            width: 70px;
+        @media (max-width: 991px) {
+            width: 0 !important;
+            border-right: none;
+
+            .sidebar-body,
+            .sidebar-footer {
+                transform: translateX(-100%);
+            }
         }
 
         .brand-area {
             justify-content: center;
-            padding: 0.25rem 0;
-        }
-
-        .sidebar-header {
-            padding: 0.5rem;
-            min-height: 50px;
-
-            @media (max-width: 600px) {
-                min-height: 45px;
-            }
         }
 
         .nav-link {
             justify-content: center;
-            padding: 0.75rem !important;
-            margin: 4px 10px;
 
-            @media (max-width: 600px) {
-                margin: 4px 5px;
-                padding: 0.65rem !important;
+            span {
+                display: none;
             }
 
             i {
                 margin: 0;
-                font-size: 1.15rem;
-            }
-        }
-
-        .sidebar-footer {
-            padding: 0.5rem;
-            border-top: 1px solid var(--border-color);
-
-            .d-flex {
-                gap: 12px;
-
-                @media (max-width: 600px) {
-                    gap: 8px;
-                }
-            }
-
-            @media (max-width: 600px) {
-                padding: 0.4rem 0.2rem;
             }
         }
     }
 
     .sidebar-header {
         padding: 0.5rem;
-        min-height: 50px;
+        min-height: 60px;
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-shrink: 0; // Essential for fixed top
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+        z-index: 1200;
+
+        @media (max-width: 991px) {
+            display: flex !important;
+            height: 60px;
+            width: 100%;
+            border-bottom: 1px solid var(--border-color);
+        }
 
         @media (max-width: 600px) {
-            min-height: 45px;
+            display: flex !important;
+            width: 70px;
+            height: 55px;
         }
 
         .brand-area {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.75rem;
             cursor: pointer;
+            width: 100%;
 
             .logo-circle {
                 width: 40px;
                 height: 40px;
-                background: var(--primary-color);
-                border-radius: 10px;
+                background: transparent !important;
+                border-radius: 0;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 color: #fff;
-                font-size: 1.25rem;
             }
 
             .brand-name {
-                font-size: 1.25rem;
+                font-size: 1.15rem;
                 font-weight: 700;
                 color: var(--text-primary);
-                letter-spacing: -0.5px;
+
+                @media (max-width: 991px) {
+                    display: none !important; // Hide text on mobile, keep only icon
+                }
             }
         }
     }
 
     .sidebar-body {
-        flex: 1 1 auto; // Allow growing and shrinking automatically
-        min-height: 0; // Essential for flex overflow scrolling
+        flex: 1;
         overflow-y: auto;
         overflow-x: hidden;
-        padding: 0.25rem 0;
+        padding: 0.5rem 0;
 
-        &::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        &::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 4px;
-            visibility: hidden;
-        }
-
-        &:hover::-webkit-scrollbar-thumb {
-            visibility: visible;
+        @media (max-width: 991px) {
+            padding-top: 0;
         }
 
         .nav-list {
             list-style: none;
             padding: 0;
             margin: 0;
-        }
-
-        .cursor-pointer {
-            cursor: pointer;
-        }
-
-        .chev {
-            transition: transform 0.3s ease;
-            margin-left: auto;
-
-            &.open {
-                transform: rotate(180deg);
-            }
-        }
-
-        .submenu {
-            display: none;
-            overflow: hidden;
-
-            &.open {
-                display: block;
-            }
-
-            &.collapsed {
-                display: block !important;
-
-                .sub-link {
-                    margin-left: 4px;
-                }
-            }
         }
 
         .nav-link {
@@ -177,14 +155,20 @@
             border-radius: 10px;
             color: var(--text-secondary);
             text-decoration: none;
-            font-weight: 500;
             transition: all 0.2s ease;
             gap: 1rem;
 
             i {
-                font-size: 1.2rem;
+                font-size: 1.25rem;
                 min-width: 24px;
                 text-align: center;
+            }
+
+            span {
+                @media (max-width: 1200px) {
+                    // Hide span for tablet icons view too
+                    display: none;
+                }
             }
 
             &:hover {
@@ -195,13 +179,7 @@
             &.active {
                 background: var(--primary-color);
                 color: #fff;
-                box-shadow: 0 4px 12px rgba(25, 182, 230, 0.25);
-            }
-
-            &.sub-link {
-                margin-left: 24px;
-                padding-left: 1rem;
-                font-size: 0.9rem;
+                box-shadow: 0 4px 12px rgba(25, 182, 230, 0.2);
             }
         }
     }
@@ -210,14 +188,54 @@
         padding: 1rem 0.75rem;
         border-top: 1px solid var(--border-color);
         background: var(--background-primary);
-        flex-shrink: 0; // Essential for fixed bottom
-        z-index: 10;
-        margin-top: auto; // Ensures it's at the absolute bottom
+        margin-top: auto;
 
-        ::ng-deep .initial-avatar {
-            background-color: var(--primary-color) !important;
-            color: #fff !important;
-            font-weight: bold;
+        @media (max-width: 991px) {
+            padding: 15px 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-action-btns {
+            display: flex;
+            gap: 8px;
+
+            @media (max-width: 991px) {
+                flex-direction: column; // STACK ICONS ON MOBILE
+                gap: 12px;
+            }
+        }
+
+        .footer-action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            background: var(--background-secondary);
+
+            &:hover {
+                background: var(--primary-color);
+                color: #fff;
+            }
+
+            @media (min-width: 992px) {
+
+                // Hide theme toggle in sidebar for desktop as it's in topbar
+                &:first-child {
+                    display: none;
+                }
+            }
+
+            i {
+                font-size: 1.1rem;
+            }
         }
 
         .user-card {
@@ -227,34 +245,43 @@
             padding: 0.5rem;
             background: var(--background-secondary);
             border-radius: 12px;
+            margin-bottom: 0.5rem;
+
+            @media (max-width: 991px) {
+                background: transparent;
+                padding: 0;
+            }
 
             .user-details {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
+                @media (max-width: 991px) {
+                    display: none;
+                }
 
                 .name {
                     font-size: 0.85rem;
-                    font-weight: 600;
-                    color: var(--text-primary);
+                    font-weight: 700;
                     white-space: nowrap;
+                    overflow: hidden;
                     text-overflow: ellipsis;
+                    max-width: 140px;
+                    color: var(--text-primary);
                 }
 
                 .role {
-                    font-size: 0.7rem;
+                    font-size: 0.75rem;
                     color: var(--text-secondary);
-                }
-            }
-
-            .logout-btn {
-                color: var(--error-color);
-
-                &:hover {
-                    background: #fee2e2;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 140px;
                 }
             }
         }
     }
+}
+
+::ng-deep .initial-avatar {
+    background-color: var(--primary-color) !important;
+    color: #fff !important;
+    font-weight: bold;
 }

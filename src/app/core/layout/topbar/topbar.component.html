@@ -2,13 +2,13 @@
 
   <div class="topbar-container">
 
-    <!-- LEFT : LOGO -->
+    <!-- LEFT : LOGO & TITLE -->
     <div class="topbar-left">
+      @if (!(isAuthenticated$ | async)) {
       <a class="brand" (click)="navigateToHome()" aria-label="Medicares home">
-
         @if (isDarkMode()) {
         <!-- DARK THEME LOGO -->
-        <svg class="logo-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="200px">
+        <svg class="logo-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="160px">
           <defs>
             <linearGradient id="gDark" x1="0" x2="1">
               <stop offset="0" stop-color="#A8EEFF" />
@@ -19,14 +19,12 @@
           <circle cx="32" cy="28" r="20" fill="url(#gDark)" />
           <rect x="30" y="20" width="6" height="20" rx="2" fill="#ffffff" />
           <rect x="20" y="28" width="20" height="6" rx="2" fill="#ffffff" />
-          <g transform="translate(74,44)">
-            <text x="0" y="0" font-size="36" fill="#ffffff">M</text>
-            <text x="22" y="0" font-size="28" fill="#ffffff">edicares</text>
-          </g>
+          <g transform="translate(74,44)"><text x="0" y="0" font-size="36" fill="#ffffff">M</text><text x="22" y="0"
+              font-size="28" fill="#ffffff">edicares</text></g>
         </svg>
         } @else {
         <!-- LIGHT THEME LOGO (TEXT ALSO WHITE) -->
-        <svg class="logo-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="200px">
+        <svg class="logo-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="160px">
           <defs>
             <linearGradient id="gLight" x1="0" x2="1">
               <stop offset="0" stop-color="#A8EEFF" />
@@ -37,14 +35,31 @@
           <circle cx="32" cy="28" r="20" fill="url(#gLight)" />
           <rect x="30" y="20" width="6" height="20" rx="2" fill="#ffffff" />
           <rect x="20" y="28" width="20" height="6" rx="2" fill="#ffffff" />
-          <g transform="translate(74,44)">
-            <text x="0" y="0" font-size="36" fill="#ffffff">M</text>
-            <text x="22" y="0" font-size="28" fill="#ffffff">edicares</text>
-          </g>
+          <g transform="translate(74,44)"><text x="0" y="0" font-size="36" fill="#ffffff">M</text><text x="22" y="0"
+              font-size="28" fill="#ffffff">edicares</text></g>
         </svg>
         }
-
       </a>
+      } @else {
+      <!-- AUTH MODE: LOGO + PAGE TITLE (SCROLLABLE HEADER) -->
+      <div class="auth-brand-group" (click)="onToggleSidebar()">
+        <div class="brand-logo-toggle" *ngIf="!isSidebarOpen">
+          <svg width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gAuth" x1="0" x2="1">
+                <stop offset="0" stop-color="#A8EEFF" />
+                <stop offset="1" stop-color="#19B6E6" />
+              </linearGradient>
+            </defs>
+            <circle cx="32" cy="32" r="32" [attr.fill]="isDarkMode() ? '#2D2D2D' : '#ffffff'" />
+            <circle cx="32" cy="28" r="24" fill="url(#gAuth)" />
+            <rect x="29" y="16" width="6" height="24" rx="2" fill="#ffffff" />
+            <rect x="16" y="25" width="24" height="6" rx="2" fill="#ffffff" />
+          </svg>
+        </div>
+        <h1 class="auth-page-title">{{ pageTitle }}</h1>
+      </div>
+      }
     </div>
 
     <!-- RIGHT -->
@@ -63,11 +78,13 @@
       }
 
       <!-- THEME TOGGLE (DESKTOP) -->
-      <i class="pi theme-toggle desktop-only" [ngClass]="isDarkMode() ? 'pi-sun' : 'pi-moon'" (click)="toggleTheme()">
+      <i class="pi theme-toggle desktop-only" [ngClass]="isDarkMode() ? 'pi-sun' : 'pi-moon'"
+        [class.auth-mode-icon]="isAuthenticated$ | async" (click)="toggleTheme()">
       </i>
 
       <!-- HAMBURGER (MOBILE) -->
-      <div class="hamburger mobile-only" (click)="toggleMobileMenu()">
+      <div class="hamburger mobile-only" *ngIf="!(isAuthenticated$ | async)"
+        [class.auth-hamburger]="isAuthenticated$ | async" (click)="toggleMobileMenu()">
         <span></span>
         <span></span>
         <span></span>

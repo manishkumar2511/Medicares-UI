@@ -46,8 +46,8 @@
 
         &.sidebar-collapsed {
             .main-container {
-                margin-left: 80px !important;
-                width: calc(100% - 80px) !important;
+                margin-left: 0 !important;
+                width: 100% !important;
             }
         }
     }
@@ -62,8 +62,8 @@
 
         &.sidebar-collapsed {
             .main-container {
-                margin-left: 70px !important;
-                width: calc(100% - 70px) !important;
+                margin-left: 0 !important;
+                width: 100% !important;
             }
         }
     }

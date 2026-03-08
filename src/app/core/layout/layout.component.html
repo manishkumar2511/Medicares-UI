@@ -6,9 +6,8 @@
     }
 
     <div class="main-container">
-        @if (!(isAuthenticated$ | async)) {
         <app-topbar [isSidebarOpen]="isSidebarOpen()" (toggleSidebar)="toggleSidebar()"></app-topbar>
-        }
+
         <main class="content-area">
             <router-outlet></router-outlet>
         </main>
