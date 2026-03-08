@@ -1,0 +1,105 @@
+<div class="dashboard-container">
+    <div class="page-header animate-fadeIn">
+        <div>
+            <h1 class="text-3xl font-bold">Platform Overview</h1>
+            <p class="text-sm">Welcome back, Super Admin. Here's a summary of the network.</p>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 mt-6 animate-fadeIn">
+        <div class="stat-card blue">
+            <div class="icon-box">
+                <i class="pi pi-users text-2xl"></i>
+            </div>
+            <div class="stat-content">
+                <span class="label">Total Owners</span>
+                <span class="value">158</span>
+                <span class="trend flex items-center gap-1 text-green-500 text-xs">
+                    <i class="pi pi-arrow-up"></i> +12% this month
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-card purple">
+            <div class="icon-box">
+                <i class="pi pi-building text-2xl"></i>
+            </div>
+            <div class="stat-content">
+                <span class="label">Pharmacies</span>
+                <span class="value">1,245</span>
+                <span class="trend flex items-center gap-1 text-green-500 text-xs">
+                    <i class="pi pi-arrow-up"></i> +5.4%
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-card orange">
+            <div class="icon-box">
+                <i class="pi pi-wallet text-2xl"></i>
+            </div>
+            <div class="stat-content">
+                <span class="label">Gross Revenue</span>
+                <span class="value">₹ 4.8M</span>
+                <span class="trend flex items-center gap-1 text-green-500 text-xs">
+                    <i class="pi pi-arrow-up"></i> +8.2%
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-card green">
+            <div class="icon-box">
+                <i class="pi pi-verified text-2xl"></i>
+            </div>
+            <div class="stat-content">
+                <span class="label">Active Subs</span>
+                <span class="value">142</span>
+                <span class="trend flex items-center gap-1 text-green-500 text-xs">
+                    <i class="pi pi-arrow-up"></i> +3%
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fadeIn">
+        <!-- Registration Trends -->
+        <div class="col-span-2 section-card">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 p-6 pb-0">
+                <h2 class="text-xl font-bold">Registration Trends</h2>
+                <p-dropdown [options]="periods" [(ngModel)]="selectedPeriod"
+                    styleClass="w-full sm:w-auto p-inputtext-sm"></p-dropdown>
+            </div>
+            <div class="chart-box p-6" style="height: 300px;">
+                <p-chart type="line" [data]="lineChartData" [options]="lineChartOptions"></p-chart>
+            </div>
+        </div>
+
+        <!-- System Alerts -->
+        <div class="section-card">
+            <h2 class="text-xl font-bold p-6 pb-2">System Health</h2>
+            <div class="flex flex-col gap-4 p-6 pt-2">
+                <div class="alert-item success">
+                    <i class="pi pi-check-circle"></i>
+                    <div>
+                        <p class="font-semibold text-sm">Services Operational</p>
+                        <p class="text-xs opacity-70">All 14 gateway instances online</p>
+                    </div>
+                </div>
+                <div class="alert-item warning">
+                    <i class="pi pi-exclamation-triangle"></i>
+                    <div>
+                        <p class="font-semibold text-sm">Trial Expiration</p>
+                        <p class="text-xs opacity-70">12 owners trial ends in 48h</p>
+                    </div>
+                </div>
+                <div class="alert-item info">
+                    <i class="pi pi-info-circle"></i>
+                    <div>
+                        <p class="font-semibold text-sm">Security Patch</p>
+                        <p class="text-xs opacity-70">Auto-update scheduled for 02:00 AM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

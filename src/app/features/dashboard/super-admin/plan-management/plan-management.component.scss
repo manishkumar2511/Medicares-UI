@@ -1,0 +1,33 @@
+:host {
+    display: block;
+    animation: fadeIn 0.5s ease-out;
+}
+
+::ng-deep {
+    .p-dialog {
+        .p-dialog-header {
+            background: var(--background-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.25rem;
+        }
+
+        .p-dialog-content {
+            padding: 1.5rem;
+        }
+
+        .p-dialog-footer {
+            border-top: 1px solid var(--border-color);
+            padding: 1rem;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .p-6 {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+}

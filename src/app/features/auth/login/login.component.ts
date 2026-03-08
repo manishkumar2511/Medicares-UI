@@ -9,7 +9,7 @@ import { FormErrorComponent } from '../../../shared';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [PrimematerialModule,FormErrorComponent],
+  imports: [PrimematerialModule, FormErrorComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -31,42 +31,48 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-  if (this.loginForm.invalid) {
-    this.loginForm.markAllAsTouched();
-    return;
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    this.error = '';
+    this.loading = true;
+
+    const { email, password } = this.loginForm.value;
+
+    this.authService
+      .login({ email, password })
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe({
+        next: (res) => {
+          console.log('Login response:', res);
+          if (res.requiresMfa) { //Temporarily skipping 2FA due to SendGrid API key issue in prod env.
+            console.log('MFA required, navigating to verify code page', res.requiresMfa);
+            this.router.navigate(['/account/verify-code'], { state: { email } });
+            return;
+          }
+
+          if (res.token) {
+            const role = this.authService.getRole()?.toLowerCase();
+
+            if (role === 'superadmin') {
+              this.router.navigate(['/super-admin/dashboard']);
+            } else {
+              this.router.navigate(['/owner-dashboard']);
+            }
+            return;
+          }
+
+          // API logical error
+          this.error = res.message || 'Invalid credentials';
+        },
+        error: (err) => {
+          // API failure
+          this.error = err?.message || 'Login failed';
+        },
+      });
   }
-
-  this.error = '';
-  this.loading = true;
-
-  const { email, password } = this.loginForm.value;
-
-  this.authService
-    .login({ email, password })
-    .pipe(finalize(() => (this.loading = false)))
-    .subscribe({
-      next: (res) => {
-        console.log('Login response:', res);
-        if (res.requiresMfa) { //Temporarily skipping 2FA due to SendGrid API key issue in prod env.
-          console.log('MFA required, navigating to verify code page',res.requiresMfa);
-          this.router.navigate(['/account/verify-code'], { state: { email } });
-          return;
-        }
-
-        if (res.token) {
-          this.router.navigate(['/owner-dashboard']);
-          return;
-        }
-
-        // API logical error
-        this.error = res.message || 'Invalid credentials';
-      },
-      error: (err) => {
-        // API failure
-        this.error = err?.message || 'Login failed';
-      },
-    });
-}
 
 
   get email() {

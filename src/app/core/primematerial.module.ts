@@ -18,6 +18,12 @@ import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { BadgeModule } from 'primeng/badge';
 import { ChartModule } from 'primeng/chart';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextarea } from 'primeng/inputtextarea';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
 
@@ -43,7 +49,13 @@ import { ChartModule } from 'primeng/chart';
     ToastModule,
     ToolbarModule,
     BadgeModule,
-    ChartModule
+    ChartModule,
+    TableModule,
+    TagModule,
+    DialogModule,
+    InputTextarea,
+    InputNumberModule,
+    ConfirmDialogModule
   ],
   exports: [
     FormsModule,
@@ -63,7 +75,13 @@ import { ChartModule } from 'primeng/chart';
     ToastModule,
     ToolbarModule,
     BadgeModule,
-    ChartModule
+    ChartModule,
+    TableModule,
+    TagModule,
+    DialogModule,
+    InputTextarea,
+    InputNumberModule,
+    ConfirmDialogModule
   ]
 })
 export class PrimematerialModule { }

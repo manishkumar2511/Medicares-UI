@@ -1,8 +1,8 @@
 import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { PrimematerialModule } from '../../core/primematerial.module';
-import { LayoutComponent } from '../../core/layout/layout.component';
-import { ThemeService } from '../../core/services/theme.service';
+import { PrimematerialModule } from '../../../core/primematerial.module';
+import { LayoutComponent } from '../../../core/layout/layout.component';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
     selector: 'app-owner-dashboard',

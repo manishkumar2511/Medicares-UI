@@ -2,29 +2,29 @@ import { NavMenuItem } from "../interfaces/nav-menu-item";
 
 export const SuperAdminSidebarMenuItems: NavMenuItem[] = [
   {
-    href: "/dashboard",
-    title: "Dashboard",
-    icon: "pi pi-th-large",
+    href: "/super-admin/dashboard",
+    title: "Platform Dashboard",
+    icon: "pi pi-chart-line",
     position: "top",
   },
+  // {
+  //   href: "/super-admin/owners",
+  //   title: "Owners Management",
+  //   icon: "pi pi-users",
+  //   position: "top",
+  // },
   {
-    href: "/tenants",
-    title: "Tenant Management",
-    icon: "pi pi-building",
+    href: "/super-admin/plans",
+    title: "Subscription Plans",
+    icon: "pi pi-tag",
     position: "top",
   },
-  {
-    href: "/financials",
-    title: "Financials & Payment",
-    icon: "pi pi-money-bill",
-    position: "top",
-  },
-  {
-    href: "/audit-logs",
-    title: "Audit Logs",
-    icon: "pi pi-list",
-    position: "top",
-  },
+  // {
+  //   href: "/audit-logs",
+  //   title: "System Audit Logs",
+  //   icon: "pi pi-history",
+  //   position: "top",
+  // },
   {
     href: "/account/profile",
     title: "Profile",

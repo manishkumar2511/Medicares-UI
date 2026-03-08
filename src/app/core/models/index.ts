@@ -14,3 +14,4 @@ export * from "./auth/request/verify-2fA-code.request"
 export * from "./auth/request/forgot-password.request";
 export * from "./auth/request/reset-password.request";
 export * from "./auth/response/forgot-password.response";
+export * from "./grid.model";

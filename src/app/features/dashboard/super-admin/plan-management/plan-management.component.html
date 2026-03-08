@@ -1,0 +1,53 @@
+<div class="p-6">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 animate-fadeIn">
+        <div>
+            <h1 class="text-3xl font-bold">Subscription Plans</h1>
+            <p class="text-gray-500">Define and manage tiered service levels for the platform.</p>
+        </div>
+        <div>
+            <button pButton label="Create New Plan" icon="pi pi-plus"
+                class="p-button-raised p-button-info p-shadow-2 hover:p-shadow-6 transition-all w-full md:w-auto"
+                (click)="showCreateDialog()"></button>
+        </div>
+    </div>
+
+    <div class="animate-fadeIn">
+        <app-generic-grid [data]="plans" [columns]="cols" [actions]="actions"
+            (actionExecuted)="handleAction($event)"></app-generic-grid>
+    </div>
+
+    <!-- Create Plan Dialog -->
+    <p-dialog header="Define New Tier" [(visible)]="displayDialog" [modal]="true"
+        [style]="{width: '90vw', maxWidth: '600px'}" [draggable]="false" [resizable]="false">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
+            <div class="flex flex-col gap-2">
+                <label class="font-bold text-sm">Plan Name</label>
+                <input pInputText placeholder="e.g. Enterprise Plus" [(ngModel)]="newPlan.name" class="w-full" />
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="font-bold text-sm">Monthly Price (₹)</label>
+                <p-inputNumber mode="currency" currency="INR" locale="en-IN" [(ngModel)]="newPlan.price"
+                    styleClass="w-full"></p-inputNumber>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="font-bold text-sm">Pharmacy Limit</label>
+                <p-inputNumber [(ngModel)]="newPlan.limit" styleClass="w-full"></p-inputNumber>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="font-bold text-sm">Status</label>
+                <p-dropdown [options]="statusOptions" [(ngModel)]="newPlan.status" styleClass="w-full"></p-dropdown>
+            </div>
+            <div class="flex flex-col gap-2 md:col-span-2">
+                <label class="font-bold text-sm">Description</label>
+                <textarea pInputTextarea rows="3" placeholder="What's included in this tier?" class="w-full"></textarea>
+            </div>
+        </div>
+        <ng-template pTemplate="footer">
+            <div class="flex justify-end gap-2">
+                <p-button icon="pi pi-times" (click)="displayDialog=false" label="Cancel" [text]="true"
+                    severity="secondary"></p-button>
+                <p-button icon="pi pi-check" (click)="savePlan()" label="Save Plan" severity="info"></p-button>
+            </div>
+        </ng-template>
+    </p-dialog>
+</div>
