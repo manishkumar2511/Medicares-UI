@@ -10,7 +10,6 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
 import { MenuItem } from 'primeng/api';
 import { ThemeService } from '../services/theme.service';
 import { SharedModule } from '../../shared/shared.module';
-import { FooterComponent } from '../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +21,7 @@ import { FooterComponent } from '../../shared/footer/footer.component';
 export class HomeComponent {
   mobileMenuOpen = false;
 
-  constructor(public themeService: ThemeService, private router: Router) {}
+  constructor(public themeService: ThemeService, private router: Router) { }
 
   selectPlan(plan: any) {
     this.router.navigate(['/payment-management/payment-billing'], { queryParams: { plan: plan.name }, state: { plan } });

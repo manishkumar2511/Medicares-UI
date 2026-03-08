@@ -1,4 +1,3 @@
-
 <!-- Hero Banner Section -->
 <section id="home" class="hero-section">
   <div class="hero-container">
@@ -6,8 +5,8 @@
       <h1 class="hero-title">{{ bannerQuote }}</h1>
       <p class="hero-subtitle">{{ bannerSubtext }}</p>
       <div class="hero-buttons">
-  <p-button label="Start Free Trial" [outlined]="true" size="large" class="secondary-btn"></p-button>
-  <p-button label="Watch Demo" [outlined]="true" size="large" class="demo-btn"></p-button>
+        <p-button label="Start Free Trial" size="large" class="secondary-btn"></p-button>
+        <p-button label="Watch Demo" size="large" class="demo-btn"></p-button>
       </div>
     </div>
     <div class="hero-image">
@@ -49,11 +48,10 @@
       <h2 class="section-title">Choose Your Plan</h2>
       <p class="section-subtitle">Flexible pricing for healthcare stores of all sizes</p>
     </div>
-    
+
     <div class="pricing-grid">
-      <p-card *ngFor="let plan of pricingPlans" 
-              [class]="'pricing-card' + (plan.popular ? ' popular' : '')"
-              [style]="{'width': '100%', 'max-width': '350px'}">
+      <p-card *ngFor="let plan of pricingPlans" [class]="'pricing-card' + (plan.popular ? ' popular' : '')"
+        [style]="{'width': '100%', 'max-width': '350px'}">
         <ng-template pTemplate="header">
           <div class="plan-header">
             <div *ngIf="plan.popular" class="popular-badge">Most Popular</div>
@@ -65,7 +63,7 @@
             <p class="plan-description">{{ plan.description }}</p>
           </div>
         </ng-template>
-        
+
         <div class="plan-content">
           <ul class="plan-features">
             <li *ngFor="let feature of plan.features" class="feature-item">
@@ -74,13 +72,10 @@
             </li>
           </ul>
         </div>
-        
+
         <ng-template pTemplate="footer">
-          <p-button 
-            [label]="plan.popular ? 'Get Started' : 'Choose Plan'" 
-            class="navbar-bg-btn plan-button"
-            [style]="{'width': '100%'}"
-            (onClick)="selectPlan(plan)">
+          <p-button [label]="plan.popular ? 'Get Started' : 'Choose Plan'" class="navbar-bg-btn plan-button"
+            [style]="{'width': '100%'}" (onClick)="selectPlan(plan)">
           </p-button>
         </ng-template>
       </p-card>
@@ -95,7 +90,7 @@
       <h2 class="section-title">Trusted by Healthcare Providers</h2>
       <p class="section-subtitle">Join thousands of stores already using our platform</p>
     </div>
-    
+
     <div class="clients-grid">
       <div *ngFor="let client of clients" class="client-card">
         <div class="client-logo">{{ client.logo }}</div>
@@ -104,4 +99,3 @@
     </div>
   </div>
 </section>
-

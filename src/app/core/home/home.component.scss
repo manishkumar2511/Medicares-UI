@@ -5,12 +5,14 @@
     align-items: center;
     justify-content: center;
   }
+
   .pricing-card {
     margin: 0 auto 24px auto !important;
     width: 100% !important;
     max-width: 350px !important;
     box-sizing: border-box;
   }
+
   .plan-header {
     text-align: center !important;
     align-items: center !important;
@@ -18,99 +20,124 @@
     display: flex;
     flex-direction: column;
   }
+
   .plan-header .plan-name,
   .plan-header .plan-price,
   .plan-header .plan-description {
     text-align: center !important;
     width: 100%;
   }
+
   .feature-item {
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
   }
+
   .feature-icon {
     margin-right: 8px;
   }
+
   .hero-section {
     padding: 60px 0 40px;
     min-height: unset;
   }
+
   .hero-container {
     grid-template-columns: 1fr;
     gap: 30px;
     text-align: center;
     padding: 0 10px;
   }
+
   .hero-title {
     font-size: 2rem !important;
     word-break: break-word;
   }
+
   .hero-subtitle {
     font-size: 1rem !important;
     margin-bottom: 20px !important;
   }
+
   .hero-buttons {
     flex-direction: column;
     gap: 12px;
     align-items: center;
   }
+
   .hero-buttons .p-button {
     width: 100%;
     max-width: 300px;
   }
+
   .banner-image-container {
     max-width: 95vw;
   }
+
   .banner-image {
     height: 220px !important;
   }
+
   .banner-overlay {
     padding: 16px 8px 8px !important;
   }
+
   .banner-content h3 {
     font-size: 1.2rem !important;
   }
+
   .banner-content p {
     font-size: 0.95rem !important;
   }
+
   .banner-stats {
     flex-direction: column;
     gap: 10px;
   }
+
   .stat-item h3 {
     font-size: 1.2rem !important;
   }
+
   .stat-item p {
     font-size: 0.8rem !important;
   }
+
   .pricing-section {
     padding: 40px 0 !important;
   }
+
   .pricing-grid {
     grid-template-columns: 1fr !important;
     gap: 16px !important;
   }
+
   .clients-section {
     padding: 40px 0 !important;
   }
+
   .clients-grid {
     grid-template-columns: 1fr !important;
     gap: 16px !important;
   }
+
   .client-card {
     padding: 16px 8px !important;
     font-size: 0.95rem !important;
   }
+
   .client-logo {
     font-size: 2rem !important;
     margin-bottom: 8px !important;
   }
+
   .client-name {
     font-size: 1rem !important;
   }
 }
+
 .navbar-bg-btn {
   background: var(--navbar-bg, #2E7D5F) !important;
   color: var(--navbar-text, #fff) !important;
@@ -121,27 +148,65 @@
   box-shadow: 0 2px 8px rgba(46, 125, 95, 0.08) !important;
   transition: background 0.2s;
 }
-.secondary-btn {
-  border: none !important;
-  box-shadow: none !important;
+
+.hero-buttons {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+
+  .secondary-btn,
+  .demo-btn {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    display: inline-block;
+  }
+
+  // Targeting the button inside PrimeNG component
+  ::ng-deep .p-button {
+    border: none !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.12) !important;
+    }
+
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
+
+  // GREEN BUTTON (Match 'Choose Plan' in image 2)
+  .secondary-btn ::ng-deep .p-button {
+    background: #10b981 !important; // Vibrant Emerald-500
+    color: #fff !important;
+    border-radius: 12px !important; // Rounded but not pill
+    padding: 1.1rem 2.8rem !important;
+
+    &:hover {
+      background: #059669 !important;
+    }
+  }
+
+  // BLUE PILL BUTTON (Match 'Most Popular' badge in image 2)
+  .demo-btn ::ng-deep .p-button {
+    background: var(--primary-color) !important;
+    color: #fff !important;
+    border-radius: 50px !important; // Perfect Pill shape
+    padding: 0.85rem 2.5rem !important;
+
+    &:hover {
+      background: var(--primary-hover) !important;
+    }
+  }
 }
 
-.demo-btn {
-  border: 2px solid var(--app-bg, #23272A) !important;
-  box-shadow: none !important;
-}
-.demo-btn {
-  background: transparent !important;
-  color: var(--primary-color, #2E7D5F) !important;
-  border: none !important;
-  box-shadow: none !important;
-  transition: background 0.2s;
-}
 
-.demo-btn:hover {
-  background: var(--primary-color, #2E7D5F) !important;
-  color: var(--text-white, #fff) !important;
-}
 // MedicalCare Theme Variables
 $primary-color: #2E7D5F;
 $primary-hover: #25694E;
@@ -273,7 +338,10 @@ $border-color: #E0E0E0;
 }
 
 
-.primary-btn, .cta-btn, .secondary-btn, .plan-button {
+.primary-btn,
+.cta-btn,
+.secondary-btn,
+.plan-button {
   background: var(--primary-color, #2E7D5F) !important;
 }
 
@@ -286,7 +354,11 @@ $border-color: #E0E0E0;
   box-shadow: var(--shadow-light) !important;
   transition: all 0.3s ease !important;
 }
-.primary-btn:hover, .cta-btn:hover, .secondary-btn:hover, .plan-button:hover {
+
+.primary-btn:hover,
+.cta-btn:hover,
+.secondary-btn:hover,
+.plan-button:hover {
   background: var(--primary-hover) !important;
 }
 
@@ -330,33 +402,8 @@ $border-color: #E0E0E0;
   }
 }
 
-.hero-buttons {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+// Hero buttons are now styled above in the hero-buttons container
 
-.primary-btn {
-  background: var(--primary-color) !important;
-  border-color: var(--primary-color) !important;
-  font-weight: 600 !important;
-
-  &:hover {
-    background: var(--primary-hover) !important;
-    border-color: var(--primary-hover) !important;
-  }
-}
-
-.secondary-btn {
-  color: var(--primary-color) !important;
-  border-color: var(--primary-color) !important;
-  font-weight: 600 !important;
-
-  &:hover {
-    background: var(--primary-color) !important;
-    color: var(--text-white) !important;
-  }
-}
 
 .hero-image {
   display: flex;
@@ -811,6 +858,7 @@ $border-color: #E0E0E0;
 }
 
 @media (max-width: 480px) {
+
   .pricing-card,
   .client-card {
     margin: 0 auto 20px auto;
@@ -818,6 +866,7 @@ $border-color: #E0E0E0;
     width: 100%;
     box-sizing: border-box;
   }
+
   .hero-title {
     font-size: 2rem;
   }

@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopbarComponent } from './topbar/topbar.component';
+import { FooterComponent } from '../../shared/footer/footer.component';
 import { AuthService } from '../services/auth.service';
 
 @Component({
     selector: 'app-layout',
     standalone: true,
-    imports: [CommonModule, RouterOutlet, SidebarComponent, TopbarComponent],
+    imports: [CommonModule, RouterOutlet, SidebarComponent, TopbarComponent, FooterComponent],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss'
 })

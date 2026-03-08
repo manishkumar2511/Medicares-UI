@@ -60,6 +60,9 @@ export class SidebarComponent implements OnInit {
     }
 
     onToggle() {
+        if (typeof window !== 'undefined' && window.innerWidth <= 991) {
+            return;
+        }
         this.toggleSidebar.emit();
     }
 

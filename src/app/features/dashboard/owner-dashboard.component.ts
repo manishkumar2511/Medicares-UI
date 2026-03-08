@@ -78,33 +78,57 @@ export class OwnerDashboardComponent implements OnInit {
         };
 
         this.chartOptions = {
+            responsive: true,
             maintainAspectRatio: false,
-            aspectRatio: 0.8,
             plugins: {
                 legend: {
+                    position: 'top',
+                    align: 'end',
                     labels: {
-                        color: textColor
+                        usePointStyle: true,
+                        pointStyle: 'circle',
+                        color: textColor,
+                        boxWidth: 8,
+                        padding: 10,
+                        font: { size: 10 }
                     }
+                },
+                tooltip: {
+                    padding: 8,
+                    bodyFont: { size: 11 },
+                    titleFont: { size: 11 }
                 }
             },
             scales: {
                 x: {
                     ticks: {
-                        color: textColorSecondary
+                        color: textColorSecondary,
+                        font: { size: 9 },
+                        maxRotation: 0,
+                        autoSkip: true
                     },
                     grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
+                        display: false
                     }
                 },
                 y: {
                     ticks: {
-                        color: textColorSecondary
+                        color: textColorSecondary,
+                        font: { size: 9 },
+                        padding: 5
                     },
                     grid: {
                         color: surfaceBorder,
                         drawBorder: false
                     }
+                }
+            },
+            layout: {
+                padding: {
+                    left: 2,
+                    right: 15,
+                    top: 5,
+                    bottom: 5
                 }
             }
         };
@@ -115,20 +139,29 @@ export class OwnerDashboardComponent implements OnInit {
                 {
                     data: [45, 25, 20, 10],
                     backgroundColor: [primaryColor, '#4CAF50', '#FF9800', '#9C27B0'],
-                    hoverBackgroundColor: [primaryColor, '#66BB6A', '#FFA726', '#AB47BC']
+                    borderColor: 'transparent'
                 }
             ]
         };
 
         this.pieOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     position: 'bottom',
                     labels: {
                         usePointStyle: true,
-                        color: textColor
+                        pointStyle: 'circle',
+                        color: textColor,
+                        boxWidth: 8,
+                        padding: 8,
+                        font: { size: 10 }
                     }
                 }
+            },
+            layout: {
+                padding: 10
             }
         };
     }
