@@ -15,7 +15,7 @@ export const SuperAdminSidebarMenuItems: NavMenuItem[] = [
   // },
   {
     href: "/super-admin/subscription-plans",
-    title: "Subscription Plans",
+    title: "Subscription Plan Management",
     icon: "pi pi-tag",
     position: "top",
   },

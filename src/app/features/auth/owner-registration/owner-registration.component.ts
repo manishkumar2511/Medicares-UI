@@ -7,6 +7,7 @@ import { NoWhitespaceValidator, passwordMatchValidator, phoneNumberValidator } f
 import { FormHelpers } from '../../../core/helpers';
 import { FormErrorComponent } from '../../../shared';
 import { ToastService } from '../../../core/services';
+import { MESSAGES } from '../../../core/constants';
 import { OwnerService } from '../../../core/services/owner';
 import { Router } from '@angular/router';
 
@@ -22,7 +23,7 @@ import { Router } from '@angular/router';
 })
 export class OwnerRegistrationComponent implements OnInit {
   private commonService = inject(CommonService);
-  private ownerService = inject(OwnerService);   
+  private ownerService = inject(OwnerService);
   private toastService = inject(ToastService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
@@ -36,23 +37,23 @@ export class OwnerRegistrationComponent implements OnInit {
     this.initOwnerRegistrationForm();
   }
 
-private initOwnerRegistrationForm(): void {
-  this.ownerRegistrationForm = this.fb.group(
-    {
-      firstName: ['', [Validators.required, NoWhitespaceValidator]],
-      lastName: ['', [Validators.required, NoWhitespaceValidator]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required],
-      phoneNumber: ['', [Validators.required, NoWhitespaceValidator , phoneNumberValidator()]],
-      addressLine: ['', [Validators.required, NoWhitespaceValidator]],
-      city: ['', [Validators.required, NoWhitespaceValidator]],
-      postalCode: ['', [Validators.required, NoWhitespaceValidator]],
-      stateId: ['', Validators.required],
-    },
-    { validators: passwordMatchValidator }
-  );
-}
+  private initOwnerRegistrationForm(): void {
+    this.ownerRegistrationForm = this.fb.group(
+      {
+        firstName: ['', [Validators.required, NoWhitespaceValidator]],
+        lastName: ['', [Validators.required, NoWhitespaceValidator]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', Validators.required],
+        phoneNumber: ['', [Validators.required, NoWhitespaceValidator, phoneNumberValidator()]],
+        addressLine: ['', [Validators.required, NoWhitespaceValidator]],
+        city: ['', [Validators.required, NoWhitespaceValidator]],
+        postalCode: ['', [Validators.required, NoWhitespaceValidator]],
+        stateId: ['', Validators.required],
+      },
+      { validators: passwordMatchValidator }
+    );
+  }
 
 
   loadStates() {
@@ -64,8 +65,8 @@ private initOwnerRegistrationForm(): void {
   }
 
   onProfileImageSelected(file: File | null): void {
-  this.selectedProfileImage = file;
-}
+    this.selectedProfileImage = file;
+  }
 
   submitOwnerRegistration(): void {
     if (this.ownerRegistrationForm.invalid) {
@@ -75,43 +76,43 @@ private initOwnerRegistrationForm(): void {
 
     const payload = this.normalizeOwnerRegistrationData();
     this.ownerService.ownerRegistration(payload).subscribe({
-    next: (res) => {
-      this.toastService.success(
-        'Success',
-        'Owner registration completed successfully'
-      );
+      next: (res) => {
+        this.toastService.success(
+          'Success',
+          MESSAGES.AUTH.REGISTRATION_SUCCESS
+        );
 
-      this.ownerRegistrationForm.reset();
-      this.selectedProfileImage = null;
-      this.router.navigate(['/account/login']);
-    },
-    error: () => {
-      this.toastService.error(); 
-    }
-  });
+        this.ownerRegistrationForm.reset();
+        this.selectedProfileImage = null;
+        this.router.navigate(['/account/login']);
+      },
+      error: () => {
+        this.toastService.error();
+      }
+    });
 
   }
 
   private normalizeOwnerRegistrationData(): FormData {
-  const formValue = this.ownerRegistrationForm.getRawValue();
-  const formData = new FormData();
+    const formValue = this.ownerRegistrationForm.getRawValue();
+    const formData = new FormData();
 
-  formData.append('firstName', formValue.firstName || '');
-  formData.append('lastName', formValue.lastName || '');
-  formData.append('email', formValue.email || '');
-  formData.append('password', formValue.password || '');
-  formData.append('phoneNumber', formValue.phoneNumber || '');
-  formData.append('addressLine', formValue.addressLine || '');
-  formData.append('city', formValue.city || '');
-  formData.append('postalCode', formValue.postalCode || '');
-  formData.append('stateId', formValue.stateId || '');
+    formData.append('firstName', formValue.firstName || '');
+    formData.append('lastName', formValue.lastName || '');
+    formData.append('email', formValue.email || '');
+    formData.append('password', formValue.password || '');
+    formData.append('phoneNumber', formValue.phoneNumber || '');
+    formData.append('addressLine', formValue.addressLine || '');
+    formData.append('city', formValue.city || '');
+    formData.append('postalCode', formValue.postalCode || '');
+    formData.append('stateId', formValue.stateId || '');
 
-  if (this.selectedProfileImage) {
-    formData.append('profileImage', this.selectedProfileImage);
+    if (this.selectedProfileImage) {
+      formData.append('profileImage', this.selectedProfileImage);
+    }
+
+    return formData;
   }
-
-  return formData;
-}
 
 }
 

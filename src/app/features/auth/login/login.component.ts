@@ -5,6 +5,7 @@ import { finalize } from 'rxjs';
 import { AuthService } from '../../../core/services';
 import { PrimematerialModule } from '../../../core/primematerial.module';
 import { FormErrorComponent } from '../../../shared';
+import { MESSAGES } from '../../../core/constants';
 
 @Component({
   selector: 'app-login',
@@ -65,11 +66,11 @@ export class LoginComponent {
           }
 
           // API logical error
-          this.error = res.message || 'Invalid credentials';
+          this.error = res.message || MESSAGES.AUTH.INVALID_CREDENTIALS;
         },
         error: (err) => {
           // API failure
-          this.error = err?.message || 'Login failed';
+          this.error = err?.message || MESSAGES.AUTH.LOGIN_FAILED;
         },
       });
   }

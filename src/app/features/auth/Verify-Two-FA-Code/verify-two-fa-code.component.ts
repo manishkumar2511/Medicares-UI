@@ -2,6 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { interval, Subscription, take } from 'rxjs';
 import { AuthService } from '../../../core/services';
+import { MESSAGES } from '../../../core/constants';
 
 import { PrimematerialModule } from '../../../core/primematerial.module';
 import { RouterLink } from '@angular/router';
@@ -54,7 +55,7 @@ export class VerifyTwoFACodeComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (!this.codeStr || this.codeStr.length < 6) {
-      this.error = "Please enter the 6-digit code.";
+      this.error = MESSAGES.AUTH.ENTER_CODE;
       return;
     }
 
@@ -69,13 +70,13 @@ export class VerifyTwoFACodeComponent implements OnInit, OnDestroy {
         next: () => {
           this.submitted = true;
           this.loading = false;
-          this.success = "Code verified successfully. Redirecting...";
+          this.success = MESSAGES.AUTH.CODE_VERIFIED;
           setTimeout(() => this.router.navigate(["/dashboard"]), 1200);
         },
         error: (err) => {
           this.loading = false;
           this.error =
-            err?.message || "Invalid or expired code. Please try again.";
+            err?.message || MESSAGES.AUTH.CODE_VERIFY_FAILED;
         },
       });
   }
@@ -92,12 +93,12 @@ export class VerifyTwoFACodeComponent implements OnInit, OnDestroy {
     this.authService.resendMfa(this.email).subscribe({
       next: (res) => {
         this.resending = false;
-        this.resendSuccess = res?.message || "Verification code resent successfully.";
+        this.resendSuccess = res?.message || MESSAGES.AUTH.CODE_RESENT;
         this.startCooldown();
       },
       error: (err) => {
         this.resending = false;
-        this.error = err?.message || "Failed to resend code. Please try again.";
+        this.error = err?.message || MESSAGES.AUTH.CODE_RESEND_FAILED;
       },
     });
   }

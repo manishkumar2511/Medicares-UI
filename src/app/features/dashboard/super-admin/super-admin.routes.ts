@@ -17,7 +17,7 @@ export const superAdminRoutes: Routes = [
             },
             {
                 path: 'subscription-plans',
-                title: 'Subscription Plans',
+                title: 'Subscription Plan Management',
                 loadComponent: () => import('./plan-management/plan-management.component').then(m => m.PlanManagementComponent)
             }
         ]

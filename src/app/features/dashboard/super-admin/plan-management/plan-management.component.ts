@@ -1,10 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PrimematerialModule } from '../../../../core/primematerial.module';
 import { GenericGridComponent } from '../../../../shared/components/generic-grid/generic-grid.component';
 import { GridColumn, GridAction } from '../../../../core/models/grid.model';
-import { COMMON_GRID_ACTIONS, SUBSCRIPTION_PLAN_STATUS_OPTIONS, SUBSCRIPTION_PLAN_TYPE_OPTIONS } from '../../../../core/constants';
+import { COMMON_GRID_ACTIONS, SUBSCRIPTION_PLAN_STATUS_OPTIONS, SUBSCRIPTION_PLAN_TYPE_OPTIONS, MESSAGES } from '../../../../core/constants';
 import { SubscriptionPlan, SubscriptionPlanStatus, SubscriptionPlanType } from '../../../../core/models';
 import { SubscriptionPlanService, ToastService } from '../../../../core/services';
 import { FormHelpers } from '../../../../core/helpers';
@@ -19,10 +19,10 @@ import { FormErrorComponent } from '../../../../shared';
 })
 export class PlanManagementComponent implements OnInit {
   private fb = inject(FormBuilder);
-  private planService = inject(SubscriptionPlanService);
+  private subscriptionPlanService = inject(SubscriptionPlanService);
   private toastService = inject(ToastService);
 
-  plans: SubscriptionPlan[] = [];
+  public plans = signal<SubscriptionPlan[]>([]);
   displayDialog = false;
   planForm!: FormGroup;
   isSubmitting = false;
@@ -47,7 +47,7 @@ export class PlanManagementComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.loadPlans();
+    this.loadSubscriptionPlans();
   }
 
   private initForm() {
@@ -62,9 +62,17 @@ export class PlanManagementComponent implements OnInit {
     });
   }
 
-  // TODO: Replace with actual API call to fetch plans
-  private loadPlans() {
-    this.plans = [];
+  public loadSubscriptionPlans() {
+    this.subscriptionPlanService.getSubscriptionPlans().subscribe({
+      next: (res) => {
+        if (res.succeeded) {
+          this.plans.set(res.data ?? []);
+        }
+      },
+      error: (err) => {
+        this.toastService.error('Error', MESSAGES.SUBSCRIPTION_PLAN.LOAD_FAILED);
+      }
+    });
   }
 
   showCreateDialog() {
@@ -83,15 +91,19 @@ export class PlanManagementComponent implements OnInit {
     }
 
     this.isSubmitting = true;
-    this.planService.createPlan(this.planForm.value).subscribe({
+    this.subscriptionPlanService.createPlan(this.planForm.value).subscribe({
       next: (res) => {
-        this.toastService.success('Plan created successfully');
-        this.displayDialog = false;
-        this.loadPlans();
+        if (res.succeeded) {
+          this.toastService.success('Success', MESSAGES.SUBSCRIPTION_PLAN.CREATE_SUCCESS);
+          this.displayDialog = false;
+          this.loadSubscriptionPlans();
+        } else {
+          this.toastService.error('Error', res.messages?.[0] || MESSAGES.SUBSCRIPTION_PLAN.CREATE_FAILED);
+        }
         this.isSubmitting = false;
       },
       error: (err) => {
-        this.toastService.error('Error', err.messages?.[0] || 'Error creating plan');
+        this.toastService.error('Error', err.messages?.[0] || MESSAGES.SUBSCRIPTION_PLAN.CREATE_FAILED);
         this.isSubmitting = false;
       }
     });

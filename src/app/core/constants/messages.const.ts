@@ -1,11 +1,17 @@
 export const MESSAGES = {
-  CONTRACTOR: {
-    LOAD_FAILED: "Failed to load contractors.",
-    INVITE_FAILED: "Failed to send invite. Please try again.",
-    INVALID_INVITE: "Invalid or expired link.",
-    CONTRACTOR_ADDED: "Contractor added successfully.",
-    CONTRACTOR_ALREADY_EXIST: "You have already created your account.",
-    LICENCE_LOAD_FAILED: "Failed to load contractor licences.",
-    APPROVAL_FAILED: "Failed to perform contractor action.",
+  SUBSCRIPTION_PLAN: {
+    LOAD_FAILED: "Failed to load subscription plans.",
+    CREATE_SUCCESS: "Subscription plan created successfully.",
+    CREATE_FAILED: "Failed to create subscription plan.",
+  },
+  AUTH: {
+    REGISTRATION_SUCCESS: "Owner registration completed successfully.",
+    LOGIN_FAILED: "Login failed.",
+    INVALID_CREDENTIALS: "Invalid credentials.",
+    CODE_VERIFIED: "Code verified successfully. Redirecting...",
+    CODE_VERIFY_FAILED: "Invalid or expired code. Please try again.",
+    CODE_RESENT: "Verification code resent successfully.",
+    CODE_RESEND_FAILED: "Failed to resend code. Please try again.",
+    ENTER_CODE: "Please enter the 6-digit code.",
   },
 };
