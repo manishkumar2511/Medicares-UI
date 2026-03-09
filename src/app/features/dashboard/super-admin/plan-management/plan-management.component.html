@@ -16,9 +16,9 @@
             (actionExecuted)="handleAction($event)"></app-generic-grid>
     </div>
 
-    <!-- Create Plan Dialog -->
-    <p-dialog header="Subscription Plan Details" [(visible)]="displayDialog" [modal]="true"
-        [style]="{width: '90vw', maxWidth: '600px'}" [draggable]="false" [resizable]="false">
+    <p-dialog [header]="isEditMode() ? 'Edit Subscription Plan' : 'Subscription Plan Details'"
+        [(visible)]="displayDialog" [modal]="true" [style]="{width: '90vw', maxWidth: '600px'}" [draggable]="false"
+        [resizable]="false">
         <form [formGroup]="planForm" (ngSubmit)="savePlan()">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
                 <div class="flex flex-col gap-2">
@@ -71,8 +71,8 @@
             <div class="flex justify-end gap-2 mt-4 pt-4 border-t border-gray-100">
                 <p-button icon="pi pi-times" (click)="displayDialog=false" label="Cancel" [text]="true"
                     severity="secondary" type="button"></p-button>
-                <p-button icon="pi pi-check" type="submit" label="Save Plan" severity="info"
-                    [loading]="isSubmitting"></p-button>
+                <p-button icon="pi pi-check" type="submit" [label]="isEditMode() ? 'Update Plan' : 'Save Plan'"
+                    severity="info" [loading]="isSubmitting"></p-button>
             </div>
         </form>
     </p-dialog>

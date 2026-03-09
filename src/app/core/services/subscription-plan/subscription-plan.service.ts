@@ -20,4 +20,8 @@ export class SubscriptionPlanService {
     deleteSubscriptionPlan(id: string): Observable<Result<string>> {
         return this.apiService.delete<Result<string>>(`/subscription-plan/delete/${id}`);
     }
+
+    updateSubscriptionPlan(id: string, plan: any): Observable<Result<SubscriptionPlan>> {
+        return this.apiService.put<Result<SubscriptionPlan>>(`/subscription-plan/update/${id}`, plan);
+    }
 }

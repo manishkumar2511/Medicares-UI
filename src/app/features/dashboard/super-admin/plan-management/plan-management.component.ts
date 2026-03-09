@@ -25,6 +25,8 @@ export class PlanManagementComponent implements OnInit {
   private confirmationService = inject(ConfirmationService);
 
   public subscriptionPlans = signal<SubscriptionPlan[]>([]);
+  public isEditMode = signal(false);
+  public editingPlanId = signal<string | null>(null);
   displayDialog = false;
   planForm!: FormGroup;
   isSubmitting = false;
@@ -78,7 +80,24 @@ export class PlanManagementComponent implements OnInit {
   }
 
   showCreateDialog() {
+    this.isEditMode.set(false);
+    this.editingPlanId.set(null);
     this.initForm();
+    this.displayDialog = true;
+  }
+
+  showEditDialog(plan: SubscriptionPlan) {
+    this.isEditMode.set(true);
+    this.editingPlanId.set(plan.id);
+    this.planForm.patchValue({
+      name: plan.name,
+      type: plan.type,
+      price: plan.price,
+      durationInDays: plan.durationInDays,
+      storeLimit: plan.storeLimit,
+      status: plan.status,
+      description: plan.description
+    });
     this.displayDialog = true;
   }
 
@@ -93,27 +112,50 @@ export class PlanManagementComponent implements OnInit {
     }
 
     this.isSubmitting = true;
-    this.subscriptionPlanService.createPlan(this.planForm.value).subscribe({
-      next: (res) => {
-        if (res.succeeded) {
-          this.toastService.success('Success', MESSAGES.SUBSCRIPTION_PLAN.CREATE_SUCCESS);
-          this.displayDialog = false;
-          this.loadSubscriptionPlans();
-        } else {
-          this.toastService.error('Error', res.messages?.[0] || MESSAGES.SUBSCRIPTION_PLAN.CREATE_FAILED);
+    const planData = this.planForm.value;
+
+    if (this.isEditMode()) {
+      this.subscriptionPlanService.updateSubscriptionPlan(this.editingPlanId()!, planData).subscribe({
+        next: (res) => {
+          if (res.succeeded) {
+            this.toastService.success('Success', MESSAGES.SUBSCRIPTION_PLAN.UPDATE_SUCCESS);
+            this.displayDialog = false;
+            this.loadSubscriptionPlans();
+          } else {
+            this.toastService.error('Error', res.messages?.[0] || MESSAGES.SUBSCRIPTION_PLAN.UPDATE_FAILED);
+          }
+          this.isSubmitting = false;
+        },
+        error: (err) => {
+          this.toastService.error('Error', err.messages?.[0] || MESSAGES.SUBSCRIPTION_PLAN.UPDATE_FAILED);
+          this.isSubmitting = false;
         }
-        this.isSubmitting = false;
-      },
-      error: (err) => {
-        this.toastService.error('Error', err.messages?.[0] || MESSAGES.SUBSCRIPTION_PLAN.CREATE_FAILED);
-        this.isSubmitting = false;
-      }
-    });
+      });
+    } else {
+      this.subscriptionPlanService.createPlan(planData).subscribe({
+        next: (res) => {
+          if (res.succeeded) {
+            this.toastService.success('Success', MESSAGES.SUBSCRIPTION_PLAN.CREATE_SUCCESS);
+            this.displayDialog = false;
+            this.loadSubscriptionPlans();
+          } else {
+            this.toastService.error('Error', res.messages?.[0] || MESSAGES.SUBSCRIPTION_PLAN.CREATE_FAILED);
+          }
+          this.isSubmitting = false;
+        },
+        error: (err) => {
+          this.toastService.error('Error', err.messages?.[0] || MESSAGES.SUBSCRIPTION_PLAN.CREATE_FAILED);
+          this.isSubmitting = false;
+        }
+      });
+    }
   }
 
   handleAction(event: { id: string, data: SubscriptionPlan }) {
     if (event.id === 'delete') {
       this.deletePlan(event.data);
+    } else if (event.id === 'edit') {
+      this.showEditDialog(event.data);
     }
   }
 
