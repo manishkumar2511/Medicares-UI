@@ -6,6 +6,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 .pricing-title {
   color: var(--primary-color, #2E7D5F);
   font-size: 2.5rem;
@@ -13,6 +14,7 @@
   margin-bottom: 2rem;
   text-align: center;
 }
+
 .pricing-cards {
   display: flex;
   gap: 2rem;
@@ -21,6 +23,7 @@
   width: 100%;
   max-width: 1200px;
 }
+
 .pricing-card {
   background: var(--background-primary, #fff);
   border-radius: 16px;
@@ -34,37 +37,44 @@
   align-items: center;
   transition: box-shadow 0.2s, transform 0.2s;
 }
+
 .pricing-card:hover {
   box-shadow: 0 8px 32px rgba(46, 125, 95, 0.18);
   transform: translateY(-6px) scale(1.03);
 }
+
 .pricing-card h3 {
   color: var(--primary-color, #2E7D5F);
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
+
 .price {
   color: var(--primary-color, #2E7D5F);
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
+
 .price span {
   font-size: 1rem;
   color: var(--text-secondary, #666);
 }
+
 .pricing-card ul {
   list-style: none;
   padding: 0;
   margin: 0 0 1.5rem 0;
   width: 100%;
 }
+
 .pricing-card ul li {
   color: var(--text-primary, #212121);
   font-size: 1rem;
   margin-bottom: 0.5rem;
   text-align: center;
 }
+
 .pricing-btn {
   width: 100%;
   padding: 0.8rem 0;
@@ -77,59 +87,116 @@
   transition: background 0.2s;
   margin-top: auto;
 }
+
 .pricing-btn:hover {
   background: var(--primary-hover, #25694E);
 }
+
 @media (max-width: 900px) {
   .pricing-cards {
     gap: 1rem;
   }
+
   .pricing-card {
     min-width: 220px;
     max-width: 98vw;
     padding: 1.2rem 0.7rem;
   }
+
   .pricing-title {
     font-size: 1.5rem;
     margin-bottom: 1rem;
   }
 }
+
 @media (max-width: 600px) {
   .pricing-wrapper {
     padding: 2vw 0 1vw 0;
   }
+
   .pricing-cards {
     flex-direction: column;
     gap: 0.7rem;
     align-items: center;
   }
+
   .pricing-card {
     min-width: 90vw;
     max-width: 99vw;
     padding: 0.7rem 0.2rem;
   }
+
   .pricing-title {
     font-size: 1.1rem;
     margin-bottom: 0.7rem;
   }
+
   .price {
     font-size: 1.3rem;
   }
 }
+
 @media (min-width: 1600px) {
   .pricing-cards {
     max-width: 1600px;
   }
+
   .pricing-card {
     min-width: 340px;
     max-width: 480px;
     padding: 3rem 2.5rem;
   }
+
   .pricing-title {
     font-size: 3rem;
     margin-bottom: 2.5rem;
   }
+
   .price {
     font-size: 2.5rem;
   }
+}
+
+// Additional Pricing Styles for Premium Feel
+.featured-card {
+  border: 2px solid var(--primary-color);
+  position: relative;
+  transform: scale(1.05);
+  box-shadow: 0 10px 40px rgba(25, 182, 230, 0.2) !important;
+
+  &:hover {
+    transform: scale(1.08) translateY(-10px) !important;
+  }
+}
+
+.popular-badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-color);
+  color: white;
+  padding: 4px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.period {
+  font-size: 1rem;
+  opacity: 0.8;
+  margin-left: 2px;
+}
+
+.contact-us {
+  font-size: 1.8rem;
+  letter-spacing: -0.5px;
+}
+
+li i {
+  font-size: 0.9rem;
+  vertical-align: middle;
 }

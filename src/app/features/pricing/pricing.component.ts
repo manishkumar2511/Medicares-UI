@@ -1,7 +1,8 @@
-
-import { Component } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { SubscriptionPlanService } from '../../core/services';
+import { SubscriptionPlan } from '../../core/models';
 
 @Component({
   selector: 'app-pricing',
@@ -10,35 +11,50 @@ import { Router } from '@angular/router';
   templateUrl: './pricing.component.html',
   styleUrls: ['./pricing.component.scss']
 })
-export class PricingComponent {
-  plans = [
-    {
-      name: 'Basic',
-      price: '₹499',
-      period: '/mo',
-      description: 'Up to 100 Products, Email Support, Basic Analytics',
-      features: ['Up to 100 Products', 'Email Support', 'Basic Analytics']
-    },
-    {
-      name: 'Pro',
-      price: '₹999',
-      period: '/mo',
-      description: 'Up to 1000 Products, Priority Email & Chat Support, Advanced Analytics, Custom Reports',
-      features: ['Up to 1000 Products', 'Priority Email & Chat Support', 'Advanced Analytics', 'Custom Reports']
-    },
-    {
-      name: 'Enterprise',
-      price: 'Contact Us',
-      period: '',
-      description: 'Unlimited Products, Dedicated Account Manager, Custom Integrations, 24/7 Support',
-      features: ['Unlimited Products', 'Dedicated Account Manager', 'Custom Integrations', '24/7 Support']
-    }
-  ];
+export class PricingComponent implements OnInit {
+  private subscriptionPlanService = inject(SubscriptionPlanService);
+  private router = inject(Router);
 
-  constructor(private router: Router) {}
+  public plans = signal<SubscriptionPlan[]>([]);
+  public isLoading = signal(true);
 
-  selectPlan(plan: any) {
-    // include the plan name in the URL so the payment page can be linked/bookmarked
-    this.router.navigate(['/payment-management/payment-billing'], { queryParams: { plan: plan.name }, state: { plan } });
+  ngOnInit() {
+    this.loadPlans();
+  }
+
+  loadPlans() {
+    this.isLoading.set(true);
+    this.subscriptionPlanService.getSubscriptionPlans().subscribe({
+      next: (res) => {
+        if (res.succeeded) {
+          // Filter only active plans for the landing/pricing page if needed, 
+          // but for now showing what's returned.
+          this.plans.set(res.data || []);
+        }
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading plans:', err);
+        this.isLoading.set(false);
+      }
+    });
+  }
+
+  getFeatures(description: string | undefined): string[] {
+    if (!description) return [];
+    return description.split(',').map(f => f.trim());
+  }
+
+  selectPlan(plan: SubscriptionPlan) {
+    const planForPayment = {
+      ...plan,
+      price: plan.price > 0 ? `₹${plan.price}` : 'Contact Us',
+      period: plan.price > 0 ? (plan.durationInDays === 30 ? '/mo' : `/${plan.durationInDays} days`) : ''
+    };
+
+    this.router.navigate(['/payment-management/payment-billing'], {
+      queryParams: { plan: plan.name },
+      state: { plan: planForPayment }
+    });
   }
 }
