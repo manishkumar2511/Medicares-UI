@@ -15,3 +15,4 @@ export * from "./auth/request/forgot-password.request";
 export * from "./auth/request/reset-password.request";
 export * from "./auth/response/forgot-password.response";
 export * from "./grid.model";
+export * from "./subscription-plan/subscription-plan.model";
