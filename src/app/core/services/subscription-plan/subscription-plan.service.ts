@@ -16,4 +16,8 @@ export class SubscriptionPlanService {
     getSubscriptionPlans(): Observable<Result<SubscriptionPlan[]>> {
         return this.apiService.get<Result<SubscriptionPlan[]>>('/subscription-plan/get-all');
     }
+
+    deleteSubscriptionPlan(id: string): Observable<Result<string>> {
+        return this.apiService.delete<Result<string>>(`/subscription-plan/delete/${id}`);
+    }
 }

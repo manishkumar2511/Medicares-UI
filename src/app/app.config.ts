@@ -7,7 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 
@@ -26,6 +26,7 @@ export const appConfig: ApplicationConfig = {
         preset: Aura
       }
     }),
-    MessageService
+    MessageService,
+    ConfirmationService
   ]
 };

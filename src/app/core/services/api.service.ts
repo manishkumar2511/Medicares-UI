@@ -28,7 +28,22 @@ export class ApiService {
   ): Observable<T> {
     return this.request<T>("POST", path, { body, ...options });
   }
-  
+
+  put<T>(
+    path: string,
+    body: unknown,
+    options?: { showLoader?: boolean }
+  ): Observable<T> {
+    return this.request<T>("PUT", path, { body, ...options });
+  }
+
+  delete<T>(
+    path: string,
+    options?: { showLoader?: boolean }
+  ): Observable<T> {
+    return this.request<T>("DELETE", path, options);
+  }
+
 
   private request<T>(
     method: string,

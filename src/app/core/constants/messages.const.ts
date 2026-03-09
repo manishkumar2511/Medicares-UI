@@ -3,6 +3,8 @@ export const MESSAGES = {
     LOAD_FAILED: "Failed to load subscription plans.",
     CREATE_SUCCESS: "Subscription plan created successfully.",
     CREATE_FAILED: "Failed to create subscription plan.",
+    DELETE_SUCCESS: "Subscription plan deleted successfully.",
+    DELETE_FAILED: "Failed to delete subscription plan.",
   },
   AUTH: {
     REGISTRATION_SUCCESS: "Owner registration completed successfully.",

@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PrimematerialModule } from '../../../../core/primematerial.module';
@@ -21,8 +22,9 @@ export class PlanManagementComponent implements OnInit {
   private fb = inject(FormBuilder);
   private subscriptionPlanService = inject(SubscriptionPlanService);
   private toastService = inject(ToastService);
+  private confirmationService = inject(ConfirmationService);
 
-  public plans = signal<SubscriptionPlan[]>([]);
+  public subscriptionPlans = signal<SubscriptionPlan[]>([]);
   displayDialog = false;
   planForm!: FormGroup;
   isSubmitting = false;
@@ -42,7 +44,7 @@ export class PlanManagementComponent implements OnInit {
   actions: GridAction[] = [
     COMMON_GRID_ACTIONS.EDIT,
     COMMON_GRID_ACTIONS.PROMOTE,
-    COMMON_GRID_ACTIONS.ARCHIVE
+    COMMON_GRID_ACTIONS.DELETE
   ];
 
   ngOnInit() {
@@ -66,7 +68,7 @@ export class PlanManagementComponent implements OnInit {
     this.subscriptionPlanService.getSubscriptionPlans().subscribe({
       next: (res) => {
         if (res.succeeded) {
-          this.plans.set(res.data ?? []);
+          this.subscriptionPlans.set(res.data ?? []);
         }
       },
       error: (err) => {
@@ -110,6 +112,33 @@ export class PlanManagementComponent implements OnInit {
   }
 
   handleAction(event: { id: string, data: SubscriptionPlan }) {
-    console.log('Action Executed:', event.id, 'for plan:', event.data.name);
+    if (event.id === 'delete') {
+      this.deletePlan(event.data);
+    }
+  }
+
+  private deletePlan(plan: SubscriptionPlan) {
+    this.confirmationService.confirm({
+      message: `Are you sure you want to delete the plan "${plan.name}"?`,
+      header: 'Confirm Deletion',
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonStyleClass: 'p-button-danger p-button-text',
+      rejectButtonStyleClass: 'p-button-text',
+      accept: () => {
+        this.subscriptionPlanService.deleteSubscriptionPlan(plan.id).subscribe({
+          next: (res) => {
+            if (res.succeeded) {
+              this.toastService.success('Success', MESSAGES.SUBSCRIPTION_PLAN.DELETE_SUCCESS);
+              this.loadSubscriptionPlans();
+            } else {
+              this.toastService.error('Error', res.messages?.[0] || MESSAGES.SUBSCRIPTION_PLAN.DELETE_FAILED);
+            }
+          },
+          error: (err) => {
+            this.toastService.error('Error', err.messages?.[0] || MESSAGES.SUBSCRIPTION_PLAN.DELETE_FAILED);
+          }
+        });
+      }
+    });
   }
 }
