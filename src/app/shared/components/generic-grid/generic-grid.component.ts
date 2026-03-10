@@ -19,8 +19,9 @@ export class GenericGridComponent {
 
   @Output() actionExecuted = new EventEmitter<{ id: string, data: any }>();
 
-  getStatusSeverity(status: string): any {
-    const s = status?.toLowerCase();
+  getStatusSeverity(status: any): any {
+    if (status === null || status === undefined) return 'info';
+    const s = String(status).toLowerCase();
     if (['active', 'completed', 'paid', 'success', 'true'].includes(s)) return 'success';
     if (['pending', 'warning', 'warn', 'in-progress'].includes(s)) return 'warn';
     if (['inactive', 'cancelled', 'failed', 'false', 'expired'].includes(s)) return 'danger';

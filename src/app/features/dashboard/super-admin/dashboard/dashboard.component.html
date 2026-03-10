@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fadeIn">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12 animate-fadeIn">
         <!-- Registration Trends -->
         <div class="col-span-2 section-card">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 p-6 pb-0">
@@ -100,6 +100,18 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <!-- Owner Management Grid -->
+    <div class="mt-6 section-card animate-fadeIn">
+        <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+            <h2 class="text-xl font-bold">Manage Registered Owners</h2>
+            <div *ngIf="isLoading()"
+                class="animate-spin rounded-full h-5 w-5 border-2 border-primary border-t-transparent"></div>
+        </div>
+        <div class="overflow-hidden">
+            <app-generic-grid [data]="owners()" [columns]="cols" [actions]="actions"
+                (actionExecuted)="handleAction($event)"></app-generic-grid>
         </div>
     </div>
 </div>
