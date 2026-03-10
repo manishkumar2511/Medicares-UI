@@ -84,7 +84,7 @@ export class OwnerRegistrationComponent implements OnInit {
 
         this.ownerRegistrationForm.reset();
         this.selectedProfileImage = null;
-        this.router.navigate(['/account/login']);
+        this.router.navigate(['/payment-management/payment-billing'], { queryParams: { plan: 'Basic' } });
       },
       error: () => {
         this.toastService.error();

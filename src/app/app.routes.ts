@@ -14,9 +14,9 @@ export const routes: Routes = [
       { path: 'contact', title: 'Contact', loadComponent: () => import('./core/home').then(m => m.HomeComponent) },
       { path: 'owner-dashboard', title: 'Owner Dashboard', loadComponent: () => import('./features/dashboard/owner/owner-dashboard.component').then(m => m.OwnerDashboardComponent) },
       { path: 'super-admin', loadChildren: () => import('./features/dashboard/super-admin/super-admin.routes').then(m => m.superAdminRoutes) },
-      { path: 'payment-management', title: 'Payment Management', loadChildren: () => import('./features/payment-management').then(m => m.PaymentManagementModule) },
       { path: 'account', children: authRoutes },
     ]
   },
+  { path: 'payment-management', title: 'Payment Management', loadChildren: () => import('./features/payment-management').then(m => m.PaymentManagementModule) },
   { path: "**", redirectTo: "/home" },
 ];

@@ -1,11 +1,172 @@
-<div class="payment-billing">
-  <h2>Payment for {{ plan?.name || 'Selected Plan' }}</h2>
-  <div class="methods">
-    <button *ngFor="let m of paymentMethods" (click)="selectMethod(m)" class="method-btn">{{ m.name }}</button>
-  </div>
+<div class="billing-page animate-fadeIn overflow-x-hidden p-6 lg:p-10">
+  <div
+    class="split-container grid grid-cols-1 lg:grid-cols-2 min-h-screen rounded-3xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-800">
 
-  <div class="summary">
-    <p *ngIf="plan">Price: {{ plan.price }} {{ plan.period }}</p>
-    <button (click)="payNow()" class="pay-btn">Pay Now</button>
+    <!-- Left Pane: Checkout Flow -->
+    <div class="left-pane p-8 lg:p-16 flex flex-col bg-white dark:bg-gray-900">
+      <div class="header-section mb-10 flex items-start gap-4">
+        <button pButton icon="pi pi-arrow-left" class="p-button-text back-btn mt-1" (click)="goToPricing()"></button>
+        <div class="title-group">
+          <h1 class="text-3xl font-black tracking-tight leading-tight">Secure Checkout</h1>
+          <p class="text-gray-400 text-sm">Fill in your payment details to proceed</p>
+        </div>
+      </div>
+
+      <div class="payment-methods-wrapper">
+        <h2 class="text-xl font-bold mb-6 text-gray-700 dark:text-gray-300">Choose Payment Method</h2>
+
+        <div class="methods-list flex flex-col gap-4">
+          <div *ngFor="let method of paymentMethods" class="method-card" [class.active]="selectedMethodId === method.id"
+            (click)="selectMethod(method.id)">
+            <div
+              class="flex items-center gap-4 w-full cursor-pointer p-4 rounded-xl border-2 border-transparent transition-all">
+              <div class="radio-circle"></div>
+              <div class="method-icon-box" [ngClass]="method.id">
+                <i [class]="method.icon"></i>
+              </div>
+              <div class="method-details">
+                <p class="font-bold">{{method.name}}</p>
+                <p class="text-xs text-gray-500">{{method.description}}</p>
+              </div>
+            </div>
+
+            <!-- Content for Selected Method -->
+            <div class="method-content-area px-2 sm:pl-16 sm:pr-4 pb-4" *ngIf="selectedMethodId === method.id">
+              <!-- Horizontal UPI Apps (Icon ONLY) -->
+              <div *ngIf="method.type === 'apps'"
+                class="upi-list py-4 border-t border-gray-100 dark:border-gray-800 mt-2 flex flex-row flex-wrap items-center gap-4">
+                <div *ngFor="let app of method.options"
+                  class="app-node p-1.5 rounded-full border-2 border-transparent hover:border-primary cursor-pointer transition-all bg-gray-50 dark:bg-gray-800"
+                  [class.selected-app]="selectedAppId === app.id" (click)="selectApp(app.id); $event.stopPropagation()"
+                  [pTooltip]="app.name" tooltipPosition="bottom">
+                  <div
+                    class="app-img-container w-10 h-10 bg-white shadow-md rounded-full flex items-center justify-center overflow-hidden border border-gray-100">
+                    <img [src]="app.icon" [alt]="app.name" class="w-6 h-6 object-contain" />
+                  </div>
+                </div>
+              </div> <!-- UPI ID -->
+              <div *ngIf="method.type === 'input'"
+                class="upi-id-field py-6 border-t border-gray-100 dark:border-gray-800 mt-2">
+                <div class="p-inputgroup w-full">
+                  <span class="p-inputgroup-addon"><i class="pi pi-at"></i></span>
+                  <input type="text" pInputText placeholder="username@bank" class="w-full rounded-r-xl" />
+                </div>
+              </div>
+
+              <!-- Cards -->
+              <div *ngIf="method.type === 'form'"
+                class="card-inputs py-6 border-t border-gray-100 dark:border-gray-800 mt-2 flex flex-col gap-3">
+
+                <div class="custom-card-input-wrapper mt-2">
+                  <input pInputText placeholder="0000 0000 0000 0000" />
+
+                  <div class="card-brand-logos">
+                    <div class="logo-box-mini mastercard">
+                      <img src="https://images.icon-icons.com/1186/PNG/512/1490135018-mastercard_82253.png"
+                        alt="Mastercard" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex gap-3">
+                  <input pInputText placeholder="MM/YY" class="w-1/2 rounded-xl py-3" />
+                  <input pInputText placeholder="CVV" class="w-1/2 rounded-xl py-3" />
+                </div>
+              </div>
+
+              <!-- Net Banking -->
+              <div *ngIf="method.type === 'select'"
+                class="netbanking-field py-6 border-t border-gray-100 dark:border-gray-800 mt-2">
+                <p-dropdown [options]="[]" placeholder="Select your Bank" styleClass="w-full rounded-xl"></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Promo Section -->
+      <div class="promo-box mt-8 p-5 rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50 dark:bg-gray-800">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <i class="pi pi-ticket text-xl text-primary"></i>
+            <span class="font-bold text-sm">Apply Promotion Code</span>
+          </div>
+          <button pButton [label]="isPromoVisible ? 'Close' : 'Add Code'"
+            class="p-button-text p-button-sm change-plan-btn font-bold" (click)="togglePromo()"></button>
+        </div>
+        <div *ngIf="isPromoVisible" class="promo-input animate-fadeIn mt-4 flex gap-2">
+          <input pInputText placeholder="Enter Code" class="w-full p-inputtext-sm rounded-xl" />
+          <button pButton label="Apply" class="p-button-sm px-6 rounded-xl"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Pane: Summary & Trust -->
+    <div
+      class="right-pane p-8 lg:p-16 flex flex-col bg-gray-50 dark:bg-black border-l border-gray-100 dark:border-gray-800">
+      <div class="summary-wrapper max-w-lg mx-auto w-full">
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-xl font-bold text-gray-400 uppercase tracking-widest text-sm">Order Summary</h2>
+          <button pButton class="p-button-text p-button-sm change-plan-btn font-bold px-3 py-1" label="Change Plan"
+            (click)="goToPricing()"></button>
+        </div>
+
+        <!-- Totals Card -->
+        <div
+          class="total-summary-card p-8 rounded-3xl bg-white dark:bg-gray-900 shadow-2xl mb-8 border border-gray-100 dark:border-gray-800">
+          <div class="plan-info mb-6 pb-6 border-b border-gray-50 dark:border-gray-800">
+            <span
+              class="bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">{{plan?.name}}</span>
+            <p class="text-xs text-gray-400 mt-2 font-medium" *ngIf="plan?.description">{{plan.description}}</p>
+            <div class="flex justify-between items-end mt-4">
+              <h3 class="text-3xl font-black">₹{{plan?.price}}</h3>
+              <span class="text-gray-400 text-xs mb-1">/ Recurring Subscription</span>
+            </div>
+          </div>
+
+          <div class="tax-breakdown flex flex-col gap-3 mb-8">
+            <div class="flex justify-between text-gray-500 text-sm">
+              <span>Platform Fee</span>
+              <span class="text-green-500 font-bold uppercase text-[10px]">Free</span>
+            </div>
+            <div class="flex justify-between text-gray-500 text-sm">
+              <span>GST (18%)</span>
+              <span class="font-bold text-gray-900 dark:text-white">₹{{tax | number:'1.2-2'}}</span>
+            </div>
+          </div>
+
+          <div class="final-total mb-8 text-center bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl">
+            <p class="text-gray-400 text-[10px] font-bold uppercase mb-1">Total Amount to Pay</p>
+            <h4 class="text-4xl font-black text-primary tracking-tighter">₹{{total | number:'1.2-2'}}</h4>
+          </div>
+
+          <div class="flex justify-center">
+            <button pButton class="p-button-raised py-4 px-10 rounded-xl p-button-lg shadow-primary transition-all"
+              (click)="payNow()">
+              <div class="flex items-center justify-center gap-3">
+                <i class="pi pi-lock text-lg"></i>
+                <span class="text-lg font-bold">Secure Payment</span>
+                <i class="pi pi-arrow-right"></i>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Security & Trust -->
+        <div
+          class="security-info text-center mt-6 bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+          <div class="flex justify-center gap-12 items-center gap-4 mb-6">
+            <i class="pi pi-shield text-3xl text-gray-300" pTooltip="PCI DSS Certified"></i>
+            <i class="pi pi-verified text-3xl text-gray-300" pTooltip="SSL Encrypted"></i>
+            <i class="pi pi-money-bill text-3xl text-gray-300" pTooltip="Secure Transactions"></i>
+          </div>
+          <p class="text-[9px] text-gray-400 leading-relaxed font-bold uppercase tracking-[0.2em]">
+            Safe & Secure 256-bit SSL encrypted payments. <br>
+            We do not store your full card details.
+          </p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
