@@ -1,6 +1,7 @@
 import { Routes } from "@angular/router";
 import { authRoutes } from "./features/auth/routes";
 import { LayoutComponent } from "./core/layout/layout.component";
+import { AuthGuard } from "./core/guards";
 
 export const routes: Routes = [
   {
@@ -12,7 +13,11 @@ export const routes: Routes = [
       { path: 'pricing', title: 'Pricing', loadComponent: () => import('./features/pricing').then(m => m.PricingComponent) },
       { path: 'about', title: 'About', loadComponent: () => import('./core/home').then(m => m.HomeComponent) },
       { path: 'contact', title: 'Contact', loadComponent: () => import('./core/home').then(m => m.HomeComponent) },
-      { path: 'owner-dashboard', title: 'Owner Dashboard', loadComponent: () => import('./features/dashboard/owner/owner-dashboard.component').then(m => m.OwnerDashboardComponent) },
+      { path: 'owner-dashboard',
+         title: 'Owner Dashboard', 
+         loadComponent: () => import('./features/dashboard/owner/owner-dashboard.component')
+         .then(m => m.OwnerDashboardComponent),
+        canActivate: [AuthGuard]},
       { path: 'super-admin', loadChildren: () => import('./features/dashboard/super-admin/super-admin.routes').then(m => m.superAdminRoutes) },
       { path: 'account', children: authRoutes },
     ]

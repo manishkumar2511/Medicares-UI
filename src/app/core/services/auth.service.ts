@@ -190,6 +190,10 @@ export class AuthService {
     return decoded.roleId;
   }
 
+  isAuthenticated(): boolean {
+    return this.authStateSubject.value.isAuthenticated;
+  }
+
   // ------------------------------------------------------------------
   // INTERNAL
   // ------------------------------------------------------------------
