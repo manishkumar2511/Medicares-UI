@@ -8,7 +8,7 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: '', redirectTo: '/home', pathMatch: 'full' },
+      { path: '', title: 'Home', loadComponent: () => import('./core/home').then(m => m.HomeComponent), pathMatch: 'full' },
       { path: 'home', title: 'Home', loadComponent: () => import('./core/home').then(m => m.HomeComponent) },
       { path: 'pricing', title: 'Pricing', loadComponent: () => import('./features/pricing').then(m => m.PricingComponent) },
       { path: 'about', title: 'About', loadComponent: () => import('./core/home').then(m => m.HomeComponent) },
@@ -23,5 +23,5 @@ export const routes: Routes = [
     ]
   },
   { path: 'payment-management', title: 'Payment Management', loadChildren: () => import('./features/payment-management').then(m => m.PaymentManagementModule) },
-  { path: "**", redirectTo: "/home" },
+  { path: "**", redirectTo: "/" },
 ];

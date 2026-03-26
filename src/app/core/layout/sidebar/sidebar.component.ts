@@ -105,7 +105,7 @@ export class SidebarComponent implements OnInit {
     logout() {
         this.authService.logout().subscribe({
             next: () => {
-                this.router.navigate(['/home']);
+                this.router.navigate(['/']);
             }
         });
     }

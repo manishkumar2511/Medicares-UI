@@ -60,7 +60,7 @@ export class TopbarComponent {
     ];
 
     public guestNavItems: NavMenuItem[] = [
-        { title: 'Home', href: '/home' },
+        { title: 'Home', href: '/' },
         { title: 'Pricing', href: '/pricing' },
         { title: 'About', href: '/about' },
         { title: 'Contact', href: '/contact' },
@@ -77,7 +77,7 @@ export class TopbarComponent {
     logout() {
         this.authService.logout().subscribe({
             next: () => {
-                this.router.navigate(['/home']);
+                this.router.navigate(['/']);
             }
         });
     }
@@ -91,7 +91,7 @@ export class TopbarComponent {
     }
 
     navigateToHome() {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
     }
 
     navigateToProfile() {
