@@ -1,413 +1,105 @@
 .billing-page {
-    background-color: var(--app-bg);
-    min-height: 100vh;
-    animation: fadeIn 0.8s ease-out;
+  background-color: var(--app-bg);
+  min-height: 100vh;
+  animation: fadeIn 0.8s ease-out;
 
-    .split-container {
-        display: grid;
-        grid-template-columns: 1fr;
-        min-height: 100vh;
-        margin: 0 auto;
-        max-width: 2560px; // Optimized for 4K
+  .main-container {
+    margin: 0 auto;
+    max-width: 2560px; // Optimized for 4K
+    position: relative;
+    z-index: 1;
 
-        @media (min-width: 1024px) {
-            grid-template-columns: 1.15fr 0.85fr !important;
-        }
+    .summary-section {
+      padding: 1rem !important;
 
-        .left-pane,
-        .right-pane {
-            padding: 1.5rem 0.5rem !important; // Minimal padding for extreme mobile
+      @media (min-width: 480px) {
+        padding: 2rem !important;
+      }
 
-            @media (min-width: 480px) {
-                padding: 2rem 1.25rem !important;
-            }
+      @media (min-width: 640px) {
+        padding: 3rem !important;
+      }
 
-            @media (min-width: 640px) {
-                padding: 2.5rem 2rem !important;
-            }
+      @media (min-width: 1024px) {
+        padding: 4rem !important;
+      }
+    }
+  }
 
-            @media (min-width: 1024px) {
-                padding: 4rem 4rem !important;
-            }
-        }
+  .back-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: rgba(var(--primary-color-rgb), 0.05);
+    color: var(--primary-color);
+    border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: translateX(-5px);
+    }
+  }
+
+  .total-summary-card {
+    background: var(--background-primary);
+    color: var(--text-primary);
+  }
+
+  button.p-button {
+    &.p-button-raised {
+      background: var(--primary-color);
+      border: none;
+      border-radius: 12px;
+      font-weight: 800;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(var(--primary-color-rgb), 0.3) !important;
+      }
     }
 
-    .left-pane {
-        border-right: none;
+    &.p-button-text {
+      color: var(--text-secondary);
+      padding: 0.5rem 1rem !important;
+      border-radius: 10px;
+      font-weight: 600;
 
-        @media (min-width: 1024px) {
-            border-right: 1px solid var(--border-color);
+      &.change-plan-btn {
+        color: var(--primary-color) !important;
+        background: transparent;
+        border: none;
+
+        &:hover {
+          background: rgba(var(--primary-color-rgb), 0.1) !important;
+          color: var(--primary-hover) !important;
         }
+      }
 
-        .header-section {
-            margin-bottom: 2rem;
-
-            h1 {
-                font-size: 1.75rem;
-
-                @media (min-width: 640px) {
-                    font-size: 2.25rem;
-                }
-            }
-        }
-
-        .back-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background: rgba(var(--primary-color-rgb), 0.05);
-            color: var(--primary-color);
-            border: 1px solid rgba(var(--primary-color-rgb), 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-            &:hover {
-                background: var(--primary-color);
-                color: white;
-                transform: translateX(-5px);
-            }
-        }
-
-        .method-card {
-            background: var(--background-primary);
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            margin-bottom: 1rem;
-            padding: 4px;
-
-            &:hover {
-                border-color: rgba(var(--primary-color-rgb), 0.2);
-            }
-
-            &.active {
-                border-color: var(--primary-color);
-                background: rgba(var(--primary-color-rgb), 0.01);
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-
-                .radio-circle {
-                    background: var(--primary-color);
-                    border-color: var(--primary-color);
-                    box-shadow: 0 0 8px var(--primary-color);
-
-                    &::after {
-                        content: '';
-                        width: 5px;
-                        height: 5px;
-                        background: white;
-                        border-radius: 50%;
-                    }
-                }
-            }
-
-            .radio-circle {
-                width: 18px;
-                height: 18px;
-                border: 2px solid var(--border-color);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-shrink: 0;
-                transition: all 0.2s;
-            }
-
-            .method-icon-box {
-                width: 40px;
-                height: 40px;
-                border-radius: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: var(--background-secondary);
-                font-size: 1.1rem;
-                flex-shrink: 0;
-            }
-
-            .upi_apps .method-icon-box {
-                color: #9333ea;
-                background: rgba(147, 51, 234, 0.08);
-            }
-
-            .upi_id .method-icon-box {
-                color: #2563eb;
-                background: rgba(37, 99, 235, 0.08);
-            }
-
-            .card .method-icon-box {
-                color: #ea580c;
-                background: rgba(234, 88, 12, 0.08);
-            }
-
-            .method-content-area {
-                padding-left: 0.25rem; // Minimal for mobile
-                padding-right: 0.25rem;
-                width: 100%;
-                overflow: hidden;
-
-                @media (min-width: 480px) {
-                    padding-left: 3.5rem;
-                    padding-right: 1.5rem;
-                }
-            }
-
-            .app-node {
-                border-radius: 50% !important;
-                background: var(--background-secondary);
-                border: 1px solid var(--border-color);
-                flex-shrink: 0;
-
-                &:hover {
-                    border-color: var(--primary-color);
-                    background: var(--background-primary);
-                    transform: scale(1.1);
-                    z-index: 5;
-                }
-
-                &.selected-app {
-                    border-color: var(--primary-color);
-                    background: white !important;
-                    box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.2);
-                    transform: scale(1.1);
-                }
-
-                .app-img-container {
-                    background: white;
-                    border-radius: 50%;
-                    padding: 2px;
-                    width: 36px;
-                    height: 36px;
-
-                    @media (min-width: 640px) {
-                        width: 44px;
-                        height: 44px;
-                    }
-
-                    img {
-                        display: block;
-                        width: 24px;
-                        height: 24px;
-
-                        @media (min-width: 640px) {
-                            width: 28px;
-                            height: 28px;
-                        }
-                    }
-                }
-            }
-
-            .custom-card-input-wrapper {
-                display: flex;
-                align-items: center;
-                width: 100% !important;
-                height: 52px; // Slightly shorter for mobile
-                background: var(--background-primary);
-                border: 1px solid var(--border-color);
-                border-radius: 12px;
-                padding: 0 10px;
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-
-                @media (min-width: 640px) {
-                    height: 60px;
-                    padding: 0 14px;
-                    border-radius: 14px;
-                }
-
-                &:focus-within {
-                    border-color: var(--primary-color);
-                    background: white;
-                    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.1);
-
-                    @media (prefers-color-scheme: dark) {
-                        background: var(--background-primary);
-                    }
-                }
-
-                input {
-                    flex: 1;
-                    height: 100% !important;
-                    border: none !important;
-                    background: transparent !important;
-                    box-shadow: none !important;
-                    outline: none !important;
-                    padding: 0 !important;
-                    font-size: 0.85rem; // Smaller for mobile
-                    letter-spacing: 0.1px;
-                    color: var(--text-primary);
-                    min-width: 0;
-
-                    @media (min-width: 640px) {
-                        font-size: 1.2rem;
-                        letter-spacing: 1.5px;
-                    }
-
-                    &::placeholder {
-                        color: #94a3b8;
-                        letter-spacing: normal;
-                    }
-                }
-
-                .card-brand-logos {
-                    display: flex;
-                    align-items: center;
-                    gap: 6px;
-                    flex-shrink: 0;
-                    margin-left: auto; // Push to far right
-
-                    .logo-box-mini {
-                        width: 38px;
-                        height: 24px;
-                        background: #000;
-                        border-radius: 6px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        overflow: hidden;
-                        border: 1px solid #1e293b;
-                        flex-shrink: 0;
-                        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-
-                        @media (min-width: 640px) {
-                            width: 44px;
-                            height: 28px;
-                        }
-
-                        img {
-                            max-width: 85%;
-                            max-height: 85%;
-                            object-fit: contain;
-                            display: block;
-                            pointer-events: none;
-                        }
-
-                        &.mastercard {
-                            background: #000;
-
-                            img {
-                                width: 140%;
-                                height: 140%;
-                                max-width: none;
-                                max-height: none;
-                                object-fit: cover;
-                            }
-                        }
-
-                        &.visa {
-                            background: #1a1a1a;
-
-                            img {
-                                height: 45%;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+      &:hover {
+        background: rgba(var(--primary-color-rgb), 0.05);
+      }
     }
-
-    .right-pane {
-        padding-top: 3rem !important;
-        border-top: 1px solid var(--border-color);
-
-        @media (min-width: 1024px) {
-            border-top: none;
-            padding-top: 4rem !important;
-        }
-
-        .summary-wrapper {
-            padding-right: 0;
-
-            @media (min-width: 1024px) {
-                padding-right: 2rem;
-            }
-        }
-
-        .total-summary-card {
-            background: var(--background-primary);
-            color: var(--text-primary);
-        }
-    }
-
-    button.p-button {
-        &.p-button-raised {
-            background: var(--primary-color);
-            border: none;
-            border-radius: 12px;
-            font-weight: 800;
-            transition: all 0.3s ease;
-
-            &:hover {
-                background: var(--primary-hover);
-                transform: translateY(-2px);
-                box-shadow: 0 10px 25px rgba(var(--primary-color-rgb), 0.3) !important;
-            }
-        }
-
-        &.p-button-text {
-            color: var(--text-secondary);
-            padding: 0.5rem 1rem !important;
-            border-radius: 10px;
-            font-weight: 600;
-
-            &.change-plan-btn {
-                color: var(--primary-color) !important;
-                background: transparent;
-                border: none;
-
-                &:hover {
-                    background: rgba(var(--primary-color-rgb), 0.1) !important;
-                    color: var(--primary-hover) !important;
-                }
-            }
-
-            &:hover {
-                background: rgba(var(--primary-color-rgb), 0.05);
-            }
-        }
-    }
-
-    input.p-inputtext {
-        background: var(--background-secondary);
-        border: 1px solid var(--border-color);
-        padding: 0.75rem 1rem;
-        color: var(--text-primary);
-
-        &:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.1);
-        }
-    }
-
-    .p-inputgroup-addon {
-        background: var(--background-secondary);
-        border: 1px solid var(--border-color);
-        color: var(--text-secondary);
-    }
+  }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideDown {
-    from {
-        max-height: 0;
-        opacity: 0;
-    }
-
-    to {
-        max-height: 800px;
-        opacity: 1;
-    }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 :root {
-    --primary-color-rgb: 25, 182, 230;
+  --primary-color-rgb: 25, 182, 230;
 }
