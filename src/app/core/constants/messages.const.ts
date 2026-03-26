@@ -17,6 +17,8 @@ export const MESSAGES = {
     CODE_RESENT: "Verification code resent successfully.",
     CODE_RESEND_FAILED: "Failed to resend code. Please try again.",
     ENTER_CODE: "Please enter the 6-digit code.",
+    SUBSCRIPTION_REQUIRED: "You do not have an active subscription plan. Please select a plan to continue accessing the platform.",
+    USER_NOT_FOUND: "User Not Exist",
   },
   PAYMENT: {
     PLAN_NOT_FOUND: "Plan not found. Please try again or go back to pricing.",

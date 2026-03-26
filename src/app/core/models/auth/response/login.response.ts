@@ -6,5 +6,6 @@ export interface LoginResponse {
   message: string;
   token?: JwtTokenResponse;
   refreshToken?: string;
+  ownerId?: string;
   user?: User;
 }

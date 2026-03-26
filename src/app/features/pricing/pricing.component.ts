@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SubscriptionPlanService } from '../../core/services';
 import { SubscriptionPlan } from '../../core/models';
 
@@ -14,11 +14,14 @@ import { SubscriptionPlan } from '../../core/models';
 export class PricingComponent implements OnInit {
   private subscriptionPlanService = inject(SubscriptionPlanService);
   private router = inject(Router);
-
+  private route = inject(ActivatedRoute);
+  
   public plans = signal<SubscriptionPlan[]>([]);
   public isLoading = signal(true);
+  ownerId: string | null = null;
 
   ngOnInit() {
+    this.ownerId = this.route.snapshot.queryParamMap.get('ownerId');
     this.loadPlans();
   }
 
@@ -53,7 +56,10 @@ export class PricingComponent implements OnInit {
     };
 
     this.router.navigate(['/payment-management/payment-billing'], {
-      queryParams: { plan: plan.name },
+      queryParams: { 
+        plan: plan.name,
+        ownerId: this.ownerId
+       },
       state: { plan: planForPayment }
     });
   }

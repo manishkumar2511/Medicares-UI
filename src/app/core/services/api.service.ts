@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { catchError, Observable, throwError, timeout } from "rxjs";
+import { catchError, map, Observable, throwError, timeout } from "rxjs";
 import { Result } from "../models";
 import { environment } from "../../../environments/environment";
 
@@ -71,11 +71,18 @@ export class ApiService {
         headers,
       })
       .pipe(
+        map((response: any) => {
+          // Intercept logical failures that are returned with a 200 OK status
+          if (response && typeof response.succeeded === "boolean" && !response.succeeded) {
+            throw response;
+          }
+          return response as T;
+        }),
         timeout({
           each: this.defaultTimeout,
           with: () => throwError(() => new Error("Request timed out")),
         }),
-        catchError(this.handleError)
+        catchError(this.handleError.bind(this))
       );
   }
 
@@ -84,23 +91,33 @@ export class ApiService {
     return `${this.baseUrl}${normalizedPath}`;
   }
 
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    if (error.error?.result) {
+  private handleError(error: HttpErrorResponse | any): Observable<never> {
+    if (error?.error?.result) {
       const apiResult = error.error.result as Result<unknown>;
       if (typeof apiResult.succeeded === "boolean") {
         return throwError(() => apiResult);
       }
     }
 
-    if (error.error && typeof error.error.succeeded === "boolean") {
+    if (error?.error && typeof error.error.succeeded === "boolean") {
       const apiResult = error.error as Result<unknown>;
       return throwError(() => apiResult);
+    }
+
+    // Special case for non-wrapped responses (like LoginResponse in error state)
+    if (error?.error && (error.status === 403 || error.status === 401)) {
+        return throwError(() => error.error);
+    }
+
+    // Special case for directly thrown response payload
+    if (error && typeof error.succeeded === "boolean" && !error.succeeded) {
+      return throwError(() => error as Result<unknown>);
     }
 
     const fallback: Result<unknown> = {
       data: null,
       succeeded: false,
-      messages: [error.message || "Unexpected error occurred"],
+      messages: [error?.message || "Unexpected error occurred"],
     };
 
     return throwError(() => fallback);
