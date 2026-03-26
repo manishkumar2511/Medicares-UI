@@ -18,4 +18,28 @@ export const MESSAGES = {
     CODE_RESEND_FAILED: "Failed to resend code. Please try again.",
     ENTER_CODE: "Please enter the 6-digit code.",
   },
+  PAYMENT: {
+    PLAN_NOT_FOUND: "Plan not found. Please try again or go back to pricing.",
+    INITIATING: "Initiating secure payment...",
+    INIT_FAILED: "Failed to initialize payment. Please try again.",
+    GENERIC_ERROR: "Unable to connect to the payment gateway.",
+    VERIFYING: "Verifying your payment...",
+    SUCCESS: "Payment Successful! Your subscription is active.",
+    VERIFY_FAILED: "Payment verification failed. Please contact support.",
+    VERIFY_ERROR: "An error occurred during verification. Please contact support.",
+    SDK_ERROR: "Failed to load Razorpay SDK. Please check your internet connection and try again.",
+    TRANSACTION_FAILED: "Transaction Failed",
+    SDK_ERROR_TITLE: "SDK Error",
+    VERIFICATION_FAILED: "Verification Failed",
+    VERIFICATION_ERROR: "Verification Error",
+    ERROR: "Error",
+    PROCESSING: "Processing",
+    PAYMENT_FAILED_TITLE: "Payment Failed",
+    PLEASE_WAIT: "Please Wait",
+    SUCCESS_TITLE: "Success",
+    VERIFICATION_SUCCESS_TITLE: "Payment Verified",
+    VERIFICATION_SUCCESS_MSG: "Payment Successful! Your subscription is active and you are now logged in.",
+    VERIFICATION_FAILED_TITLE: "Verification Failed",
+    VERIFICATION_FAILED_MSG: "Payment verification failed. Please contact support."
+  }
 };

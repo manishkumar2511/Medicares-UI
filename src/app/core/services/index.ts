@@ -5,3 +5,4 @@ export * from "./notification/toast.service";
 export * from "./common/common.service";
 export * from "./subscription-plan/subscription-plan.service";
 export * from "./super-admin/super-admin.service";
+export * from "./payment/payment.service";

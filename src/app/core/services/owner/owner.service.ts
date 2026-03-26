@@ -13,16 +13,15 @@ export class OwnerService {
 
 
   ownerRegistration(ownerRegisterationData: FormData) {
-    debugger;
-  return this.apiService
-    .post<boolean>('auth/get-started', ownerRegisterationData, { showLoader: true })
-    .pipe(
-      catchError((error: Result<unknown>) => {
-        error.messages.forEach(msg =>
-          this.toastService.error('Error', msg)
-        );
-        return throwError(() => error);
-      })
-    );
-}
+    return this.apiService
+      .post<Result<string>>('auth/get-started', ownerRegisterationData, { showLoader: true })
+      .pipe(
+        catchError((error: Result<unknown>) => {
+          error.messages?.forEach(msg =>
+            this.toastService.error('Error', msg)
+          );
+          return throwError(() => error);
+        })
+      );
+  }
 }

@@ -129,6 +129,11 @@ export class AuthService {
     );
   }
 
+  autoLogin(response: LoginResponse): void {
+    this.handleSuccessfulAuth(response);
+    this.router.navigate(['/owner-dashboard']);
+  }
+
   refreshTokens(): Observable<string> {
     if (this.refreshTokenInProgress) {
       return this.tokenRefreshSubject.pipe(
@@ -199,6 +204,8 @@ export class AuthService {
   // ------------------------------------------------------------------
 
   private handleSuccessfulAuth(response: LoginResponse): void {
+
+    debugger;
     if (response.requiresMfa) return;
 
     // Handle string or object token formats based on the Api implementation
@@ -217,10 +224,12 @@ export class AuthService {
     const mappedUser: User = {
       id: user.id,
       tenantId: user.tenantId,
+      ownerId: user.ownerId,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
       role: user.role,
+      roleId: user.roleId,
       phoneNumber: user.phoneNumber ?? '',
       profileImageUrl: user.profileImageUrl ?? '',
     };

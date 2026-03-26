@@ -2,8 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PrimematerialModule } from '../../../core/primematerial.module';
-import { SubscriptionPlanService } from '../../../core/services';
-import { SubscriptionPlan } from '../../../core/models';
+import { SubscriptionPlanService, PaymentService, ToastService, AuthService } from '../../../core/services';
+import { SubscriptionPlan, LoginResponse } from '../../../core/models';
+import { MESSAGES } from '../../../core/constants';
+
+declare var Razorpay: any;
 
 @Component({
   selector: 'app-payment-billing',
@@ -16,8 +19,12 @@ export class PaymentBillingComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private subscriptionPlanService = inject(SubscriptionPlanService);
+  private paymentService = inject(PaymentService);
+  private toastService = inject(ToastService);
+  private authService = inject(AuthService);
 
   plan: any;
+  ownerId: string | null = null;
   subtotal: number = 0;
   tax: number = 0;
   total: number = 0;
@@ -54,42 +61,33 @@ export class PaymentBillingComponent implements OnInit {
       this.plan = nav.extras.state['plan'];
       this.calculateBilling();
     } else {
-      const planName = this.route.snapshot.queryParamMap.get('plan') || 'Basic';
+      this.ownerId = this.route.snapshot.queryParamMap.get('ownerId');
+      const planNameFromUrl = this.route.snapshot.queryParamMap.get('plan');
 
       this.subscriptionPlanService.getSubscriptionPlans().subscribe({
         next: (res) => {
-          if (res.succeeded && res.data) {
-            const foundPlan = res.data.find(p => p.name.toLowerCase() === planName.toLowerCase());
-            if (foundPlan) {
-              this.plan = {
-                ...foundPlan,
-                price: foundPlan.price
-              };
+          if (res.succeeded && res.data && res.data.length > 0) {
+            const planInDb = res.data.find(p => p.name.toLowerCase() === (planNameFromUrl || 'Basic').toLowerCase());
+
+            if (planInDb) {
+              this.plan = planInDb;
+            } else {
+              // If requested plan name from URL is not in DB, fallback to Basic or first one
+              this.plan = res.data.find(p => p.name.toLowerCase() === 'basic') || res.data[0];
             }
+            this.calculateBilling();
+          } else {
+            this.handlePlanNotFound();
           }
-
-          if (!this.plan) {
-            const planMap: any = {
-              'Basic': { name: 'Basic', price: 999, description: 'Best for individual proprietors & small pharmacies' },
-              'Bronze': { name: 'Bronze', price: 1499, description: 'Ideal for growing pharmacy businesses' },
-              'Silver': { name: 'Silver', price: 2999, description: 'Advanced features for multiple stores' },
-              'Gold': { name: 'Gold', price: 4999, description: 'Comprehensive enterprise-grade solution' }
-            };
-            this.plan = planMap[planName] || planMap['Basic'];
-          }
-
-          this.calculateBilling();
         },
-        error: () => {
-          // Fallback if API fails
-          const planMap: any = {
-            'Basic': { name: 'Basic', price: 999, description: 'Best for individual proprietors & small pharmacies' }
-          };
-          this.plan = planMap['Basic'];
-          this.calculateBilling();
-        }
+        error: () => this.handlePlanNotFound()
       });
     }
+  }
+
+  private handlePlanNotFound() {
+    this.toastService.error(MESSAGES.PAYMENT.ERROR, MESSAGES.PAYMENT.PLAN_NOT_FOUND);
+    this.router.navigate(['/pricing']);
   }
 
   calculateBilling() {
@@ -112,8 +110,85 @@ export class PaymentBillingComponent implements OnInit {
   }
 
   payNow() {
-    console.log('Processing payment for:', this.plan.name, 'Total:', this.total, 'Method:', this.selectedMethodId);
-    
+    if (!this.plan || !this.plan.id) {
+      this.toastService.error(MESSAGES.PAYMENT.ERROR, MESSAGES.PAYMENT.PLAN_NOT_FOUND);
+      return;
+    }
+
+    this.toastService.info(MESSAGES.PAYMENT.PROCESSING, MESSAGES.PAYMENT.INITIATING);
+
+    this.paymentService.createOrder(this.plan.id, this.ownerId || undefined).subscribe({
+      next: (response) => {
+        if (response.succeeded && response.data) {
+          const { orderId, amount, currency, keyId } = response.data;
+          this.openRazorpayModal(orderId, amount, currency, keyId);
+        } else {
+          this.toastService.error(MESSAGES.PAYMENT.ERROR, MESSAGES.PAYMENT.INIT_FAILED);
+        }
+      },
+      error: (err) => {
+        const errorMsg = err.messages?.[0] || MESSAGES.PAYMENT.GENERIC_ERROR;
+        this.toastService.error(MESSAGES.PAYMENT.PAYMENT_FAILED_TITLE, errorMsg);
+      }
+    });
+  }
+
+  private openRazorpayModal(orderId: string, amount: number, currency: string, keyId: string) {
+    const options = {
+      key: keyId,
+      amount: Math.round(amount * 100), // amount in paise
+      currency: currency,
+      name: 'Medicares',
+      description: `Subscription for ${this.plan.name} Plan`,
+      image: 'assets/images/medicares-badge.svg', // Ensure logo is mapped correctly
+      order_id: orderId,
+      handler: (response: any) => {
+        this.verifyPayment(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
+      },
+      prefill: {
+        name: '', // Can be extracted from user info if available
+        email: '',
+        contact: ''
+      },
+      theme: {
+        color: '#0e7490' // Matching Medicares theme primary color
+      }
+    };
+
+    try {
+      const rzp = new Razorpay(options);
+      rzp.on('payment.failed', (response: any) => {
+        this.toastService.error(MESSAGES.PAYMENT.TRANSACTION_FAILED, response.error.description || 'Payment Failed');
+      });
+      rzp.open();
+    } catch (err) {
+      this.toastService.error(MESSAGES.PAYMENT.SDK_ERROR_TITLE, MESSAGES.PAYMENT.SDK_ERROR);
+    }
+  }
+
+  private verifyPayment(paymentId: string, orderId: string, signature: string) {
+    this.toastService.info(MESSAGES.PAYMENT.PLEASE_WAIT, MESSAGES.PAYMENT.VERIFYING);
+
+    const verifyRequest = {
+      razorpayPaymentId: paymentId,
+      razorpayOrderId: orderId,
+      razorpaySignature: signature
+    };
+
+    this.paymentService.verifyPayment(verifyRequest).subscribe({
+      next: (res) => {
+        if (res && res.user) {
+          this.toastService.success(MESSAGES.PAYMENT.SUCCESS_TITLE, MESSAGES.PAYMENT.SUCCESS);
+          this.authService.autoLogin(res);
+        } else {
+          this.toastService.error(MESSAGES.PAYMENT.VERIFICATION_FAILED, MESSAGES.PAYMENT.VERIFY_FAILED);
+        }
+      },
+      error: (err) => {
+        const errorMsg = err.messages?.[0] || MESSAGES.PAYMENT.VERIFY_ERROR;
+        this.toastService.error(MESSAGES.PAYMENT.VERIFICATION_ERROR, errorMsg);
+      }
+    });
   }
 
   togglePromo() {
