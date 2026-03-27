@@ -28,7 +28,7 @@ export class PaymentBillingComponent implements OnInit {
   subtotal: number = 0;
   tax: number = 0;
   total: number = 0;
-  error: string= '';
+  error: string = '';
 
   ngOnInit() {
     this.extractPlanData();
@@ -76,7 +76,7 @@ export class PaymentBillingComponent implements OnInit {
     }
 
     this.subtotal = Number(priceVal) || 0;
-    this.tax = this.subtotal * 0.18; 
+    this.tax = this.subtotal * 0.18;
     this.total = this.subtotal + this.tax;
   }
 
@@ -100,36 +100,41 @@ export class PaymentBillingComponent implements OnInit {
       error: (err) => {
         const errorMsg = err.messages?.[0] || MESSAGES.PAYMENT.GENERIC_ERROR;
         this.error = errorMsg;
-         if (errorMsg === MESSAGES.PAYMENT.SESSION_NOT_FOUND) {
-            const ownerId = err?.ownerId || err?.error?.ownerId;
-            setTimeout(() => {
-              this.router.navigate(['/account/owner-registration'], { queryParams: { ownerId } });
-            }, 3000);
-          }
+        if (errorMsg === MESSAGES.PAYMENT.SESSION_NOT_FOUND) {
+          const ownerId = err?.ownerId || err?.error?.ownerId;
+          setTimeout(() => {
+            this.router.navigate(['/account/owner-registration'], { queryParams: { ownerId } });
+          }, 3000);
+        }
         // this.toastService.error(MESSAGES.PAYMENT.PAYMENT_FAILED_TITLE, errorMsg);
       }
     });
   }
 
   private openRazorpayModal(orderId: string, amount: number, currency: string, keyId: string) {
+    const planName = this.plan?.name || 'Subscription';
     const options = {
       key: keyId,
-      amount: Math.round(amount * 100), // amount in paise
+      amount: Math.round(amount * 100),
       currency: currency,
-      name: 'Medicares',
-      description: `Subscription for ${this.plan.name} Plan`,
-      image: 'assets/images/medicares-badge.svg', // Ensure logo is mapped correctly
+      name: 'Medicares Solutions',
+      description: `Plan: ${planName} | Total: ${currency} ${amount.toFixed(2)}`,
+      image: 'assets/images/favIcon.png',
       order_id: orderId,
       handler: (response: any) => {
         this.verifyPayment(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
       },
       prefill: {
-        name: '', // Can be extracted from user info if available
+        name: '',
         email: '',
         contact: ''
       },
+      notes: {
+        plan_name: planName,
+        payment_origin: 'Medicares Web Checkout'
+      },
       theme: {
-        color: '#0e7490' // Matching Medicares theme primary color
+        color: '#0e7490'
       }
     };
 
