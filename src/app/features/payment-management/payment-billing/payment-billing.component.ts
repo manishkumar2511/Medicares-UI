@@ -28,6 +28,7 @@ export class PaymentBillingComponent implements OnInit {
   subtotal: number = 0;
   tax: number = 0;
   total: number = 0;
+  error: string= '';
 
   ngOnInit() {
     this.extractPlanData();
@@ -98,7 +99,14 @@ export class PaymentBillingComponent implements OnInit {
       },
       error: (err) => {
         const errorMsg = err.messages?.[0] || MESSAGES.PAYMENT.GENERIC_ERROR;
-        this.toastService.error(MESSAGES.PAYMENT.PAYMENT_FAILED_TITLE, errorMsg);
+        this.error = errorMsg;
+         if (errorMsg === MESSAGES.PAYMENT.SESSION_NOT_FOUND) {
+            const ownerId = err?.ownerId || err?.error?.ownerId;
+            setTimeout(() => {
+              this.router.navigate(['/account/owner-registration'], { queryParams: { ownerId } });
+            }, 3000);
+          }
+        // this.toastService.error(MESSAGES.PAYMENT.PAYMENT_FAILED_TITLE, errorMsg);
       }
     });
   }

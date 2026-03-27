@@ -9,7 +9,18 @@ export const MESSAGES = {
     UPDATE_FAILED: "Failed to update subscription plan.",
   },
   AUTH: {
-    REGISTRATION_SUCCESS: "Owner registration completed successfully.",
+    LOGIN_SUCCESS: "Login successful",
+    AUTHENTICATION_SUCCESS: "Authentication successful",
+    REGISTRATION_SUCCESS: "Registration successful",
+    REGISTRATION_FAILED: "Registration failed",
+    REGISTRATION_LOGIN_FAILED: "Registration successful but login failed: ",
+    FAILED_TO_SEND_MFA: "Failed to send MFA code",
+    MFA_CODE_SENT: "MFA code sent",
+    LOGOUT_FAILED: "Logout failed",
+    LOGOUT_SUCCESS: "Logout successful",
+    OWNER_EMAIL_ALREADY_EXISTS: "Owner associated with this email already exists",
+    SUBSCRIPTION_REQUIRED: "You do not have an active subscription plan. Please select a plan to continue accessing the platform.",
+    USER_NOT_FOUND: "Invalid email or password. Please check your credentials and try again.",
     LOGIN_FAILED: "Login failed.",
     INVALID_CREDENTIALS: "Invalid credentials.",
     CODE_VERIFIED: "Code verified successfully. Redirecting...",
@@ -17,8 +28,6 @@ export const MESSAGES = {
     CODE_RESENT: "Verification code resent successfully.",
     CODE_RESEND_FAILED: "Failed to resend code. Please try again.",
     ENTER_CODE: "Please enter the 6-digit code.",
-    SUBSCRIPTION_REQUIRED: "You do not have an active subscription plan. Please select a plan to continue accessing the platform.",
-    USER_NOT_FOUND: "User Not Exist",
   },
   PAYMENT: {
     PLAN_NOT_FOUND: "Plan not found. Please try again or go back to pricing.",
@@ -42,6 +51,7 @@ export const MESSAGES = {
     VERIFICATION_SUCCESS_TITLE: "Payment Verified",
     VERIFICATION_SUCCESS_MSG: "Payment Successful! Your subscription is active and you are now logged in.",
     VERIFICATION_FAILED_TITLE: "Verification Failed",
-    VERIFICATION_FAILED_MSG: "Payment verification failed. Please contact support."
+    VERIFICATION_FAILED_MSG: "Payment verification failed. Please contact support.",
+    SESSION_NOT_FOUND: "We couldn’t find your session or owner details. Please register to proceed."
   }
 };

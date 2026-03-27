@@ -30,6 +30,7 @@ export class OwnerRegistrationComponent implements OnInit {
   states: State[] = [];
   ownerRegistrationForm!: FormGroup;
   selectedProfileImage: File | null = null;
+  error = '';
   readonly FormHelpers = FormHelpers;
 
   ngOnInit(): void {
@@ -69,6 +70,7 @@ export class OwnerRegistrationComponent implements OnInit {
   }
 
   submitOwnerRegistration(): void {
+    this.error = '';
     if (this.ownerRegistrationForm.invalid) {
       this.ownerRegistrationForm.markAllAsTouched();
       return;
@@ -86,8 +88,9 @@ export class OwnerRegistrationComponent implements OnInit {
         this.selectedProfileImage = null;
         this.router.navigate(['/payment-management/payment-billing'], { queryParams: { plan: 'Basic', ownerId: res.data } });
       },
-      error: () => {
-        this.toastService.error();
+      error: (err) => {
+        this.error = Array.isArray(err.messages) ? err.messages[0] : (err.message || 'Registration failed');
+        // this.toastService.error();
       }
     });
 

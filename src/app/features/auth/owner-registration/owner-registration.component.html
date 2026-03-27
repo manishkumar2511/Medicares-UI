@@ -145,5 +145,13 @@
       class="register-btn">
     </button>
 
+    <div class="mt-3 text-center">
+      @if (error) {
+        <small class="form-error-text block">
+          {{ error }}
+        </small>
+      }
+    </div>
+
   </form>
 </div>
