@@ -29,15 +29,17 @@
 
       .topbar-container {
         max-width: 100%;
-        padding: 0 1rem;
+        padding: 1rem 1rem 0 1rem; // Pushed everything down from top
         min-height: 0;
       }
 
       .topbar-right {
         position: absolute;
-        right: 1rem;
-        top: 15px;
+        right: 0.75rem;
+        top: 1.15rem; // Matched with new container padding for row alignment
         z-index: 1300;
+        display: flex;
+        align-items: center;
       }
     }
   }
@@ -120,13 +122,62 @@
     }
   }
 
-  .theme-toggle {
+  .theme-toggle,
+  .notification-wrapper {
     font-size: 1.5rem;
     cursor: pointer;
     color: #fff;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
 
     &.auth-mode-icon {
-      color: var(--text-primary);
+      :host-context([data-theme='light']) & {
+        color: var(--text-primary);
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.05);
+        }
+      }
+
+      :host-context([data-theme='dark']) & {
+        color: #fff;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+
+  .notification-wrapper {
+    position: relative;
+    color: var(--text-primary); // Default for auth mode
+
+    .notification-badge {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: #ef4444;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--background-primary);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
 

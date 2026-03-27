@@ -72,6 +72,12 @@
         <a (click)="navigateToOwnerRegistration()" class="nav-link cta">Get Started</a>
       </nav>
 
+      <!-- NOTIFICATION BELL (visible only when authenticated) -->
+      <div class="notification-wrapper" [class.hidden]="!isAuthenticated()" (click)="onOpenNotifications()">
+        <i class="pi pi-bell notification-icon"></i>
+        <span class="notification-badge">5</span>
+      </div>
+
       <!-- THEME TOGGLE (DESKTOP) -->
       <i class="pi theme-toggle desktop-only" [ngClass]="isDarkMode() ? 'pi-sun' : 'pi-moon'"
         [class.auth-mode-icon]="isAuthenticated()" (click)="toggleTheme()">

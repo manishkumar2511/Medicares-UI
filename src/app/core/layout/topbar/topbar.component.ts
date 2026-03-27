@@ -105,4 +105,9 @@ export class TopbarComponent {
     closeMobileMenu() {
         this.mobileMenuOpen = false;
     }
+
+    onOpenNotifications() {
+        console.log('Opening notifications...');
+        // logic for overlay or routing
+    }
 }
