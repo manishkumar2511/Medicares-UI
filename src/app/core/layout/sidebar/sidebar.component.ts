@@ -75,7 +75,9 @@ export class SidebarComponent implements OnInit {
     }
 
     toggleMenu(item: NavMenuItem) {
-        if (!this.isOpen) return;
+        if (!this.isOpen) {
+            this.onToggle(); // Open sidebar first
+        }
         const title = item.title;
         if (this.openMenus.has(title)) {
             this.openMenus.delete(title);

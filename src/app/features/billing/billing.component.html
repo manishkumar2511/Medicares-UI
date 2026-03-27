@@ -1,0 +1,140 @@
+<div class="billing-container">
+  <p-toast></p-toast>
+
+  <!-- Header -->
+  <div class="billing-header">
+    <div class="header-left">
+      <h1>{{ messages.TITLE }} Dashboard</h1>
+      <p>Generate bills and track checkout activity</p>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="billing-grid">
+
+    <!-- LEFT: ENTRY FORM -->
+    <div class="card">
+      <h2 class="card-title">Quick Entry</h2>
+
+      <div class="form-grid">
+
+        <div class="form-group full">
+          <label>{{ messages.MEDICINE_NAME }}</label>
+          <input pInputText [(ngModel)]="newMedicine().name" placeholder="Enter medicine name" />
+        </div>
+
+        <div class="form-group full">
+          <label>{{ messages.BATCH_NO }}</label>
+          <input pInputText [(ngModel)]="newMedicine().batchNo" placeholder="Batch number" />
+        </div>
+
+        <div class="form-group">
+          <label>{{ messages.PRICE }}</label>
+          <p-inputNumber [(ngModel)]="newMedicine().price" mode="currency" currency="INR"></p-inputNumber>
+        </div>
+
+        <div class="form-group">
+          <label>{{ messages.QUANTITY }}</label>
+          <p-inputNumber [(ngModel)]="newMedicine().qty" [showButtons]="true"></p-inputNumber>
+        </div>
+
+        <div class="form-group">
+          <label>{{ messages.DISCOUNT }}</label>
+          <p-inputNumber [(ngModel)]="newMedicine().discount" suffix="%"></p-inputNumber>
+        </div>
+
+        <div class="form-group">
+          <label>GST</label>
+          <p-inputNumber [(ngModel)]="newMedicine().tax" suffix="%"></p-inputNumber>
+        </div>
+
+        <div class="form-group full">
+          <p-button label="Add Item" icon="pi pi-plus"
+            (onClick)="addManualItem()" styleClass="w-full add-btn" severity="info">
+          </p-button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: SUMMARY -->
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Order Summary</h2>
+        <!-- <p-button icon="pi pi-trash" severity="danger" [text]="true"
+          (onClick)="clearCart()">
+        </p-button> -->
+      </div>
+
+      <!-- Table -->
+      <div class="table-container">
+        @if (cart().length === 0) {
+          <div class="empty-state">
+            <i class="pi pi-shopping-cart"></i>
+            <p>No items added yet</p>
+          </div>
+        } @else {
+          <p-table [value]="cart()" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Amount</th>
+                <th></th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+              <tr>
+                <td>
+                  <div class="item-name">{{ item.name }}</div>
+                  <small>{{ item.batchNo }}</small>
+                </td>
+                <td>{{ item.qty }}</td>
+                <td>{{ item.itemTotalPrice | currency:'INR' }}</td>
+                <td>
+                  <p-button icon="pi pi-times" severity="danger" [text]="true"
+                    (onClick)="removeFromCart(i)">
+                  </p-button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        }
+      </div>
+
+      <!-- Totals -->
+      @if (cart().length > 0) {
+        <div class="totals">
+
+          <div class="row">
+            <span>Subtotal</span>
+            <span>{{ subTotal() | currency:'INR' }}</span>
+          </div>
+
+          <div class="row discount">
+            <span>Discount</span>
+            <span>-{{ totalDiscount() | currency:'INR' }}</span>
+          </div>
+
+          <div class="row">
+            <span>Tax</span>
+            <span>+{{ totalTax() | currency:'INR' }}</span>
+          </div>
+
+          <div class="row grand-total">
+            <span>Total</span>
+            <span>{{ grandTotal() | currency:'INR' }}</span>
+          </div>
+
+          <p-button label="Print Bill" icon="pi pi-print"
+            (onClick)="handlePrintSave()"
+            styleClass="w-full print-btn" severity="info">
+          </p-button>
+
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

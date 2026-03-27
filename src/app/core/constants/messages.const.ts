@@ -53,5 +53,66 @@ export const MESSAGES = {
     VERIFICATION_FAILED_TITLE: "Verification Failed",
     VERIFICATION_FAILED_MSG: "Payment verification failed. Please contact support.",
     SESSION_NOT_FOUND: "We couldn’t find your session or owner details. Please register to proceed."
+  },
+  DASHBOARD: {
+    TITLE: "Owner Dashboard",
+    STATS: {
+        TODAY_SALES: "Today's Sales",
+        TOTAL_ORDERS: "Total Orders",
+        CUSTOMERS: "Customers",
+        LOW_STOCK: "Low Stock Alerts",
+    }
+  },
+  BILLING_MANAGEMENT: {
+    TITLE: "Billing Management",
+    SEARCH_PLACEHOLDER: "Search Medicines or Scan Barcode...",
+    MEDICINE_NAME: "Medicine Name",
+    BATCH_NO: "Batch No",
+    QUANTITY: "Quantity",
+    PRICE: "Price",
+    TOTAL: "Total",
+    DISCOUNT: "Discount (%)",
+    TAX: "GST (%)",
+    ADD_ITEM: "Add Item",
+    GRAND_TOTAL: "Grand Total",
+    PRINT_BILL: "Print & Save Bill",
+    HOLD_BILL: "Hold Bill",
+    CLEAR_BILL: "Clear Bill",
+    EMPTY_CART: "Your cart is empty. Please add medicines.",
+    NO_MEDICINES_FOUND: "No medicines found.",
+  },
+  INVENTORY: {
+    TITLE: "Inventory Management",
+    ADD_MEDICINE: "Add New",
+    SEARCH_PLACEHOLDER: "Search inventory",
+    MEDICINE_NAME: "Medicine Name",
+    BATCH_NO: "Batch No",
+    EXPIRY_DATE: "Expiry Date",
+    STOCK_QTY: "Stock Qty",
+    PRICE: "Price",
+    CATEGORY: "Category",
+    ACTIONS: "Actions",
+  },
+  PURCHASES: {
+    TITLE: "Purchases (Inwards)",
+    ADD_ORDER: "New Purchase Order",
+    SEARCH_PLACEHOLDER: "Search orders or supplier",
+    ORDER_ID: "Order ID",
+    SUPPLIER: "Supplier",
+    DATE: "Date",
+    AMOUNT: "Amount",
+    STATUS: "Status",
+    ACTIONS: "Actions",
+    NO_DATA: "No purchase orders found."
+  },
+  COMMON: {
+    SAVE: "Save",
+    CANCEL: "Cancel",
+    DELETE: "Delete",
+    EDIT: "Edit",
+    VIEW: "View",
+    ACTIONS: "Actions",
+    SUCCESS: "Success",
+    ERROR: "Error"
   }
 };

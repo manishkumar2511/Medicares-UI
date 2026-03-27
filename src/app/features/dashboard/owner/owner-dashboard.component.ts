@@ -3,6 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { PrimematerialModule } from '../../../core/primematerial.module';
 import { LayoutComponent } from '../../../core/layout/layout.component';
 import { ThemeService } from '../../../core/services/theme.service';
+import { MESSAGES } from '../../../core/constants/messages.const';
 
 @Component({
     selector: 'app-owner-dashboard',
@@ -15,6 +16,7 @@ export class OwnerDashboardComponent implements OnInit {
     private platformId = inject(PLATFORM_ID);
     private layout = inject(LayoutComponent); // Inject parent layout
     private themeService = inject(ThemeService);
+    public dashboardMessages = MESSAGES.DASHBOARD;
 
     public chartData: any;
     public chartOptions: any;
@@ -30,10 +32,10 @@ export class OwnerDashboardComponent implements OnInit {
     }
 
     public statsCards = [
-        { title: 'Total Pharmacies', value: '12', icon: 'pi pi-home', color: '#19B6E6', trend: '+2', trendIcon: 'pi pi-arrow-up' },
-        { title: 'Active Pharmacists', value: '45', icon: 'pi pi-users', color: '#4CAF50', trend: '+5', trendIcon: 'pi pi-arrow-up' },
-        { title: 'Today\'s Sales', value: '$3,850', icon: 'pi pi-shopping-cart', color: '#FF9800', trend: '+12%', trendIcon: 'pi pi-arrow-up' },
-        { title: 'Low Stock Alerts', value: '8', icon: 'pi pi-exclamation-triangle', color: '#F44336', trend: 'Critical', trendIcon: 'pi pi-info-circle' }
+        { title: MESSAGES.DASHBOARD.STATS.TODAY_SALES, value: '₹3,850', icon: 'pi pi-shopping-cart', color: '#FF9800', trend: '+12%', trendIcon: 'pi pi-arrow-up' },
+        { title: MESSAGES.DASHBOARD.STATS.TOTAL_ORDERS, value: '1,240', icon: 'pi pi-receipt', color: '#19B6E6', trend: '+5%', trendIcon: 'pi pi-arrow-up' },
+        { title: MESSAGES.DASHBOARD.STATS.CUSTOMERS, value: '450', icon: 'pi pi-users', color: '#4CAF50', trend: '+8%', trendIcon: 'pi pi-arrow-up' },
+        { title: MESSAGES.DASHBOARD.STATS.LOW_STOCK, value: '8', icon: 'pi pi-exclamation-triangle', color: '#F44336', trend: 'Critical', trendIcon: 'pi pi-info-circle' }
     ];
 
     public pharmacySchedules = [

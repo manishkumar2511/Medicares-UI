@@ -43,38 +43,39 @@ export const SuperAdminSidebarMenuItems: NavMenuItem[] = [
 export const AdminSidebarMenuItems: NavMenuItem[] = [
   {
     title: "Dashboard",
-    href: "/dashboard",
+    href: "/owner-dashboard",
     icon: "pi pi-th-large",
     position: "top",
   },
   {
-    title: "Operations",
+    title: "Billing",
+    href: "/billing-management",
+    icon: "pi pi-calculator",
+    position: "top",
+  },
+  {
+    title: "Inventory",
+    href: "/inventory-management",
+    icon: "pi pi-box",
+    position: "top",
+  },
+  {
+    title: "Transactions",
     href: "#",
     icon: "pi pi-shopping-bag",
     position: "top",
     subItems: [
       {
-        title: "Inventory",
-        href: "/inventory",
-        icon: "pi pi-box",
+        title: "Purchases",
+        href: "/purchases",
+        icon: "pi pi-cart-arrow-down",
       },
       {
-        title: "Sales & Billing",
-        href: "/sales",
-        icon: "pi pi-receipt",
-      },
-      {
-        title: "Suppliers",
-        href: "/suppliers",
-        icon: "pi pi-truck",
-      },
-    ],
-  },
-  {
-    title: "User Management",
-    href: "/users",
-    icon: "pi pi-users",
-    position: "top",
+        title: "Sales",
+        href: "/sales-history",
+        icon: "pi pi-history",
+      }
+    ]
   },
   {
     title: "Reports",
@@ -112,7 +113,7 @@ export const StoreManagerSidebarMenuItems: NavMenuItem[] = [
   },
   {
     title: "Inventory Management",
-    href: "/inventory",
+    href: "/inventory-management",
     icon: "pi pi-box",
     position: "top",
   },
@@ -157,14 +158,14 @@ export const StoreStaffSidebarMenuItems: NavMenuItem[] = [
     position: "top",
   },
   {
-    title: "Billing & Pos",
+    title: "Billing management",
     href: "/sales",
     icon: "pi pi-calculator",
     position: "top",
   },
   {
     title: "Search Medicines",
-    href: "/inventory",
+    href: "/inventory-management",
     icon: "pi pi-search",
     position: "top",
   },

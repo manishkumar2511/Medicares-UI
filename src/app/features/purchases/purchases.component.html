@@ -1,0 +1,58 @@
+<div class="purchases-container">
+  <div class="header-section flex flex-column md:flex-row md:align-items-center justify-content-between gap-3 mb-5">
+    <div class="page-title-area">
+      <h2 class="m-0 text-3xl font-black text-primary">{{ messages.TITLE }}</h2>
+      <p class="m-0 text-color-secondary mt-1 font-medium italic opacity-70">Track inward stock deliveries and vendor orders.</p>
+    </div>
+    
+    <div class="actions flex align-items-center gap-2 w-full md:w-auto">
+      <div class="search-input-wrapper-mob flex-1 md:flex-none">
+        <input pInputText type="text" (input)="onFilter($event, dt)" [placeholder]="messages.SEARCH_PLACEHOLDER" class="purchases-search p-inputtext-lg w-full" />
+      </div>
+      <p-button icon="pi pi-cart-plus" label="New Order" severity="info" styleClass="px-3 py-2 shadow-2 white-space-nowrap mob-action-btn"></p-button>
+    </div>
+  </div>
+
+  <div class="card p-2 md:p-4 border-round-3xl shadow-4 surface-card transition-all">
+    <p-table #dt [value]="orders()" [paginator]="true" [rows]="10" [loading]="loading()"
+             responsiveLayout="scroll" [scrollable]="true" scrollHeight="500px" 
+             styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm"
+             [globalFilterFields]="['orderId','supplier']" dataKey="id">
+      
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="orderId">{{ messages.ORDER_ID }} <p-sortIcon field="orderId"></p-sortIcon></th>
+          <th pSortableColumn="supplier" style="min-width: 200px">{{ messages.SUPPLIER }} <p-sortIcon field="supplier"></p-sortIcon></th>
+          <th pSortableColumn="date">{{ messages.DATE }} <p-sortIcon field="date"></p-sortIcon></th>
+          <th pSortableColumn="amount">{{ messages.AMOUNT }} <p-sortIcon field="amount"></p-sortIcon></th>
+          <th pSortableColumn="status">{{ messages.STATUS }} <p-sortIcon field="status"></p-sortIcon></th>
+          <th class="text-center">{{ messages.ACTIONS }}</th>
+        </tr>
+      </ng-template>
+      
+      <ng-template pTemplate="body" let-order>
+        <tr>
+          <td class="font-bold">{{ order.orderId }}</td>
+          <td>{{ order.supplier }}</td>
+          <td>{{ order.date | date:'mediumDate' }}</td>
+          <td class="font-bold text-primary">{{ order.amount | currency:'INR':'symbol' }}</td>
+          <td>
+            <p-tag [value]="order.status" [severity]="getSeverity(order.status)"></p-tag>
+          </td>
+          <td class="text-center">
+             <div class="flex justify-content-center gap-1">
+                <p-button icon="pi pi-eye" [text]="true" [rounded]="true" severity="info"></p-button>
+                <p-button icon="pi pi-print" [text]="true" [rounded]="true" severity="secondary"></p-button>
+             </div>
+          </td>
+        </tr>
+      </ng-template>
+      
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6" class="text-center p-4">{{ messages.NO_DATA }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
