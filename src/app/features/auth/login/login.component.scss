@@ -228,10 +228,16 @@
   margin-left: 4px;
   transition: all 0.3s ease;
   border-bottom: 2px solid transparent;
+  display: inline-block;
+  white-space: nowrap;
 
   &:hover {
     color: var(--primary-hover);
     border-bottom: 2px solid var(--primary-hover);
     cursor: pointer;
   }
+}
+
+.new-user-section p {
+  white-space: nowrap;
 }
