@@ -1,4 +1,4 @@
-import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID, signal, computed } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, EMPTY, throwError, timer } from 'rxjs';
@@ -48,6 +48,14 @@ export class AuthService {
     refreshToken: null,
     isLoading: true,
   });
+
+  // Synchronous signal — initialized from localStorage BEFORE first render
+  // This permanently fixes the guest topbar flash on page refresh
+  public readonly isAuthenticatedSignal = signal(
+    typeof localStorage !== 'undefined' &&
+    !!localStorage.getItem(this.ACCESS_TOKEN_KEY) &&
+    !!localStorage.getItem(this.USER_KEY)
+  );
 
   public readonly authState$ = this.authStateSubject.asObservable();
   public readonly isAuthenticated$ = this.authState$.pipe(
@@ -247,6 +255,7 @@ export class AuthService {
       refreshToken: refreshToken ?? null,
       isLoading: false,
     });
+    this.isAuthenticatedSignal.set(true);
   }
 
   private initializeAuthState(): void {
@@ -265,6 +274,8 @@ export class AuthService {
       user &&
       !this.isTokenExpired(accessToken)
     ) {
+      // Set signal SYNCHRONOUSLY before any async pipe can read it
+      this.isAuthenticatedSignal.set(true);
       this.authStateSubject.next({
         isAuthenticated: true,
         user,
@@ -273,6 +284,7 @@ export class AuthService {
         isLoading: false,
       });
     } else {
+      this.isAuthenticatedSignal.set(false);
       this.clearAuthState(false);
     }
   }
@@ -300,6 +312,7 @@ export class AuthService {
 
   private clearAuthState(redirect: boolean = true): void {
     this.clearStoredTokens();
+    this.isAuthenticatedSignal.set(false);
 
     this.authStateSubject.next({
       isAuthenticated: false,
@@ -310,7 +323,7 @@ export class AuthService {
     });
 
     if (redirect) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/account/login']);
     }
   }
 

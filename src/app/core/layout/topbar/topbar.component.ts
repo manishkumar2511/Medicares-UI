@@ -31,7 +31,7 @@ export class TopbarComponent {
     public pageTitle = '';
 
     public user$ = this.authService.user$;
-    public isAuthenticated$ = this.authService.isAuthenticated$;
+    public isAuthenticated = this.authService.isAuthenticatedSignal;
     public isDarkMode = this.themeService.isDarkMode;
 
     constructor() {

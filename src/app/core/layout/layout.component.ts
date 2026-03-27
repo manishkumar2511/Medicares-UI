@@ -15,7 +15,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class LayoutComponent implements OnInit {
     private authService = inject(AuthService);
-    public isAuthenticated$ = this.authService.isAuthenticated$;
+    public isAuthenticated = this.authService.isAuthenticatedSignal;
 
     public isSidebarOpen = signal(true);
 

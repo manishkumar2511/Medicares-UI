@@ -1,13 +1,16 @@
-<div class="layout-wrapper" [class.authenticated]="isAuthenticated$ | async"
+<div class="layout-wrapper" [class.authenticated]="isAuthenticated()"
     [class.sidebar-collapsed]="!isSidebarOpen()">
-    @if (isAuthenticated$ | async) {
-    <app-sidebar [isOpen]="isSidebarOpen()" (toggleSidebar)="toggleSidebar()"
-        [class.active]="isSidebarOpen()"></app-sidebar>
-    }
+
+    <!-- Sidebar hidden via CSS (not @if) to prevent double-logo flash on logout -->
+    <app-sidebar
+        [class.hidden]="!isAuthenticated()"
+        [isOpen]="isSidebarOpen()"
+        (toggleSidebar)="toggleSidebar()"
+        [class.active]="isSidebarOpen()">
+    </app-sidebar>
 
     <div class="main-container">
         <app-topbar [isSidebarOpen]="isSidebarOpen()" (toggleSidebar)="toggleSidebar()"></app-topbar>
-
         <main class="content-area">
             <router-outlet></router-outlet>
         </main>

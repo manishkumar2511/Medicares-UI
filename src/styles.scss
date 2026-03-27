@@ -2,6 +2,11 @@
   --app-bg: #FAFAFA;
 }
 
+/* Critical utility — used to synchronously hide topbar sections on auth state */
+.hidden {
+  display: none !important;
+}
+
 [data-theme="dark"] {
   --app-bg: #23272A;
   background-color: #23272A !important;
