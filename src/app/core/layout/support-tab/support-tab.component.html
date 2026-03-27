@@ -1,7 +1,7 @@
 <div class="support-tab-wrapper">
-    <!-- Vertical Tab Toggle -->
-    <div class="support-tab" [style.top.px]="y" (mousedown)="onMouseDown($event)" (click)="toggleChat($event)"
-        [class.dragging]="isDragging" [class.hidden]="showChat()">
+    <!-- Vertical Tab Toggle (Desktop) / Circle (Mobile) -->
+    <div class="support-tab" [style.top.px]="y" (mousedown)="onMouseDown($event)" (touchstart)="onTouchStart($event)"
+        (click)="toggleChat($event)" [class.dragging]="isDragging" [class.hidden]="showChat()">
         <div class="tab-content">
             <i class="pi pi-comments"></i>
             <span>24/7 CUSTOMER SUPPORT</span>
@@ -25,7 +25,10 @@
                     </div>
                     <div class="brand-info">
                         <span class="name">Medicares Solutions</span>
-                        <span class="status">System Online</span>
+                        <div class="status-container">
+                            <span class="status" *ngIf="!isTyping()">System Online</span>
+                            <span class="typing-status" *ngIf="isTyping()">Medicares assistant is typing...</span>
+                        </div>
                     </div>
                 </div>
                 <div class="right-section">
@@ -40,27 +43,24 @@
             <div class="message-container">
                 <div class="date-label"><span>TODAY</span></div>
 
-                <!-- Assistant Message -->
-                <div class="message incoming">
-                    <div class="bubble">
-                        <p class="text">Hello! I'm your Medicares Solutions assistant. How can I help you today?</p>
+                <!-- DYNAMIC MESSAGES LOOP -->
+                <div *ngFor="let msg of messages(); trackBy: trackByFn" class="message" [ngClass]="msg.sender">
+                    <div class="bubble shadow-1">
+                        <p class="text">{{ msg.text }}</p>
                         <div class="meta">
-                            <span class="time">10:45 AM</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- User Message -->
-                <div class="message outgoing" *ngIf="hasTyped()">
-                    <div class="bubble">
-                        <p class="text">I need help with my billing dashboard settings.</p>
-                        <div class="meta">
-                            <span class="time">10:46 AM</span>
-                            <div class="ticks">
+                            <span class="time">{{ msg.time }}</span>
+                            <div class="ticks" *ngIf="msg.sender === 'user'">
                                 <i class="pi pi-check"></i>
                                 <i class="pi pi-check"></i>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Visual Typing Indicator in Body -->
+                <div class="message assistant" *ngIf="isTyping()">
+                    <div class="bubble typing-bubble shadow-1">
+                        <div class="dot-typing"></div>
                     </div>
                 </div>
             </div>
@@ -69,9 +69,11 @@
         <!-- Chat Footer (Input) -->
         <div class="chat-footer">
             <div class="input-area">
-                <input type="text" pInputText placeholder="Type a message" class="message-input"
-                    (keyup.enter)="hasTyped.set(true)" />
-                <button class="send-btn" (click)="hasTyped.set(true)">
+                <input type="text" pInputText placeholder="Type a message..." class="message-input"
+                    [value]="userInput()" (input)="userInput.set($any($event.target).value)"
+                    (keyup.enter)="onSendMessage()" />
+
+                <button class="send-btn" (click)="onSendMessage()">
                     <i class="pi pi-send"></i>
                 </button>
             </div>
