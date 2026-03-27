@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
-import { AuthService } from '../../../core/services';
+import { AuthService, ToastService } from '../../../core/services';
 import { PrimematerialModule } from '../../../core/primematerial.module';
 import { FormErrorComponent } from '../../../shared';
 import { MESSAGES } from '../../../core/constants';
@@ -21,6 +21,7 @@ export class LoginComponent {
   showPassword = false;
 
   private authService = inject(AuthService);
+  private toastService = inject(ToastService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
 
@@ -83,6 +84,9 @@ export class LoginComponent {
       });
   }
 
+  forgotPassword(): void {
+    this.toastService.info('Oye!', 'Tu Aise kaise bhool gya bhai 🧐 abhii thik krke deta hu 😒');
+  }
 
   get email() {
     return this.loginForm.get('email');
