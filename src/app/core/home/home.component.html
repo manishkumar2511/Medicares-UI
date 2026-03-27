@@ -50,11 +50,11 @@
     </div>
 
     <div class="pricing-grid">
-      <p-card *ngFor="let plan of pricingPlans" [class]="'pricing-card' + (plan.popular ? ' popular' : '')"
+      <p-card *ngFor="let plan of pricingPlans" [class]="'pricing-card' + (plan.badgeText ? ' popular' : '')"
         [style]="{'width': '100%', 'max-width': '350px'}">
         <ng-template pTemplate="header">
           <div class="plan-header">
-            <div *ngIf="plan.popular" class="popular-badge">Most Popular</div>
+            <div *ngIf="plan.badgeText" class="popular-badge">{{ plan.badgeText }}</div>
             <h3 class="plan-name">{{ plan.name }}</h3>
             <div class="plan-price">
               <span class="price">{{ plan.price }}</span>
@@ -74,7 +74,7 @@
         </div>
 
         <ng-template pTemplate="footer">
-          <p-button [label]="plan.popular ? 'Get Started' : 'Choose Plan'" class="navbar-bg-btn plan-button"
+          <p-button [label]="plan.badgeText === 'Most Popular' ? 'Get Started' : 'Choose Plan'" class="navbar-bg-btn plan-button"
             [style]="{'width': '100%'}" (onClick)="selectPlan(plan)">
           </p-button>
         </ng-template>
