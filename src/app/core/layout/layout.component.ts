@@ -6,10 +6,12 @@ import { TopbarComponent } from './topbar/topbar.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { AuthService } from '../services/auth.service';
 
+import { SupportTabComponent } from './support-tab/support-tab.component';
+
 @Component({
     selector: 'app-layout',
     standalone: true,
-    imports: [CommonModule, RouterOutlet, SidebarComponent, TopbarComponent, FooterComponent],
+    imports: [CommonModule, RouterOutlet, SidebarComponent, TopbarComponent, FooterComponent, SupportTabComponent],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss'
 })

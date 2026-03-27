@@ -1,0 +1,84 @@
+<div class="support-tab-wrapper">
+    <!-- Vertical Tab Toggle -->
+    <div class="support-tab" [style.top.px]="y" (mousedown)="onMouseDown($event)" (click)="toggleChat($event)"
+        [class.dragging]="isDragging" [class.hidden]="showChat()">
+        <div class="tab-content">
+            <i class="pi pi-comments"></i>
+            <span>24/7 CUSTOMER SUPPORT</span>
+        </div>
+    </div>
+
+    <!-- WhatsApp Style Chat Window -->
+    <div class="chatbox-window shadow-8" *ngIf="showChat()" [class.mobile-full]="isMobile()">
+
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="header-content">
+                <div class="left-section">
+                    <div class="brand-avatar shadow-2">
+                        <svg width="40" height="40" viewBox="0 0 64 64">
+                            <circle cx="32" cy="32" r="32" fill="#fff" />
+                            <circle cx="32" cy="28" r="24" fill="#19B6E6" />
+                            <rect x="29" y="16" width="6" height="24" rx="2" fill="#fff" />
+                            <rect x="16" y="25" width="24" height="6" rx="2" fill="#fff" />
+                        </svg>
+                    </div>
+                    <div class="brand-info">
+                        <span class="name">Medicares Solutions</span>
+                        <span class="status">System Online</span>
+                    </div>
+                </div>
+                <div class="right-section">
+                    <p-button icon="pi pi-times" [text]="true" [rounded]="true" styleClass="close-btn"
+                        (onClick)="showChat.set(false)"></p-button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Body (Messages) -->
+        <div class="chat-body" #scrollMe>
+            <div class="message-container">
+                <div class="date-label"><span>TODAY</span></div>
+
+                <!-- Assistant Message -->
+                <div class="message incoming">
+                    <div class="bubble">
+                        <p class="text">Hello! I'm your Medicares Solutions assistant. How can I help you today?</p>
+                        <div class="meta">
+                            <span class="time">10:45 AM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Message -->
+                <div class="message outgoing" *ngIf="hasTyped()">
+                    <div class="bubble">
+                        <p class="text">I need help with my billing dashboard settings.</p>
+                        <div class="meta">
+                            <span class="time">10:46 AM</span>
+                            <div class="ticks">
+                                <i class="pi pi-check"></i>
+                                <i class="pi pi-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Footer (Input) -->
+        <div class="chat-footer">
+            <div class="input-area">
+                <input type="text" pInputText placeholder="Type a message" class="message-input"
+                    (keyup.enter)="hasTyped.set(true)" />
+                <button class="send-btn" (click)="hasTyped.set(true)">
+                    <i class="pi pi-send"></i>
+                </button>
+            </div>
+            <div class="footer-legal">
+                <p>Powered by Medicares Solutions</p>
+            </div>
+        </div>
+
+    </div>
+</div>
