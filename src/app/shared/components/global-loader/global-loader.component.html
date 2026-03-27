@@ -1,0 +1,17 @@
+<div class="loader-overlay" *ngIf="loaderService.isLoading$ | async">
+  <div class="loader-container">
+    <div class="spinner-ring"></div>
+    
+    <svg class="blinking-logo" width="45" height="45" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gLoader" x1="0" x2="1">
+          <stop offset="0" stop-color="#A8EEFF" />
+          <stop offset="1" stop-color="#19B6E6" />
+        </linearGradient>
+      </defs>
+      <circle cx="32" cy="32" r="24" fill="url(#gLoader)" />
+      <rect x="29" y="20" width="6" height="24" rx="2" fill="#ffffff" />
+      <rect x="16" y="29" width="24" height="6" rx="2" fill="#ffffff" />
+    </svg>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import Aura from '@primeng/themes/aura';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { loaderInterceptor } from './core/interceptors/loader.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
@@ -19,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(
       withFetch(),
-      withInterceptors([authInterceptor])
+      withInterceptors([authInterceptor, loaderInterceptor])
     ),
     providePrimeNG({
       theme: {
