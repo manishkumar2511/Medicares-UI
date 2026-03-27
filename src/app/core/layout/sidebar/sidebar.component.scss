@@ -158,6 +158,13 @@
             transition: all 0.2s ease;
             gap: 1rem;
 
+            @media (max-width: 991px) {
+              justify-content: center !important;
+              padding: 0.85rem 0 !important;
+              margin: 4px 8px !important;
+              gap: 0;
+            }
+
             i {
                 font-size: 1.25rem;
                 min-width: 24px;
@@ -208,9 +215,15 @@
                 display: flex;
                 align-items: center;
                 gap: 0.75rem;
+
+                @media (max-width: 991px) {
+                  padding-left: 12px !important; // Small offset to look like child
+                  justify-content: center !important;
+                }
                 
                 i {
                     font-size: 1rem !important;
+                    opacity: 0.9;
                 }
             }
         }
