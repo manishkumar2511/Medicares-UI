@@ -34,6 +34,10 @@ export const routes: Routes = [
         title: 'Sales History',
         loadComponent: () => import('./features/sales-history/sales-history.component').then(m => m.SalesHistoryComponent),
         canActivate: [AuthGuard]},
+      { path: 'reports',
+        title: 'Reports & Analytics',
+        loadComponent: () => import('./features/reports/reports.component').then(m => m.ReportsComponent),
+        canActivate: [AuthGuard]},
       { path: 'super-admin', loadChildren: () => import('./features/dashboard/super-admin/super-admin.routes').then(m => m.superAdminRoutes) },
       { path: 'account', children: authRoutes },
     ]

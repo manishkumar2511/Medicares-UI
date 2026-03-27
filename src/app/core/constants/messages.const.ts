@@ -105,6 +105,21 @@ export const MESSAGES = {
     ACTIONS: "Actions",
     NO_DATA: "No purchase orders found."
   },
+  REPORTS: {
+    TITLE: "Reports & Analytics",
+    SUBTITLE: "Track your store's performance and financial health.",
+    SALES_REPORT: "Sales Report",
+    INVENTORY_REPORT: "Inventory Report",
+    PURCHASE_REPORT: "Purchase Report",
+    PROFIT_LOSS: "Profit & Loss Summary",
+    TOTAL_REVENUE: "Total Revenue",
+    NET_PROFIT: "Net Profit",
+    LOW_STOCK_ITEMS: "Low Stock Items",
+    TOP_SELLING: "Top Selling Medicines",
+    GENERATE_REPORT: "Generate Report",
+    EXPORT_PDF: "Export PDF",
+    EXPORT_EXCEL: "Export Excel",
+  },
   COMMON: {
     SAVE: "Save",
     CANCEL: "Cancel",

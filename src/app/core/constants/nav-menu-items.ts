@@ -83,12 +83,12 @@ export const AdminSidebarMenuItems: NavMenuItem[] = [
     icon: "pi pi-chart-bar",
     position: "top",
   },
-  {
-    title: "Settings",
-    href: "/settings",
-    icon: "pi pi-cog",
-    position: "top",
-  },
+  // {
+  //   title: "Settings",
+  //   href: "/settings",
+  //   icon: "pi pi-cog",
+  //   position: "top",
+  // },
   {
     title: "Account Management",
     href: "/account/profile",
