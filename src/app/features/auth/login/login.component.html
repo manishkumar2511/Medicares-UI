@@ -44,11 +44,13 @@
           </div>
 
           <!-- API / LOGIN ERROR (FORM LEVEL) -->
-          @if (error) {
-            <small class="form-error-text">
-              {{ error }}
-            </small>
-          }
+          <div class="mt-3 text-center">
+            @if (error) {
+              <small class="form-error-text block">
+                {{ error }}
+              </small>
+            }
+          </div>
 
           <div class="login-btn-row">
             <button
@@ -62,6 +64,15 @@
             <button type="button" class="login-btn tertiary-btn">
               Forgot Password
             </button>
+          </div>
+
+          <div class="new-user-section text-center mt-6">
+            <p class="text-sm text-gray-500">
+              Don't have an account?
+              <a routerLink="/account/owner-registration" class="register-link">
+                Register Now
+              </a>
+            </p>
           </div>
 
         </form>

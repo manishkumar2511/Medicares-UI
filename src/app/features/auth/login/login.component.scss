@@ -220,3 +220,18 @@
   border: 1px solid var(--border-color, #E0E0E0);
   background: var(--background-light, #FAFAFA);
 }
+
+.register-link {
+  color: var(--primary-color);
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 4px;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
+
+  &:hover {
+    color: var(--primary-hover);
+    border-bottom: 2px solid var(--primary-hover);
+    cursor: pointer;
+  }
+}

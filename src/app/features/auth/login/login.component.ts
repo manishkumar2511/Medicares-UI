@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../../core/services';
@@ -10,7 +10,7 @@ import { MESSAGES } from '../../../core/constants';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [PrimematerialModule, FormErrorComponent],
+  imports: [PrimematerialModule, FormErrorComponent,RouterLink ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
