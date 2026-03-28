@@ -1,39 +1,42 @@
 <!-- Hero Banner Section -->
 <section id="home" class="hero-section">
+  <div class="hero-bg-accent circle-1"></div>
+  <div class="hero-bg-accent circle-2"></div>
   <div class="hero-container">
     <div class="hero-content">
-      <h1 class="hero-title">{{ bannerQuote }}</h1>
-      <p class="hero-subtitle">{{ bannerSubtext }}</p>
-      <div class="hero-buttons">
-        <p-button label="Start Free Trial" size="large" class="secondary-btn"></p-button>
-        <p-button label="Watch Demo" size="large" class="demo-btn"></p-button>
+      <div class="hero-badge animate-fadeIn">⭐ Recommended for Modern Pharmacies</div>
+      <h1 class="hero-title animate-fadeIn">{{ bannerQuote }}</h1>
+      <p class="hero-subtitle animate-fadeIn">{{ bannerSubtext }}</p>
+      <div class="hero-buttons animate-fadeIn">
+        <p-button label="Start Free Trial" size="large" class="primary-btn-pill"></p-button>
+        <p-button label="Watch Demo" size="large" class="secondary-btn-pill" icon="pi pi-play-circle"></p-button>
+      </div>
+      <div class="hero-trust-indicators animate-fadeIn">
+        <div class="trust-item">
+          <i class="pi pi-shield"></i>
+          <span>Secure & Compliant</span>
+        </div>
+        <div class="trust-item">
+          <i class="pi pi-clock"></i>
+          <span>24/7 Support</span>
+        </div>
       </div>
     </div>
-    <div class="hero-image">
-      <div class="banner-image-container">
-        <div class="banner-image">
-          <div class="banner-overlay">
-            <div class="banner-content">
-              <div class="banner-icon">
-                <i class="pi pi-heart" style="font-size: 4rem; color: white;"></i>
-              </div>
-              <h3>Healthcare Management Platform</h3>
-              <p>Streamlined Solutions for Modern Healthcare</p>
-            </div>
-            <div class="banner-stats">
-              <div class="stat-item">
-                <h3>10,000+</h3>
-                <p>Healthcare Stores</p>
-              </div>
-              <div class="stat-item">
-                <h3>50M+</h3>
-                <p>Products Managed</p>
-              </div>
-              <div class="stat-item">
-                <h3>99.9%</h3>
-                <p>Uptime</p>
-              </div>
-            </div>
+    <div class="hero-image-container animate-slideIn">
+      <div class="dashboard-mockup-wrapper">
+        <img src="assets/images/hero-dashboard.png" alt="Medicares Dashboard Mockup" class="dashboard-image">
+        <div class="floating-card revenue-card">
+          <i class="pi pi-arrow-up-right text-green-500"></i>
+          <div class="card-text">
+            <h4>+24% Revenue</h4>
+            <p>Growth this month</p>
+          </div>
+        </div>
+        <div class="floating-card support-card">
+          <i class="pi pi-heart-fill text-red-500"></i>
+          <div class="card-text">
+            <h4>99% Satisfied</h4>
+            <p>Customer rating</p>
           </div>
         </div>
       </div>
@@ -41,44 +44,71 @@
   </div>
 </section>
 
-<!-- Pricing Section -->
-<section id="pricing" class="pricing-section">
+<!-- Features Section -->
+<section id="features" class="features-section">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">Choose Your Plan</h2>
-      <p class="section-subtitle">Flexible pricing for healthcare stores of all sizes</p>
+      <h3 class="section-tag">Core Capabilities</h3>
+      <h2 class="section-title">Everything you need to scale</h2>
+      <p class="section-subtitle">A comprehensive suite of tools designed to simplify your everyday operations and drive
+        growth.</p>
+    </div>
+
+    <div class="features-grid">
+      <div *ngFor="let feature of features" class="feature-card">
+        <div class="feature-icon-wrapper" [style.background-color]="feature.color + '15'" [style.color]="feature.color">
+          <i [class]="feature.icon"></i>
+        </div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-description">{{ feature.description }}</p>
+        <a href="#" class="feature-link">Learn More <i class="pi pi-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="pricing-section">
+  <div class="pricing-bg-decor"></div>
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Flexible Plans for Every Stage</h2>
+      <p class="section-subtitle">Choose a plan that matches your business size and ambitions.</p>
     </div>
 
     <div class="pricing-grid">
-      <p-card *ngFor="let plan of pricingPlans" [class]="'pricing-card' + (plan.badgeText ? ' popular' : '')"
-        [style]="{'width': '100%', 'max-width': '350px'}">
-        <ng-template pTemplate="header">
-          <div class="plan-header">
-            <div *ngIf="plan.badgeText" class="popular-badge">{{ plan.badgeText }}</div>
-            <h3 class="plan-name">{{ plan.name }}</h3>
-            <div class="plan-price">
-              <span class="price">{{ plan.price }}</span>
-              <span class="period">{{ plan.period }}</span>
-            </div>
-            <p class="plan-description">{{ plan.description }}</p>
+      <div *ngFor="let plan of pricingPlans"
+        [class]="'pricing-card-modern' + (plan.badgeText === 'Most Popular' ? ' popular' : '')">
+        <div *ngIf="plan.badgeText" class="popular-badge">{{ plan.badgeText }}</div>
+
+        <div class="plan-header">
+          <h3 class="plan-name">{{ plan.name }}</h3>
+          <div class="plan-price-wrapper">
+            <span class="currency">₹</span>
+            <span class="price">{{ plan.price.replace('₹', '') }}</span>
+            <span class="period">{{ plan.period }}</span>
           </div>
-        </ng-template>
+          <p class="plan-description">{{ plan.description }}</p>
+        </div>
+
+        <div class="plan-divider"></div>
 
         <div class="plan-content">
           <ul class="plan-features">
             <li *ngFor="let feature of plan.features" class="feature-item">
-              <i class="pi pi-check feature-icon"></i>
-              {{ feature }}
+              <i class="pi pi-check-circle feature-icon"></i>
+              <span>{{ feature }}</span>
             </li>
           </ul>
         </div>
 
-        <ng-template pTemplate="footer">
-          <p-button [label]="plan.badgeText === 'Most Popular' ? 'Get Started' : 'Choose Plan'" class="navbar-bg-btn plan-button"
-            [style]="{'width': '100%'}" (onClick)="selectPlan(plan)">
+        <div class="plan-footer">
+          <p-button [label]="plan.badgeText === 'Most Popular' ? 'Grow Now' : 'Get Started'"
+            [class]="plan.badgeText === 'Most Popular' ? 'primary-btn-pill' : 'outline-btn-pill'"
+            (onClick)="selectPlan(plan)">
           </p-button>
-        </ng-template>
-      </p-card>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -87,14 +117,21 @@
 <section id="clients" class="clients-section">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">Trusted by Healthcare Providers</h2>
-      <p class="section-subtitle">Join thousands of stores already using our platform</p>
+      <h2 class="section-title">Trusted by Leading Medical Stores</h2>
+      <p class="section-subtitle">Over 1,000+ businesses use Medicares to power their success.</p>
     </div>
 
-    <div class="clients-grid">
-      <div *ngFor="let client of clients" class="client-card">
-        <div class="client-logo">{{ client.logo }}</div>
-        <h4 class="client-name">{{ client.name }}</h4>
+    <div class="clients-slider">
+      <div class="clients-track">
+        <div *ngFor="let client of clients" class="client-logo-card">
+          <div class="client-icon">{{ client.logo }}</div>
+          <span class="client-name">{{ client.name }}</span>
+        </div>
+        <!-- Duplicated for seamless loop if we add animation later -->
+        <div *ngFor="let client of clients" class="client-logo-card">
+          <div class="client-icon">{{ client.logo }}</div>
+          <span class="client-name">{{ client.name }}</span>
+        </div>
       </div>
     </div>
   </div>

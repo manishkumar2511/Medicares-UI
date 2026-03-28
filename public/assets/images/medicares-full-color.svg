@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" role="img" aria-labelledby="medFullColorTitle">
+  <title id="medFullColorTitle">Medicares full logo (color)</title>
+  <defs>
+    <linearGradient id="gFullColor" x1="0" x2="1">
+      <stop offset="0" stop-color="#A8EEFF"/>
+      <stop offset="1" stop-color="#19B6E6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left circular badge -->
+  <g transform="translate(0,0)">
+    <circle cx="32" cy="32" r="30" fill="#ffffff"/>
+    <circle cx="32" cy="28" r="20" fill="url(#gFullColor)"/>
+    <rect x="30" y="20" width="6" height="20" rx="2" fill="#ffffff"/>
+    <rect x="20" y="28" width="20" height="6" rx="2" fill="#ffffff"/>
+    <path d="M18 44c6-8 14-12 22-12 4 0 8 2 12 4" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  </g>
+
+  <!-- Right wordmark (white text for navbar contrast) -->
+  <g transform="translate(74,44)">
+    <text x="0" y="0" font-family="Poppins, Arial, sans-serif" font-weight="700" font-size="36" fill="#ffffff">M</text>
+    <text x="22" y="0" font-family="Poppins, Arial, sans-serif" font-weight="600" font-size="28" fill="#ffffff">edicares</text>
+  </g>
+</svg>

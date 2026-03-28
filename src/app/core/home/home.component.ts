@@ -105,6 +105,33 @@ export class HomeComponent implements OnInit {
     }
   ];
 
+  features = [
+    {
+      title: 'Smart Inventory',
+      description: 'Track stock levels, expiry dates, and reorder points with automated AI-driven alerts.',
+      icon: 'pi pi-box',
+      color: '#19B6E6'
+    },
+    {
+      title: 'Professional Billing',
+      description: 'Generate GST-compliant invoices and manage customer payments effortlessly with digital receipts.',
+      icon: 'pi pi-file-edit',
+      color: '#10B981'
+    },
+    {
+      title: 'Insightful Analytics',
+      description: 'Gain deep insights into your sales, expenses, and profit margins with beautiful visual reports.',
+      icon: 'pi pi-chart-bar',
+      color: '#FFD54F'
+    },
+    {
+      title: 'Omnichannel Sales',
+      description: 'Manage your physical store and online presence from a single, unified healthcare dashboard.',
+      icon: 'pi pi-shopping-cart',
+      color: '#818CF8'
+    }
+  ];
+
   clients = [
     { name: 'MediCare Plus', logo: '🏥' },
     { name: 'HealthFirst', logo: '💊' },
@@ -114,8 +141,8 @@ export class HomeComponent implements OnInit {
     { name: 'HealthLink', logo: '🩺' }
   ];
 
-  bannerQuote = "Empowering Healthcare Stores with Smart Management Solutions";
-  bannerSubtext = "Join thousands of healthcare providers who trust our platform to streamline their operations and grow their business.";
+  bannerQuote = "Empower Your Healthcare Business with Smart Digital Solutions";
+  bannerSubtext = "The all-in-one management platform designed for pharmacies, clinics, and medical stores to scale their operations with ease.";
 
   toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;

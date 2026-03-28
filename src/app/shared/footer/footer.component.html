@@ -1,51 +1,53 @@
-<footer class="footer">
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-section">
-        <div class="footer-logo">
-          <i class="pi pi-heart" style="color: var(--primary-color); font-size: 2rem;"></i>
-          <span class="logo-text">MediCare</span>
-        </div>
-        <p class="footer-description">
-          Empowering healthcare stores with smart management solutions. 
-          Streamline your operations and grow your business with our comprehensive platform.
-        </p>
-        <div class="social-links">
-          <a href="#" class="social-link"><i class="pi pi-facebook"></i></a>
-          <a href="#" class="social-link"><i class="pi pi-twitter"></i></a>
-          <a href="#" class="social-link"><i class="pi pi-linkedin"></i></a>
-          <a href="#" class="social-link"><i class="pi pi-instagram"></i></a>
-        </div>
+<footer class="main-footer" [class.mini]="isAuthenticated()">
+  <div class="container footer-grid" *ngIf="!isAuthenticated()">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <i class="pi pi-plus-circle"></i>
+        <span>Medicares</span>
       </div>
-      <div class="footer-section">
-        <h4 class="footer-title">Product</h4>
-        <ul class="footer-links">
-          <li><a href="#">Features</a></li>
-          <li><a href="#">Pricing</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h4 class="footer-title">Company</h4>
-        <ul class="footer-links">
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Careers</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h4 class="footer-title">Support</h4>
-        <ul class="footer-links">
-          <li><a href="#">Help Center</a></li>
-          <li><a href="#">Contact Us</a></li>
-        </ul>
+      <p class="footer-moto">Automating healthcare management with precision and care. Scalable solutions for modern medical businesses.</p>
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><i class="pi pi-facebook"></i></a>
+        <a href="#" aria-label="Twitter"><i class="pi pi-twitter"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="pi pi-linkedin"></i></a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-bottom-content">
-        <p>&copy; 2025 MediCare. All rights reserved.</p>
-        <div class="footer-legal">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-        </div>
+    
+    <div class="footer-links-col">
+      <h4>Platform</h4>
+      <ul>
+        <li><a routerLink="/" fragment="features">Features</a></li>
+        <li><a routerLink="/" fragment="pricing">Pricing</a></li>
+        <li><a routerLink="/about">About Us</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-links-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Use</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-links-col">
+      <h4>Newsletter</h4>
+      <p>Stay updated with our latest healthcare innovations.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Your email">
+        <button type="button" aria-label="Subscribe"><i class="pi pi-send"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-content">
+      <p>&copy; 2026 Medicares Solutions. All rights reserved.</p>
+      <div class="footer-legal-inline" *ngIf="isAuthenticated()">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Support</a>
       </div>
     </div>
   </div>
