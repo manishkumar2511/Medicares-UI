@@ -13,6 +13,10 @@
     right: 0;
     height: clamp(70px, 10vh, 90px);
     z-index: 1000; // Lower than sidebar (1100) to allow sidebar branding to show
+    
+    &.menu-open {
+        z-index: 12000 !important;
+    }
     display: flex;
     align-items: center;
     background: transparent !important;
@@ -62,12 +66,21 @@
     margin: 0;
     padding: 0 24px;
     display: flex;
-    justify-content: space-between; // Standard layout
+    justify-content: space-between;
     align-items: center;
     height: 100%;
+
+    @media (max-width: 600px) {
+        padding: 0 16px;
+    }
 }
 
-// LOGO
+.topbar-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
 .brand {
     cursor: pointer;
     display: flex;
@@ -197,7 +210,9 @@
 .topbar-right {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: clamp(10px, 1.5vw, 25px);
+    flex: 1;
 }
 
 // ACTIONS
@@ -211,9 +226,10 @@
 ::ng-deep .solid-btn-pill .p-button {
     background: #00BCD4 !important; // Cyan
     border: none !important;
-    padding: clamp(10px, 1vw, 14px) clamp(20px, 2.5vw, 40px) !important;
+    padding: 10px 28px !important;
+    white-space: nowrap !important;
     font-weight: 800 !important;
-    font-size: clamp(0.85rem, 1vw, 1rem) !important;
+    font-size: 0.95rem !important;
     border-radius: 100px !important;
     color: #fff !important;
     box-shadow: 0 10px 20px -5px rgba(0, 188, 212, 0.4) !important;
@@ -228,9 +244,10 @@
 ::ng-deep .ghost-btn-pill .p-button {
     background: #fff !important;
     border: 1px solid #E5E7EB !important;
-    padding: clamp(8px, 0.8vw, 12px) clamp(15px, 2vw, 32px) !important;
+    padding: 9px 24px !important;
+    white-space: nowrap !important;
     font-weight: 800 !important;
-    font-size: clamp(0.85rem, 1vw, 1rem) !important;
+    font-size: 0.95rem !important;
     border-radius: 100px !important;
     color: #111 !important;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -316,15 +333,22 @@
 .hamburger {
     width: 30px;
     height: 22px;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
+    z-index: 99999 !important;
 
+    @media (max-width: 1100px) {
+        display: flex !important;
+    }
+
+    z-index: 10;
+    
     .bar {
         width: 100%;
         height: 3px;
-        background: var(--text-primary);
+        background: #FFFFFF !important; // Force white for visibility on dark header
         border-radius: 10px;
         transition: 0.3s;
     }
@@ -382,7 +406,7 @@
     box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
     flex-direction: column;
     padding: 12px 0 20px;
-    z-index: 9998;
+    z-index: 12001; 
     // Slide animation
     max-height: 0;
     overflow: hidden;
@@ -483,9 +507,8 @@
     display: none;
     position: fixed;
     inset: 0;
-    z-index: 9990;
-    background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(2px);
+    z-index: 11000;
+    background: rgba(0, 0, 0, 0.4); // Darker background instead of blur
     opacity: 0;
     transition: opacity 0.3s;
     pointer-events: none;

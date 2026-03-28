@@ -212,8 +212,6 @@ export class AuthService {
   // ------------------------------------------------------------------
 
   private handleSuccessfulAuth(response: LoginResponse): void {
-
-    debugger;
     if (response.requiresMfa) return;
 
     // Handle string or object token formats based on the Api implementation

@@ -1,7 +1,8 @@
 <div class="topbar" 
      [class.scrolled]="scrolled"
      [class.guest-mode]="!isAuthenticated()" 
-     [class.auth-mode]="isAuthenticated()">
+     [class.auth-mode]="isAuthenticated()"
+     [class.menu-open]="mobileMenuOpen">
   <div class="topbar-container">
     <div class="topbar-left">
       <a class="brand" (click)="navigateToHome()" aria-label="Medicares home" [class.hidden]="isAuthenticated()">

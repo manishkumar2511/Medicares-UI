@@ -2,6 +2,7 @@
     display: flex;
     min-height: 100vh;
     background-color: var(--background-secondary);
+    overflow: visible !important;
 
     &.authenticated {
         .main-container {
@@ -27,20 +28,17 @@
         min-height: 100vh;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-sizing: border-box;
+        overflow: visible !important;
     }
 
     .content-area {
         flex-grow: 1;
         width: 100%;
-        // No fixed height here - let it grow
+        overflow: visible !important;
     }
 }
 
-// Ensure the body can scroll
-:host-context(html, body) {
-    height: auto !important;
-    overflow: auto !important;
-}
+
 
 // Media Queries for Responsive Authenticated Layout
 @media (max-width: 1100px) {
@@ -65,4 +63,3 @@
 .main-container:not(.authenticated) .content-area {
     padding-top: 0; // The hero section already handles its own padding
 }
-

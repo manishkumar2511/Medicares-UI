@@ -1,88 +1,213 @@
-<div class="login-wrapper animate-fadeIn">
-  <!-- Bloom Background Elements -->
+<div class="login-wrapper">
   <div class="hero-bg-bloom bloom-1"></div>
   <div class="hero-bg-bloom bloom-2"></div>
 
-  <div class="login-card">
-    <div class="login-card-content">
-      <div class="login-form-section">
-        <h2 class="login-title">Welcome Back</h2>
+  <div class="login-container">
+    <!-- Left Panel - Pharmacy Illustration -->
+    <div class="login-left-panel">
+      <div class="left-content">
+        <!-- SVG Pharmacy Illustration -->
+        <div class="illustration-wrapper">
+          <svg viewBox="0 0 400 360" fill="none" xmlns="http://www.w3.org/2000/svg" class="pharmacy-svg">
+            <!-- Background Circles -->
+            <circle cx="200" cy="180" r="140" fill="rgba(0,188,212,0.06)" />
+            <circle cx="200" cy="180" r="100" fill="rgba(0,188,212,0.04)" />
+
+            <!-- Shelf Back -->
+            <rect x="60" y="60" width="280" height="12" rx="6" fill="rgba(0,188,212,0.15)" />
+            <rect x="60" y="130" width="280" height="12" rx="6" fill="rgba(0,188,212,0.15)" />
+
+            <!-- Medicine Bottles - Row 1 -->
+            <rect x="80" y="30" width="22" height="30" rx="5" fill="#00BCD4" opacity="0.8"/>
+            <rect x="84" y="24" width="14" height="8" rx="3" fill="#0097A7"/>
+            <rect x="110" y="36" width="18" height="24" rx="4" fill="#10B981" opacity="0.7"/>
+            <rect x="113" y="30" width="12" height="8" rx="3" fill="#059669"/>
+            <rect x="140" y="28" width="20" height="32" rx="5" fill="#00BCD4" opacity="0.6"/>
+            <rect x="144" y="22" width="12" height="8" rx="3" fill="#0097A7"/>
+            <rect x="170" y="40" width="16" height="20" rx="4" fill="#F59E0B" opacity="0.6"/>
+            <rect x="173" y="34" width="10" height="8" rx="3" fill="#D97706"/>
+
+            <!-- Medicine Bottles - Row 2 -->
+            <rect x="210" y="32" width="24" height="28" rx="5" fill="#10B981" opacity="0.7"/>
+            <rect x="214" y="26" width="16" height="8" rx="3" fill="#059669"/>
+            <rect x="244" y="38" width="18" height="22" rx="4" fill="#00BCD4" opacity="0.7"/>
+            <rect x="247" y="32" width="12" height="8" rx="3" fill="#0097A7"/>
+            <rect x="274" y="28" width="22" height="32" rx="5" fill="#00BCD4" opacity="0.5"/>
+            <rect x="278" y="22" width="14" height="8" rx="3" fill="#0097A7"/>
+            <rect x="306" y="36" width="16" height="24" rx="4" fill="#10B981" opacity="0.6"/>
+            <rect x="309" y="30" width="10" height="8" rx="3" fill="#059669"/>
+
+            <!-- Medicine Bottles - Row 3 -->
+            <rect x="85" y="100" width="20" height="30" rx="5" fill="#00BCD4" opacity="0.7"/>
+            <rect x="89" y="94" width="12" height="8" rx="3" fill="#0097A7"/>
+            <rect x="115" y="106" width="16" height="24" rx="4" fill="#10B981" opacity="0.6"/>
+            <rect x="118" y="100" width="10" height="8" rx="3" fill="#059669"/>
+            <rect x="142" y="98" width="22" height="32" rx="5" fill="#F59E0B" opacity="0.5"/>
+            <rect x="146" y="92" width="14" height="8" rx="3" fill="#D97706"/>
+            <rect x="175" y="104" width="18" height="26" rx="4" fill="#00BCD4" opacity="0.6"/>
+            <rect x="178" y="98" width="12" height="8" rx="3" fill="#0097A7"/>
+            <rect x="205" y="96" width="20" height="34" rx="5" fill="#10B981" opacity="0.7"/>
+            <rect x="209" y="90" width="12" height="8" rx="3" fill="#059669"/>
+            <rect x="236" y="102" width="16" height="28" rx="4" fill="#00BCD4" opacity="0.5"/>
+            <rect x="239" y="96" width="10" height="8" rx="3" fill="#0097A7"/>
+            <rect x="264" y="98" width="22" height="32" rx="5" fill="#00BCD4" opacity="0.8"/>
+            <rect x="268" y="92" width="14" height="8" rx="3" fill="#0097A7"/>
+            <rect x="298" y="106" width="18" height="24" rx="4" fill="#10B981" opacity="0.5"/>
+            <rect x="301" y="100" width="12" height="8" rx="3" fill="#059669"/>
+
+            <!-- Pharmacy Counter -->
+            <rect x="50" y="220" width="300" height="16" rx="8" fill="rgba(0,188,212,0.2)" />
+            <rect x="50" y="236" width="300" height="80" rx="0" fill="rgba(0,188,212,0.06)" />
+
+            <!-- Counter Items - Monitor -->
+            <rect x="70" y="185" width="50" height="35" rx="4" fill="rgba(0,188,212,0.12)" stroke="rgba(0,188,212,0.3)" stroke-width="1.5"/>
+            <rect x="80" y="192" width="30" height="4" rx="2" fill="rgba(0,188,212,0.3)"/>
+            <rect x="80" y="200" width="20" height="3" rx="1.5" fill="rgba(0,188,212,0.2)"/>
+            <rect x="80" y="206" width="25" height="3" rx="1.5" fill="rgba(0,188,212,0.2)"/>
+            <rect x="88" y="220" width="14" height="6" rx="2" fill="rgba(0,188,212,0.15)"/>
+
+            <!-- Counter Items - Medicine Box -->
+            <rect x="260" y="195" width="35" height="25" rx="4" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.3)" stroke-width="1.5"/>
+            <path d="M270 205 L283 205" stroke="rgba(16,185,129,0.4)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M277 198 L277 211" stroke="rgba(16,185,129,0.4)" stroke-width="2" stroke-linecap="round"/>
+
+            <!-- Counter Items - Pills Strip -->
+            <rect x="305" y="200" width="30" height="15" rx="3" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.25)" stroke-width="1"/>
+            <circle cx="312" cy="207" r="3" fill="rgba(245,158,11,0.2)"/>
+            <circle cx="320" cy="207" r="3" fill="rgba(245,158,11,0.2)"/>
+            <circle cx="328" cy="207" r="3" fill="rgba(245,158,11,0.2)"/>
+
+            <!-- Pharmacist / Staff Figure -->
+            <!-- Body -->
+            <rect x="170" y="160" width="60" height="60" rx="12" fill="rgba(0,188,212,0.12)"/>
+            <!-- Head -->
+            <circle cx="200" cy="148" r="22" fill="rgba(0,188,212,0.15)"/>
+            <!-- Hair -->
+            <path d="M182 140 Q182 126 200 126 Q218 126 218 140" fill="rgba(0,188,212,0.2)"/>
+            <!-- Face dots -->
+            <circle cx="193" cy="148" r="2" fill="rgba(0,188,212,0.3)"/>
+            <circle cx="207" cy="148" r="2" fill="rgba(0,188,212,0.3)"/>
+            <path d="M195 155 Q200 159 205 155" stroke="rgba(0,188,212,0.3)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- Coat collar -->
+            <path d="M185 170 L200 180 L215 170" stroke="rgba(0,188,212,0.25)" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- Arms -->
+            <rect x="155" y="175" width="18" height="8" rx="4" fill="rgba(0,188,212,0.12)"/>
+            <rect x="227" y="175" width="18" height="8" rx="4" fill="rgba(0,188,212,0.12)"/>
+            <!-- Stethoscope -->
+            <path d="M188 175 Q180 195 190 210" stroke="#00BCD4" stroke-width="2" fill="none" opacity="0.4"/>
+            <circle cx="190" cy="212" r="4" fill="#00BCD4" opacity="0.3"/>
+
+            <!-- Health Cross on Coat -->
+            <rect x="196" y="182" width="8" height="2" rx="1" fill="rgba(0,188,212,0.4)"/>
+            <rect x="199" y="179" width="2" height="8" rx="1" fill="rgba(0,188,212,0.4)"/>
+
+            <!-- Floating Elements -->
+
+            <!-- Heart Rate Line -->
+            <g class="ecg-group">
+              <path d="M30 300 L60 300 L70 280 L80 320 L90 290 L100 310 L110 300 L150 300"
+                    stroke="#00BCD4" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                    class="ecg-line"/>
+            </g>
+
+            <!-- Floating Pill 1 -->
+            <g class="float-pill-1" transform="translate(320, 270)">
+              <rect width="28" height="14" rx="7" fill="rgba(0,188,212,0.15)" stroke="#00BCD4" stroke-width="1.5"/>
+              <line x1="14" y1="0" x2="14" y2="14" stroke="#00BCD4" stroke-width="1.5"/>
+              <circle cx="7" cy="7" r="2" fill="#00BCD4" opacity="0.4"/>
+              <circle cx="21" cy="7" r="2" fill="#00BCD4" opacity="0.4"/>
+            </g>
+
+            <!-- Floating Pill 2 -->
+            <g class="float-pill-2" transform="translate(30, 160)">
+              <rect width="24" height="12" rx="6" fill="rgba(16,185,129,0.15)" stroke="#10B981" stroke-width="1.5"/>
+              <line x1="12" y1="0" x2="12" y2="12" stroke="#10B981" stroke-width="1.5"/>
+            </g>
+
+            <!-- Health Cross -->
+            <g class="float-cross" transform="translate(340, 140)">
+              <rect x="0" y="8" width="20" height="4" rx="2" fill="rgba(0,188,212,0.2)"/>
+              <rect x="8" y="0" width="4" height="20" rx="2" fill="rgba(0,188,212,0.2)"/>
+            </g>
+
+            <!-- DNA Helix Decoration -->
+            <g class="dna-deco" transform="translate(355, 240)" opacity="0.12">
+              <path d="M0 0 C12 8, 0 16, 12 24 C0 32, 12 40, 0 48" stroke="#00BCD4" stroke-width="2"/>
+              <path d="M12 0 C0 8, 12 16, 0 24 C12 32, 0 40, 12 48" stroke="#00BCD4" stroke-width="2"/>
+            </g>
+
+            <!-- Shield / Security Icon -->
+            <g transform="translate(20, 250)" opacity="0.2">
+              <path d="M12 0 L24 6 L24 18 Q24 26 12 30 Q0 26 0 18 L0 6 Z" fill="none" stroke="#10B981" stroke-width="2"/>
+              <path d="M8 15 L11 18 L17 12" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+
+          </svg>
+        </div>
+
+        <!-- Text -->
+        <div class="left-text">
+          <h2>Your Pharmacy, <span class="text-cyan">Simplified.</span></h2>
+          <p>Inventory, Billing & Analytics for modern medical stores.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Panel - Form -->
+    <div class="login-right-panel">
+      <div class="form-section">
+        <h2 class="form-title">Sign In</h2>
+        <p class="form-subtitle">Welcome back! Enter your credentials to continue.</p>
 
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
-          <!-- EMAIL -->
           <div class="form-group">
             <label class="form-label">Email</label>
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Enter your email"
-              formControlName="email"
-            />
-
-            <app-form-error
-              [form]="loginForm"
-              controlName="email"
-              requiredMessage="Email is required"
-              invalidMessage="Enter a valid email"
-            />
+            <div class="input-wrap">
+              <i class="pi pi-envelope input-icon"></i>
+              <input type="email" class="form-input" placeholder="you@company.com" formControlName="email" />
+            </div>
+            <app-form-error [form]="loginForm" controlName="email" requiredMessage="Email is required" invalidMessage="Enter a valid email" />
           </div>
 
-          <!-- PASSWORD -->
           <div class="form-group">
             <label class="form-label">Password</label>
-            <p-password
-              formControlName="password"
-              [toggleMask]="true"
-              [feedback]="false"
-              [promptLabel]="'Enter your password'"
-              [placeholder]="'Enter your password'"
-              class="custom-password"
-            ></p-password>
-
-            <app-form-error
-              [form]="loginForm"
-              controlName="password"
-              requiredMessage="Password is required"
-              minLengthMessage="Password must be at least 6 characters"
-            ></app-form-error>
+            <div class="input-wrap">
+              <i class="pi pi-lock input-icon"></i>
+              <p-password formControlName="password" [toggleMask]="true" [feedback]="false" [promptLabel]="'Enter your password'" [placeholder]="'Enter your password'" class="custom-password"></p-password>
+            </div>
+            <app-form-error [form]="loginForm" controlName="password" requiredMessage="Password is required" minLengthMessage="Password must be at least 6 characters"></app-form-error>
           </div>
 
-          <!-- API / LOGIN ERROR (FORM LEVEL) -->
-          <div class="mt-3 text-center">
+          <div class="error-row">
             @if (error) {
-              <small class="form-error-text block">
-                {{ error }}
-              </small>
+              <small class="form-error-text">{{ error }}</small>
             }
           </div>
 
-          <div class="login-btn-row">
-            <button
-              type="submit"
-              class="login-btn-submit"
-              [disabled]="loading"
-            >
-              {{ loading ? 'Logging in...' : 'Login' }}
-            </button>
+          <button type="submit" class="btn-login" [disabled]="loading">
+            @if (loading) {
+              <span class="spinner"></span> Signing in...
+            } @else {
+              Sign In <i class="pi pi-arrow-right"></i>
+            }
+          </button>
 
-            <button type="button" class="login-btn-forgot" (click)="forgotPassword()">
-              Forgot Password
-            </button>
+          <div class="forgot-link">
+            <button type="button" (click)="forgotPassword()">Forgot Password?</button>
           </div>
 
-          <div class="new-user-section text-center mt-6">
-            <p class="text-sm text-gray-500">
-              Don't have an account?
-              <a routerLink="/account/owner-registration" class="register-link">
-                Register Now
-              </a>
-            </p>
+          <div class="signup-row">
+            <span class="divider-line"></span>
+            <span class="divider-text">or</span>
+            <span class="divider-line"></span>
           </div>
 
+          <p class="signup-text">
+            Don't have an account?
+            <a routerLink="/account/owner-registration">Create Account</a>
+          </p>
         </form>
       </div>
     </div>
   </div>
 </div>
-

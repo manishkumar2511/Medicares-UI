@@ -7,7 +7,7 @@
 }
 
 .main-footer {
-  padding: 40px 0 0;
+  padding: 32px 0 0;
   background: var(--background-primary);
   color: var(--text-primary);
   border-top: 1px solid var(--border-color);
@@ -193,7 +193,7 @@
 }
 
 @media (max-width: 600px) {
-  .main-footer { padding-top: 60px; }
+  .main-footer { padding-top: 24px; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom-content {
     flex-direction: column;

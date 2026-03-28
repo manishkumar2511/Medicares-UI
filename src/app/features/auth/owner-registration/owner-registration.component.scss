@@ -3,13 +3,13 @@ $card-radius: clamp(20px, 2.5vw, 32px);
 
 .register-wrapper {
   position: relative;
-  min-height: 100vh;
-  padding: clamp(80px, 10vh, 140px) clamp(20px, 5vw, 40px);
+  min-height: calc(100vh - 70px);
+  padding: clamp(80px, 5vh, 100px) clamp(20px, 5vw, 40px) 20px;
   background-color: var(--background-primary);
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  // Removed overflow-x: hidden to prevent double scrollbar
+  overflow: visible !important; // Let the body handle the scrolling
 
   // Grid background pattern from Home page
   background-image: 
@@ -88,9 +88,7 @@ $card-radius: clamp(20px, 2.5vw, 32px);
   font-size: 1.25rem;
   font-weight: 800;
   color: var(--text-primary);
-  margin-bottom: 24px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid rgba($primary-cyan, 0.1);
+  margin-bottom: 16px;
   display: inline-block;
 }
 
