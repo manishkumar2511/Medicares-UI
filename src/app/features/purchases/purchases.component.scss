@@ -2,6 +2,7 @@
   max-width: 1400px;
   margin: auto;
   padding: 2rem;
+  margin-top: 50px;
   min-height: calc(100vh - 80px);
   background-color: var(--background-secondary);
   transition: all 0.3s ease;
@@ -20,8 +21,9 @@
 
     @media (max-width: 768px) {
         flex-direction: column !important;
-        align-items: flex-start !important;
-        margin-bottom: 1.5rem;
+        align-items: stretch !important;
+        margin-bottom: 2rem;
+        gap: 1rem !important;
     }
 
     h2 {
@@ -64,10 +66,10 @@
     }
 
     .purchases-search {
-      padding-left: 2.75rem !important;
+      padding-left: 2.8rem !important;
       width: 100% !important;
-      max-width: 320px;
-      border-radius: 10px;
+      max-width: 400px;
+      border-radius: 12px;
       background: var(--background-secondary) !important;
       border: 1px solid var(--border-color) !important;
       transition: all 0.3s;
