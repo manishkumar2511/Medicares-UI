@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PrimematerialModule } from '../../core/primematerial.module';
-import { PurchasesService, PurchaseOrder } from './services/purchases.service';
+import { PurchasesService, PurchaseOrder } from '../../core/services';
 import { MESSAGES } from '../../core/constants/messages.const';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PrimematerialModule } from '../../core/primematerial.module';
-import { InventoryService, InventoryItem } from './services/inventory.service';
+import { InventoryService, InventoryItem } from '../../core/services';
 import { MESSAGES } from '../../core/constants/messages.const';
 import { MessageService } from 'primeng/api';
 

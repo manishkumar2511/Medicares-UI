@@ -6,3 +6,6 @@ export * from "./common/common.service";
 export * from "./subscription-plan/subscription-plan.service";
 export * from "./super-admin/super-admin.service";
 export * from "./payment/payment.service";
+export * from "./inventory";
+export * from "./billing";
+export * from "./purchases";

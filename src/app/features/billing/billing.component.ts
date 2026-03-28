@@ -2,7 +2,7 @@ import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PrimematerialModule } from '../../core/primematerial.module';
-import { BillingService, Medicine } from './services/billing.service';
+import { BillingService, Medicine } from '../../core/services';
 import { MESSAGES } from '../../core/constants/messages.const';
 import { MessageService } from 'primeng/api';
 
