@@ -1,10 +1,15 @@
 .billing-container {
-  max-width: 1400px;
-  margin: auto;
-  padding: 2rem;
-  background-color: var(--background-secondary);
-  min-height: calc(100vh - 80px);
+  position: relative;
+  min-height: 100vh;
+  padding: 100px clamp(16px, 3vw, 32px) 40px;
+  background-color: var(--background-primary);
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  background-size: 32px 32px;
+  background-repeat: repeat;
 }
+
 
 /* HEADER */
 .billing-header {
@@ -94,18 +99,21 @@
 
 /* INPUT STYLE */
 ::ng-deep {
-    input, .p-inputtext, .p-inputnumber-input {
-        border-radius: 8px !important;
-        padding: 0.75rem !important;
-        background: var(--background-secondary) !important;
-        border: 1.5px solid var(--border-color) !important;
-        color: var(--text-primary) !important;
 
-        &:focus {
-            border-color: var(--primary-color) !important;
-            box-shadow: 0 0 0 2px rgba(25, 182, 230, 0.1) !important;
-        }
+  input,
+  .p-inputtext,
+  .p-inputnumber-input {
+    border-radius: 8px !important;
+    padding: 0.75rem !important;
+    background: var(--background-secondary) !important;
+    border: 1.5px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+
+    &:focus {
+      border-color: var(--primary-color) !important;
+      box-shadow: 0 0 0 2px rgba(25, 182, 230, 0.1) !important;
     }
+  }
 }
 
 /* BUTTON */
@@ -122,16 +130,20 @@
   border: 1px solid var(--border-color);
 
   ::ng-deep .p-datatable {
-    .p-datatable-header { background: transparent; }
-    .p-datatable-thead > tr > th {
-        background: var(--background-secondary);
-        color: var(--text-primary);
-        font-weight: 700;
-        border-bottom: 1.5px solid var(--border-color);
+    .p-datatable-header {
+      background: transparent;
     }
-    .p-datatable-tbody > tr > td {
-        color: var(--text-primary);
-        border-bottom: 1px solid var(--border-color);
+
+    .p-datatable-thead>tr>th {
+      background: var(--background-secondary);
+      color: var(--text-primary);
+      font-weight: 700;
+      border-bottom: 1.5px solid var(--border-color);
+    }
+
+    .p-datatable-tbody>tr>td {
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-color);
     }
   }
 }
