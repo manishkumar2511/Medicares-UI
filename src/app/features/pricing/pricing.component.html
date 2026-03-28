@@ -1,44 +1,65 @@
-<div class="pricing-wrapper">
-  <h2 class="pricing-title">Our Plans</h2>
+<div class="pricing-wrapper animate-fadeIn">
+  <!-- Bloom Background Elements -->
+  <div class="hero-bg-bloom bloom-1"></div>
+  <div class="hero-bg-bloom bloom-2"></div>
 
-  <div *ngIf="isLoading()" class="flex justify-center items-center py-20">
-    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-  </div>
-
-  <div *ngIf="!isLoading()" class="pricing-cards">
-    <div *ngFor="let plan of plans()" class="pricing-card" [class.featured-card]="plan.type.toString() === 'Premium'">
-      <div *ngIf="plan.type.toString() === 'Premium'" class="popular-badge">Most Popular</div>
-      <h3>{{ plan.name }}</h3>
-      <div class="price">
-        <ng-container *ngIf="plan.price > 0">
-          ₹{{ plan.price }}<span class="period">/{{ plan.durationInDays === 30 ? 'mo' : plan.durationInDays + ' days'
-            }}</span>
-        </ng-container>
-        <ng-container *ngIf="plan.price === 0">
-          <span class="contact-us">Contact Us</span>
-        </ng-container>
-      </div>
-      <ul>
-        <!-- Store Limit Feature -->
-        <li>
-          <i class="pi pi-check-circle text-primary mr-2"></i>
-          {{ plan.storeLimit === 1000000 ? 'Unlimited' : plan.storeLimit }} {{ plan.storeLimit === 1 ? 'Store' :
-          'Stores' }} Limit
-        </li>
-        <!-- Dynamic Features from Description -->
-        <li *ngFor="let feature of getFeatures(plan.description)">
-          <i class="pi pi-check-circle text-primary mr-2"></i>
-          {{ feature }}
-        </li>
-      </ul>
-      <button class="pricing-btn" (click)="selectPlan(plan)">
-        {{ plan.price === 0 ? 'Talk to Sales' : 'Choose ' + plan.name }}
-      </button>
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">Our Plans</span>
+      <p class="section-subtitle">Choose the perfect plan for your pharmacy. No hidden fees, cancel anytime.</p>
     </div>
-  </div>
 
-  <div *ngIf="!isLoading() && plans().length === 0" class="text-center py-20 animate-fadeIn">
-    <i class="pi pi-info-circle text-4xl text-gray-400 mb-4"></i>
-    <p class="text-gray-500 text-xl">No subscription plans available at the moment.</p>
+    <div *ngIf="isLoading()" class="flex justify-center items-center py-20">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+    </div>
+
+    <div *ngIf="!isLoading()" class="pricing-grid">
+      <div *ngFor="let plan of plans()" class="pricing-card-modern" [class.popular]="plan.type.toString() === 'Premium'">
+        <div *ngIf="plan.type.toString() === 'Premium'" class="popular-badge">Most Popular</div>
+        
+        <div class="plan-header">
+          <div class="plan-name">{{ plan.name }}</div>
+          <div class="plan-price-wrapper">
+            <ng-container *ngIf="plan.price > 0">
+              <span class="currency">₹</span>
+              <span class="price">{{ plan.price }}</span>
+              <span class="period">/{{ plan.durationInDays === 30 ? 'mo' : plan.durationInDays + ' days' }}</span>
+            </ng-container>
+            <ng-container *ngIf="plan.price === 0">
+              <span class="price" style="font-size: 2.2rem;">Contact Us</span>
+            </ng-container>
+          </div>
+          <p class="plan-description">{{ (plan.description?.length || 0) > 100 ? (plan.description! | slice:0:100) + '...' : (plan.description || '') }}</p>
+        </div>
+
+        <div class="plan-divider"></div>
+
+        <div class="plan-content">
+          <ul class="plan-features">
+            <!-- Store Limit Feature -->
+            <li class="feature-item">
+              <i class="pi pi-check-circle"></i>
+              <span>{{ plan.storeLimit === 1000000 ? 'Unlimited' : plan.storeLimit }} {{ plan.storeLimit === 1 ? 'Store' : 'Stores' }} Limit</span>
+            </li>
+            <!-- Dynamic Features from Description -->
+            <li *ngFor="let feature of getFeatures(plan.description)" class="feature-item">
+              <i class="pi pi-check-circle"></i>
+              <span>{{ feature }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-auto">
+          <button class="pricing-btn-action" (click)="selectPlan(plan)">
+            {{ plan.price === 0 ? 'Talk to Sales' : 'Choose ' + plan.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading() && plans().length === 0" class="text-center py-20 animate-fadeIn">
+      <i class="pi pi-info-circle text-4xl text-gray-400 mb-4"></i>
+      <p class="text-gray-500 text-xl">No subscription plans available at the moment.</p>
+    </div>
   </div>
 </div>
