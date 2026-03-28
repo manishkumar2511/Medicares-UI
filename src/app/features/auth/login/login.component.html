@@ -1,4 +1,8 @@
-<div class="login-wrapper">
+<div class="login-wrapper animate-fadeIn">
+  <!-- Bloom Background Elements -->
+  <div class="hero-bg-bloom bloom-1"></div>
+  <div class="hero-bg-bloom bloom-2"></div>
+
   <div class="login-card">
     <div class="login-card-content">
       <div class="login-form-section">
@@ -8,7 +12,7 @@
 
           <!-- EMAIL -->
           <div class="form-group">
-            <label>Email</label>
+            <label class="form-label">Email</label>
             <input
               type="email"
               class="form-control"
@@ -26,13 +30,14 @@
 
           <!-- PASSWORD -->
           <div class="form-group">
-            <label>Password</label>
+            <label class="form-label">Password</label>
             <p-password
               formControlName="password"
               [toggleMask]="true"
               [feedback]="false"
               [promptLabel]="'Enter your password'"
               [placeholder]="'Enter your password'"
+              class="custom-password"
             ></p-password>
 
             <app-form-error
@@ -55,13 +60,13 @@
           <div class="login-btn-row">
             <button
               type="submit"
-              class="login-btn primary-btn"
+              class="login-btn-submit"
               [disabled]="loading"
             >
               {{ loading ? 'Logging in...' : 'Login' }}
             </button>
 
-            <button type="button" class="login-btn tertiary-btn" (click)="forgotPassword()">
+            <button type="button" class="login-btn-forgot" (click)="forgotPassword()">
               Forgot Password
             </button>
           </div>
@@ -80,3 +85,4 @@
     </div>
   </div>
 </div>
+
