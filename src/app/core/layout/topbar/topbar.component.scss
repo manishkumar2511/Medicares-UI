@@ -78,6 +78,79 @@
     &:hover {
         transform: scale(1.02);
     }
+
+    &.hidden {
+        display: none !important;
+    }
+}
+
+.auth-brand-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &.hidden {
+        display: none !important;
+    }
+
+    @media (max-width: 600px) {
+        gap: 8px;
+    }
+}
+
+.auth-hamburger {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 8px;
+
+    &:hover {
+        background: var(--background-secondary);
+        color: var(--primary-color);
+    }
+
+    // Only show hamburger if sidebar is likely hidden (under 1100px)
+    @media (min-width: 1101px) {
+        display: none !important;
+    }
+}
+
+.auth-page-title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
+    letter-spacing: -0.5px;
+
+    @media (max-width: 900px) {
+        font-size: 1.25rem;
+        max-width: 300px;
+    }
+
+    @media (max-width: 600px) {
+        font-size: 1.15rem;
+        max-width: 200px;
+    }
+
+    @media (max-width: 380px) {
+        font-size: 1rem;
+        max-width: 150px;
+    }
 }
 
 // NAVIGATION

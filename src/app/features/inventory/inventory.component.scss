@@ -5,6 +5,7 @@
   min-height: calc(100vh - 80px);
   background-color: var(--background-secondary);
   transition: all 0.3s ease;
+  margin-top: 50px;
 
   :host-context([data-theme='light']) & {
     background-color: #ffffff !important;
@@ -14,14 +15,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     flex-wrap: wrap;
     gap: 1.5rem;
 
     @media (max-width: 768px) {
       flex-direction: column !important;
-      align-items: flex-start !important;
+      align-items: stretch !important;
       margin-bottom: 1.5rem;
+      gap: 1rem !important;
     }
 
     h2 {
@@ -64,10 +66,10 @@
     }
 
     .inventory-search {
-      padding-left: 1rem !important; // Removed wide padding as icon is being removed
+      padding-left: 2.8rem !important; // Increased for search icon
       width: 100% !important;
-      max-width: 320px;
-      border-radius: 10px;
+      max-width: 400px;
+      border-radius: 12px;
       background: var(--background-secondary) !important;
       border: 1px solid var(--border-color) !important;
       transition: all 0.3s;
