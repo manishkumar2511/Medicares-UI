@@ -20,6 +20,7 @@ export class LayoutComponent implements OnInit {
     public isAuthenticated = this.authService.isAuthenticatedSignal;
 
     public isSidebarOpen = signal(true);
+    public isContentScrolled = signal(false);
 
     ngOnInit() {
         this.checkScreenSize();
@@ -51,5 +52,12 @@ export class LayoutComponent implements OnInit {
 
     toggleSidebar() {
         this.isSidebarOpen.update(v => !v);
+    }
+
+    @HostListener('window:scroll', [])
+    onWindowScroll() {
+        if (typeof window !== 'undefined') {
+            this.isContentScrolled.set(window.scrollY > 50);
+        }
     }
 }

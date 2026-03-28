@@ -10,7 +10,7 @@
     </app-sidebar>
 
     <div class="main-container">
-        <app-topbar [isSidebarOpen]="isSidebarOpen()" (toggleSidebar)="toggleSidebar()"></app-topbar>
+        <app-topbar [isSidebarOpen]="isSidebarOpen()" [scrolled]="isContentScrolled()" (toggleSidebar)="toggleSidebar()"></app-topbar>
         <main class="content-area">
             <router-outlet></router-outlet>
         </main>

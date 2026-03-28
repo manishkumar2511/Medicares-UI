@@ -1,6 +1,6 @@
-import { Component, inject, signal, Input, Output, EventEmitter } from '@angular/core';
+import { Component, inject, signal, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { PrimematerialModule } from '../../primematerial.module';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
@@ -14,12 +14,13 @@ import { ActivatedRoute, NavigationEnd } from '@angular/router';
 @Component({
     selector: 'app-topbar',
     standalone: true,
-    imports: [CommonModule, RouterLink, PrimematerialModule],
+    imports: [CommonModule, RouterLink, RouterLinkActive, PrimematerialModule],
     templateUrl: './topbar.component.html',
     styleUrl: './topbar.component.scss',
 })
 export class TopbarComponent {
     @Input() isSidebarOpen = true;
+    @Input() scrolled = false;
     @Output() toggleSidebar = new EventEmitter<void>();
 
     private authService = inject(AuthService);

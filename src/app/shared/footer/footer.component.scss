@@ -7,7 +7,7 @@
 }
 
 .main-footer {
-  padding: 100px 0 0;
+  padding: 40px 0 0;
   background: var(--background-primary);
   color: var(--text-primary);
   border-top: 1px solid var(--border-color);
@@ -52,11 +52,11 @@
   .footer-logo {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 1.8rem;
-    font-weight: 800;
     margin-bottom: 24px;
-    color: var(--primary-color);
+
+    svg {
+      height: auto;
+    }
   }
 
   .footer-moto {

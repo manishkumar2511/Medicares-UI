@@ -25,46 +25,44 @@
         width: 100%;
         max-width: 100%;
         min-height: 100vh;
-        overflow-x: hidden;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-sizing: border-box;
     }
 
     .content-area {
         flex-grow: 1;
-        padding: 0;
-        overflow-y: auto;
+        width: 100%;
+        // No fixed height here - let it grow
+    }
+}
+
+// Ensure the body can scroll
+:host-context(html, body) {
+    height: auto !important;
+    overflow: auto !important;
+}
+
+// Media Queries for Responsive Authenticated Layout
+@media (max-width: 1100px) {
+    .layout-wrapper.authenticated {
+        .main-container {
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
     }
 }
 
 @media (max-width: 991px) {
     .layout-wrapper.authenticated {
         .main-container {
-            margin-left: 80px !important;
-            width: calc(100% - 80px) !important;
-        }
-
-        &.sidebar-collapsed {
-            .main-container {
-                margin-left: 0 !important;
-                width: 100% !important;
-            }
+            margin-left: 0px !important;
+            width: 100% !important;
         }
     }
 }
 
-@media (max-width: 600px) {
-    .layout-wrapper.authenticated {
-        .main-container {
-            margin-left: 70px !important;
-            width: calc(100% - 70px) !important;
-        }
-
-        &.sidebar-collapsed {
-            .main-container {
-                margin-left: 0 !important;
-                width: 100% !important;
-            }
-        }
-    }
+// For fixed header layout, we need to handle the guest vs auth padding
+.main-container:not(.authenticated) .content-area {
+    padding-top: 0; // The hero section already handles its own padding
 }
+

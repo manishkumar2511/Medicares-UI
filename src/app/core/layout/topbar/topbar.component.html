@@ -1,112 +1,93 @@
-<header class="topbar" [class.guest-mode]="!isAuthenticated()" [class.auth-mode]="isAuthenticated()">
-
+<div class="topbar" 
+     [class.scrolled]="scrolled"
+     [class.guest-mode]="!isAuthenticated()" 
+     [class.auth-mode]="isAuthenticated()">
   <div class="topbar-container">
-
-    <!-- LEFT : LOGO & TITLE -->
     <div class="topbar-left">
-      <!-- GUEST LOGO (hidden when authenticated) -->
       <a class="brand" (click)="navigateToHome()" aria-label="Medicares home" [class.hidden]="isAuthenticated()">
-        @if (isDarkMode()) {
-        <svg class="logo-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="160px">
+        <svg class="original-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="150px">
           <defs>
-            <linearGradient id="gDark" x1="0" x2="1">
+            <linearGradient id="logoGrad" x1="0" x2="1">
               <stop offset="0" stop-color="#A8EEFF" />
               <stop offset="1" stop-color="#19B6E6" />
             </linearGradient>
           </defs>
-          <circle cx="32" cy="32" r="30" fill="#ffffff" />
-          <circle cx="32" cy="28" r="20" fill="url(#gDark)" />
+          <circle cx="32" cy="32" r="30" [attr.fill]="isDarkMode() ? '#2D2D2D' : '#ffffff'" />
+          <circle cx="32" cy="28" r="20" fill="url(#logoGrad)" />
           <rect x="30" y="20" width="6" height="20" rx="2" fill="#ffffff" />
           <rect x="20" y="28" width="20" height="6" rx="2" fill="#ffffff" />
-          <g transform="translate(74,44)"><text x="0" y="0" font-size="36" fill="#ffffff">M</text><text x="22" y="0"
-              font-size="28" fill="#ffffff">edicares</text></g>
+          <g transform="translate(68,44)">
+            <text x="0" y="0" font-size="34" font-weight="1000" [attr.fill]="isDarkMode() ? '#ffffff' : '#111111'">Medi</text>
+            <text x="78" y="0" font-size="34" font-weight="1000" fill="#00BCD4">cares</text>
+          </g>
         </svg>
-        } @else {
-        <svg class="logo-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="160px">
-          <defs>
-            <linearGradient id="gLight" x1="0" x2="1">
-              <stop offset="0" stop-color="#A8EEFF" />
-              <stop offset="1" stop-color="#19B6E6" />
-            </linearGradient>
-          </defs>
-          <circle cx="32" cy="32" r="30" fill="#ffffff" />
-          <circle cx="32" cy="28" r="20" fill="url(#gLight)" />
-          <rect x="30" y="20" width="6" height="20" rx="2" fill="#ffffff" />
-          <rect x="20" y="28" width="20" height="6" rx="2" fill="#ffffff" />
-          <g transform="translate(74,44)"><text x="0" y="0" font-size="36" fill="#ffffff">M</text><text x="22" y="0"
-              font-size="28" fill="#ffffff">edicares</text></g>
-        </svg>
-        }
       </a>
 
-      <!-- AUTH MODE: PAGE TITLE (hidden when NOT authenticated) -->
       <div class="auth-brand-group" [class.hidden]="!isAuthenticated()" (click)="onToggleSidebar()">
         <div class="brand-logo-toggle" *ngIf="!isSidebarOpen">
-          <svg width="32" height="32" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="gAuth" x1="0" x2="1">
-                <stop offset="0" stop-color="#A8EEFF" />
-                <stop offset="1" stop-color="#19B6E6" />
-              </linearGradient>
-            </defs>
-            <circle cx="32" cy="32" r="32" [attr.fill]="isDarkMode() ? '#2D2D2D' : '#ffffff'" />
-            <circle cx="32" cy="28" r="24" fill="url(#gAuth)" />
-            <rect x="29" y="16" width="6" height="24" rx="2" fill="#ffffff" />
-            <rect x="16" y="25" width="24" height="6" rx="2" fill="#ffffff" />
-          </svg>
+          <i class="pi pi-plus-circle"></i>
         </div>
         <h1 class="auth-page-title">{{ pageTitle }}</h1>
       </div>
     </div>
 
-    <!-- RIGHT -->
     <div class="topbar-right">
-
-      <!-- DESKTOP NAV (GUEST only — hidden when authenticated) -->
       <nav class="topbar-nav desktop-only" [class.hidden]="isAuthenticated()">
-        <a routerLink="/" class="nav-link">Home</a>
-        <a routerLink="/pricing" class="nav-link">Our Plans</a>
-        <a routerLink="/about" class="nav-link">About</a>
-        <a routerLink="/contact" class="nav-link">Contact</a>
-        <a (click)="navigateToLogin()" class="nav-link">Login</a>
-        <a (click)="navigateToOwnerRegistration()" class="nav-link cta">Get Started</a>
+        <a routerLink="/" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        <a routerLink="/pricing" class="nav-link" routerLinkActive="active">Pricing</a>
+        <a routerLink="/services" class="nav-link" routerLinkActive="active">Services</a>
+        <a routerLink="/about" class="nav-link" routerLinkActive="active">About Us</a>
       </nav>
 
-      <!-- NOTIFICATION BELL (visible only when authenticated) -->
+      <div class="topbar-actions" [class.hidden]="isAuthenticated()">
+        <p-button label="Login" (onClick)="navigateToLogin()" class="ghost-btn-pill desktop-only"></p-button>
+        <p-button label="Get Started" (onClick)="navigateToOwnerRegistration()" class="solid-btn-pill desktop-only"></p-button>
+      </div>
+
       <div class="notification-wrapper" [class.hidden]="!isAuthenticated()" (click)="onOpenNotifications()">
-        <i class="pi pi-bell notification-icon"></i>
-        <span class="notification-badge">5</span>
+        <i class="pi pi-bell"></i>
+        <span class="notification-badge">3</span>
       </div>
 
-      <!-- THEME TOGGLE (DESKTOP) -->
-      <i class="pi theme-toggle desktop-only" [ngClass]="isDarkMode() ? 'pi-sun' : 'pi-moon'"
-        [class.auth-mode-icon]="isAuthenticated()" (click)="toggleTheme()">
-      </i>
+      <button class="theme-toggle-btn desktop-only" (click)="toggleTheme()" [title]="isDarkMode() ? 'Switch to Light' : 'Switch to Dark'">
+        <i class="pi" [ngClass]="isDarkMode() ? 'pi-sun' : 'pi-moon'"></i>
+      </button>
 
-      <!-- HAMBURGER (MOBILE — guest only) -->
-      <div class="hamburger mobile-only" [class.hidden]="isAuthenticated()" (click)="toggleMobileMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
+      <!-- Hamburger — mobile/tablet only -->
+      <div class="hamburger mobile-only" [class.hidden]="isAuthenticated()" (click)="toggleMobileMenu()" [class.active]="mobileMenuOpen">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
       </div>
-
     </div>
   </div>
 
-  <!-- MOBILE MENU -->
-  @if (mobileMenuOpen) {
-  <div class="mobile-menu">
-    <a routerLink="/" (click)="closeMobileMenu()">Home</a>
-    <a routerLink="/pricing" (click)="closeMobileMenu()">Our Plans</a>
-    <a routerLink="/about" (click)="closeMobileMenu()">About</a>
-    <a routerLink="/contact" (click)="closeMobileMenu()">Contact</a>
-    <a (click)="navigateToLogin(); closeMobileMenu()">Login</a>
-    <a (click)="navigateToOwnerRegistration(); closeMobileMenu()">Get Started</a>
-    <div class="mobile-theme-toggle" (click)="toggleTheme(); closeMobileMenu()">
+  <!-- Mobile Dropdown Menu -->
+  <div class="mobile-menu mobile-only" [class.open]="mobileMenuOpen" [class.hidden]="isAuthenticated()">
+    <nav class="mobile-nav">
+      <a routerLink="/" class="mobile-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileMenu()">
+        <i class="pi pi-home"></i> Home
+      </a>
+      <a routerLink="/pricing" class="mobile-nav-link" routerLinkActive="active" (click)="closeMobileMenu()">
+        <i class="pi pi-tag"></i> Pricing
+      </a>
+      <a routerLink="/services" class="mobile-nav-link" routerLinkActive="active" (click)="closeMobileMenu()">
+        <i class="pi pi-th-large"></i> Services
+      </a>
+      <a routerLink="/about" class="mobile-nav-link" routerLinkActive="active" (click)="closeMobileMenu()">
+        <i class="pi pi-info-circle"></i> About Us
+      </a>
+    </nav>
+    <div class="mobile-theme-toggle" (click)="toggleTheme()">
       <i class="pi" [ngClass]="isDarkMode() ? 'pi-sun' : 'pi-moon'"></i>
-      <span>{{ isDarkMode() ? 'Light Mode' : 'Dark Mode' }}</span>
+      <span>{{ isDarkMode() ? 'Switch to Light' : 'Switch to Dark' }}</span>
+    </div>
+    <div class="mobile-menu-actions">
+      <p-button label="Login" (onClick)="navigateToLogin(); closeMobileMenu()" class="ghost-btn-pill mobile-full"></p-button>
+      <p-button label="Get Started" (onClick)="navigateToOwnerRegistration(); closeMobileMenu()" class="solid-btn-pill mobile-full"></p-button>
     </div>
   </div>
-  }
+</div>
 
-</header>
+<!-- Backdrop to close menu when clicking outside -->
+<div class="mobile-backdrop" [class.visible]="mobileMenuOpen && !isAuthenticated()" (click)="closeMobileMenu()"></div>
