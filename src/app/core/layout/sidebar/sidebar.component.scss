@@ -50,86 +50,95 @@
     &.collapsed {
         width: 80px;
 
-        @media (max-width: 991px) {
-            width: 0 !important;
-            border-right: none;
-
-            .sidebar-body,
-            .sidebar-footer {
-                transform: translateX(-100%);
-            }
-        }
-
-        .brand-area {
-            justify-content: center;
+        .sidebar-header {
+           padding: 1rem 0 !important;
+           justify-content: center !important;
+           .brand-area {
+              justify-content: center !important;
+              padding: 0 !important;
+              .brand-name { display: none !important; }
+              .logo-circle { margin: 0 !important; }
+           }
         }
 
         .nav-link {
-            justify-content: center;
+            justify-content: center !important;
+            padding: 0.85rem 0 !important;
+            margin: 4px 10px !important;
 
-            span {
-                display: none;
+            span, .chev {
+                display: none !important;
             }
 
             i {
-                margin: 0;
+                margin: 0 !important;
+                font-size: 1.4rem !important;
             }
+        }
+
+        .user-card {
+            justify-content: center !important;
+            padding: 10px 0 !important;
+            .user-details {
+                display: none !important;
+            }
+        }
+
+        .footer-action-btns {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 12px !important;
         }
     }
 
     .sidebar-header {
-        padding: 0.5rem 12px;
-        min-height: 60px;
+        padding: 1.25rem 1.5rem;
+        min-height: 80px;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
-        flex-shrink: 0;
         transition: all 0.3s ease;
         z-index: 1200;
-
-        @media (max-width: 991px) {
-            display: flex !important;
-            height: 60px;
-            width: 100%;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        @media (max-width: 600px) {
-            display: flex !important;
-            width: 70px;
-            height: 55px;
-        }
 
         .brand-area {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
             gap: 12px;
             cursor: pointer;
             width: 100%;
+            transition: all 0.3s ease;
 
             .logo-circle {
-                width: 40px;
-                height: 40px;
-                background: transparent !important;
-                border-radius: 0;
+                width: 42px;
+                height: 42px;
+                background: #ffffff;
+                border-radius: 50%; // Keep it circular as before
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: #fff;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                flex-shrink: 0;
+
+                svg {
+                    width: 38px;
+                    height: 38px;
+                }
             }
 
             .brand-name {
-                font-size: 1.15rem;
-                font-weight: 700;
+                font-size: 1.4rem;
+                font-weight: 900;
                 color: var(--text-primary);
+                letter-spacing: -0.02em;
+                display: block !important; // Ensure it shows on desktop
 
                 @media (max-width: 991px) {
-                    display: none !important; // Hide text on mobile, keep only icon
+                  display: none !important;
                 }
             }
         }
     }
+
+
 
     .sidebar-body {
         flex: 1;

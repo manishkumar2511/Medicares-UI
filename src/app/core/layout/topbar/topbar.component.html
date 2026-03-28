@@ -24,9 +24,7 @@
       </a>
 
       <div class="auth-brand-group" [class.hidden]="!isAuthenticated()" (click)="onToggleSidebar()">
-        <div class="brand-logo-toggle" *ngIf="!isSidebarOpen">
-          <i class="pi pi-plus-circle"></i>
-        </div>
+
         <h1 class="auth-page-title">{{ pageTitle }}</h1>
       </div>
     </div>

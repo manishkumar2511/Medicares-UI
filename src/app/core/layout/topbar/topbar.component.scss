@@ -12,17 +12,18 @@
     left: 0;
     right: 0;
     height: clamp(70px, 10vh, 90px);
-    z-index: 9999;
+    z-index: 1000; // Lower than sidebar (1100) to allow sidebar branding to show
     display: flex;
     align-items: center;
     background: transparent !important;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    padding-top: clamp(0px, 2.5vw, 20px); // This creates the "floating" effect dynamically
+    padding-top: clamp(0px, 2.5vw, 20px); 
 
     &.guest-mode {
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
+        left: 0 !important; // Stays full width
     }
 
     &.auth-mode {
@@ -30,10 +31,19 @@
         height: 70px;
         background: var(--background-primary) !important;
         border-bottom: 1px solid var(--border-color);
+        
+        // Offset by sidebar width
+        left: 260px;
+        @media (max-width: 1100px) { left: 0; }
     }
 
-    // Scrolled effect via JS/Directives? 
-    // Let's add a class helper if we had one, but for now we'll ensure it looks good always.
+    // Handle collapsed sidebar offset if class available, 
+    // but layout handles it via margin, so we'll do the same for left.
+    :host-context(.sidebar-collapsed) &.auth-mode {
+        left: 80px;
+        @media (max-width: 1100px) { left: 0; }
+    }
+
     &.scrolled {
         padding-top: 0;
         background: rgba(255, 255, 255, 0.8) !important;
@@ -42,18 +52,17 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 
         [data-theme='dark'] & {
-            background: rgba(18, 18, 18, 0.8) !important;
+            background: rgba(10, 10, 10, 0.8) !important; // Deep black sync
         }
     }
 }
 
 .topbar-container {
-    width: 98%;
-    max-width: 1800px; // Increased for 4k support
-    margin: 0 auto;
-    padding: 0 clamp(15px, 5vw, 60px);
+    width: 100%;
+    margin: 0;
+    padding: 0 24px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; // Standard layout
     align-items: center;
     height: 100%;
 }
