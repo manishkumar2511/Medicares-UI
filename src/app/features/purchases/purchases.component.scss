@@ -58,11 +58,14 @@
 
     i {
       position: absolute;
-      left: 14px;
+      left: 1.1rem;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-secondary);
       z-index: 10;
+      font-size: 14px;
+      opacity: 0.5;
+      pointer-events: none;
     }
 
     .purchases-search {
