@@ -9,13 +9,14 @@ import { FormErrorComponent } from '../../../shared';
 import { ToastService } from '../../../core/services';
 import { MESSAGES } from '../../../core/constants';
 import { OwnerService } from '../../../core/services/owner';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-owner-registration',
   imports: [
     PrimematerialModule,
-    FormErrorComponent
+    FormErrorComponent,
+    RouterLink
   ],
   templateUrl: './owner-registration.component.html',
   styleUrl: './owner-registration.component.scss',
