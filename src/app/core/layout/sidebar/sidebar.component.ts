@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter, inject, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { PrimematerialModule } from '../../primematerial.module';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
+import { StoreService } from '../../services/store/store.service';
 import { NavMenuItem } from '../../interfaces/nav-menu-item';
 import {
     SuperAdminSidebarMenuItems,
@@ -25,15 +26,35 @@ export class SidebarComponent implements OnInit {
 
     private authService = inject(AuthService);
     public themeService = inject(ThemeService);
+    private storeService = inject(StoreService);
     private router = inject(Router);
     public user$ = this.authService.user$;
     public menuItems: NavMenuItem[] = [];
+    public storeName = signal('Add Your Store');
+    public hasStore = signal(false);
     private openMenus = new Set<string>();
 
     ngOnInit() {
         this.authService.user$.subscribe(user => {
             if (user && user.role) {
                 this.setMenuItems(user.role as string);
+                if (user.role?.toLowerCase() === 'admin' || user.role?.toLowerCase() === 'owner') {
+                    this.loadStoreName();
+                }
+            }
+        });
+    }
+
+    private loadStoreName(): void {
+        this.storeService.getMyStores().subscribe({
+            next: (res) => {
+                if (res.succeeded && res.data && res.data.length > 0) {
+                    this.storeName.set(res.data[0].name);
+                    this.hasStore.set(true);
+                } else {
+                    this.storeName.set('Add Your Store');
+                    this.hasStore.set(false);
+                }
             }
         });
     }
@@ -63,6 +84,10 @@ export class SidebarComponent implements OnInit {
         this.toggleSidebar.emit();
     }
 
+    goToDashboard(): void {
+        this.router.navigate(['/owner-dashboard']);
+    }
+
     onMenuItemClick(item: NavMenuItem) {
         if (item.clickEvent === 'logout') {
             this.logout();
@@ -76,7 +101,7 @@ export class SidebarComponent implements OnInit {
 
     toggleMenu(item: NavMenuItem) {
         if (!this.isOpen) {
-            this.onToggle(); // Open sidebar first
+            this.onToggle();
         }
         const title = item.title;
         if (this.openMenus.has(title)) {

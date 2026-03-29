@@ -12,9 +12,9 @@ export class OwnerService {
   private toastService = inject(ToastService);
 
 
-  ownerRegistration(ownerRegisterationData: FormData) {
+  ownerRegistration(data: { email: string; password: string }) {
     return this.apiService
-      .post<Result<string>>('auth/get-started', ownerRegisterationData, { showLoader: true })
+      .post<Result<string>>('auth/get-started', data, { showLoader: true })
       .pipe(
         catchError((error: Result<unknown>) => {
           error.messages?.forEach(msg =>

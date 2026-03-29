@@ -1,0 +1,23 @@
+<div class="invoice-mgmt-wrapper animate-fadeIn">
+  <div class="hero-bg-bloom bloom-1"></div>
+  <div class="hero-bg-bloom bloom-2"></div>
+
+  <div class="invoice-mgmt-container">
+    <!-- Header -->
+    <div class="page-header">
+      <div class="header-left">
+        <p class="page-subtitle">Generate, view and manage your invoices</p>
+      </div>
+      <p-button label="Generate Invoice" icon="pi pi-plus" (onClick)="goToGenerateInvoice()"
+        styleClass="generate-btn">
+      </p-button>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid-section">
+      <app-generic-grid [data]="invoices()" [columns]="columns" [actions]="actions"
+        (actionExecuted)="onActionExecuted($event)">
+      </app-generic-grid>
+    </div>
+  </div>
+</div>

@@ -11,10 +11,16 @@
     {{ invalidMessage || 'Invalid input' }}
   </small>
 
-  <!-- Password mismatch -->
+  <!-- Password mismatch (form-level error) -->
   <small class="form-error-text" 
-         *ngIf="form.get(controlName)?.hasError('passwordMismatch')">
+         *ngIf="controlName === 'confirmPassword' && form.hasError('passwordMismatch')">
     {{ passwordMismatchMessage || 'Passwords do not match' }}
+  </small>
+
+  <!-- Pattern -->
+  <small class="form-error-text" 
+         *ngIf="form.get(controlName)?.hasError('pattern')">
+    {{ invalidMessage || 'Invalid format' }}
   </small>
 
   <!-- Min length -->

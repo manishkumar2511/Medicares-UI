@@ -9,7 +9,6 @@ $card-radius: clamp(20px, 2.5vw, 32px);
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  overflow: visible !important; // Let the body handle the scrolling
 
   // Grid background pattern from Home page
   background-image: 

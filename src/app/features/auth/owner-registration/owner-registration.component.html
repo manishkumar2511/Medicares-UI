@@ -1,112 +1,42 @@
 <div class="register-wrapper animate-fadeIn">
-  <!-- Bloom Background Elements -->
   <div class="hero-bg-bloom bloom-1"></div>
   <div class="hero-bg-bloom bloom-2"></div>
 
   <form class="register-form" [formGroup]="ownerRegistrationForm" (ngSubmit)="submitOwnerRegistration()">
     <div class="register-header">
-      <h4 class="register-title">Owner Registration</h4>
-      <p class="register-subtitle">Create your account to manage your medical services</p>
+      <h4 class="register-title">Create your Account</h4>
+      <p class="register-subtitle">Start managing your medical services today</p>
     </div>
 
-    <div class="register-columns">
+    <div class="form-section">
 
-      <!-- LEFT COLUMN -->
-      <div class="register-col">
-        <section class="register-section">
-          <h3 class="section-heading">Personal Information</h3>
-
-          <div class="form-group">
-            <label class="form-label">First Name</label>
-            <input pInputText class="custom-input" formControlName="firstName" placeholder="First Name" />
-            <app-form-error [form]="ownerRegistrationForm" controlName="firstName" message="First name is required">
-            </app-form-error>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Last Name</label>
-            <input pInputText class="custom-input" formControlName="lastName" placeholder="Last Name" />
-            <app-form-error [form]="ownerRegistrationForm" controlName="lastName" message="Last name is required">
-            </app-form-error>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input pInputText class="custom-input" type="email" formControlName="email"
-              placeholder="john@example.com" />
-            <app-form-error [form]="ownerRegistrationForm" controlName="email" message="Please enter a valid email">
-            </app-form-error>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Phone Number</label>
-            <input pInputText class="custom-input" formControlName="phoneNumber" placeholder="+91 00000 00000" />
-
-            <app-form-error [form]="ownerRegistrationForm" controlName="phoneNumber"
-              requiredMessage="Phone number is required" invalidMessage="Please enter a valid 10-digit phone number">
-            </app-form-error>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Password</label>
-            <p-password formControlName="password" [toggleMask]="true" [feedback]="false" placeholder="••••••••"
-              class="custom-password">
-            </p-password>
-            <app-form-error [form]="ownerRegistrationForm" controlName="password"
-              message="Password is required (min 6 characters)">
-            </app-form-error>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Confirm Password</label>
-            <p-password formControlName="confirmPassword" [toggleMask]="true" [feedback]="false" placeholder="••••••••"
-              class="custom-password">
-            </p-password>
-
-            <app-form-error [form]="ownerRegistrationForm" controlName="confirmPassword"
-              requiredMessage="Confirm password is required" passwordMismatchMessage="Passwords do not match">
-            </app-form-error>
-          </div>
-        </section>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input pInputText class="custom-input" type="email" formControlName="email"
+          placeholder="john@example.com" />
+        <app-form-error [form]="ownerRegistrationForm" controlName="email" requiredMessage="Email is required" invalidMessage="Please enter a valid email">
+        </app-form-error>
       </div>
 
-      <!-- RIGHT COLUMN -->
-      <div class="register-col">
-        <section class="register-section">
-          <h3 class="section-heading">Address Information</h3>
-
-          <div class="form-group">
-            <label class="form-label">Address Line</label>
-            <input pInputText class="custom-input" formControlName="addressLine" placeholder="Street, Building, etc." />
-            <app-form-error [form]="ownerRegistrationForm" controlName="addressLine" message="Address is required">
-            </app-form-error>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">City</label>
-            <input pInputText class="custom-input" formControlName="city" placeholder="e.g. Mumbai" />
-            <app-form-error [form]="ownerRegistrationForm" controlName="city" message="City is required">
-            </app-form-error>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Postal Code</label>
-            <input pInputText class="custom-input" formControlName="postalCode" placeholder="e.g. 400001" />
-            <app-form-error [form]="ownerRegistrationForm" controlName="postalCode" message="Postal code is required">
-            </app-form-error>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">State</label>
-            <p-dropdown [options]="states" optionLabel="name" optionValue="id" placeholder="Select State"
-              formControlName="stateId" class="custom-dropdown">
-            </p-dropdown>
-            <app-form-error [form]="ownerRegistrationForm" controlName="stateId" message="Please select a state">
-            </app-form-error>
-          </div>
-        </section>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <p-password formControlName="password" [toggleMask]="true" [feedback]="false" placeholder="••••••••"
+          class="custom-password">
+        </p-password>
+        <app-form-error [form]="ownerRegistrationForm" controlName="password"
+          message="Password is required (min 6 characters)">
+        </app-form-error>
       </div>
 
+      <div class="form-group">
+        <label class="form-label">Confirm Password</label>
+        <p-password formControlName="confirmPassword" [toggleMask]="true" [feedback]="false" placeholder="••••••••"
+          class="custom-password">
+        </p-password>
+        <app-form-error [form]="ownerRegistrationForm" controlName="confirmPassword"
+          requiredMessage="Confirm password is required" passwordMismatchMessage="Passwords do not match">
+        </app-form-error>
+      </div>
     </div>
 
     <!-- API / ERROR SECTION -->
@@ -120,7 +50,7 @@
 
     <div class="form-actions">
       <button type="submit" class="register-btn-main" [disabled]="ownerRegistrationForm.invalid">
-        Register Owner
+        Create Account
       </button>
       <p class="login-redirect">
         Already have an account? <a routerLink="/account/login">Sign in</a>

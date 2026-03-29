@@ -16,7 +16,9 @@
                 </svg>
             </div>
             @if (isOpen) {
-            <span class="brand-name">Medicares</span>
+            <span class="brand-name" [class.no-store]="!hasStore()" (click)="hasStore() ? null : goToDashboard()">
+                {{ storeName() }}
+            </span>
             }
         </div>
     </div>

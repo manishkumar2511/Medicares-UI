@@ -48,9 +48,9 @@ export const AdminSidebarMenuItems: NavMenuItem[] = [
     position: "top",
   },
   {
-    title: "Billing",
-    href: "/billing-management",
-    icon: "pi pi-calculator",
+    title: "Invoice Management",
+    href: "/invoice-management",
+    icon: "pi pi-file-edit",
     position: "top",
   },
   {
@@ -159,7 +159,7 @@ export const StoreStaffSidebarMenuItems: NavMenuItem[] = [
   },
   {
     title: "Billing management",
-    href: "/sales",
+    href: "/invoice-management",
     icon: "pi pi-calculator",
     position: "top",
   },

@@ -2,6 +2,8 @@ import { Routes } from "@angular/router";
 import { authRoutes } from "./features/auth/routes";
 import { LayoutComponent } from "./core/layout/layout.component";
 import { AuthGuard, redirectIfAuthenticatedGuard } from "./core/guards";
+import { InvoiceManagementComponent } from "./features/invoice-management";
+import { GenerateInvoiceComponent } from "./features/invoice-management/generate-invoice";
 
 export const routes: Routes = [
   {
@@ -17,6 +19,14 @@ export const routes: Routes = [
          title: 'Owner Dashboard', 
          loadComponent: () => import('./features/dashboard/owner/owner-dashboard.component')
          .then(m => m.OwnerDashboardComponent),
+        canActivate: [AuthGuard]},
+      { path: 'invoice-management',
+        title: 'Invoice Management',
+        component: InvoiceManagementComponent,
+        canActivate: [AuthGuard]},
+      { path: 'invoice-management/generate',
+        title: 'Generate Invoice',
+        component: GenerateInvoiceComponent,
         canActivate: [AuthGuard]},
       { path: 'billing-management',
         title: 'Billing Management',

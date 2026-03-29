@@ -5,6 +5,7 @@
 
   <div class="dashboard">
     <p class="subtitle mt-3 mb-5 px-1">Pharmacy Network & Operations Management Dashboard</p>
+
     <!-- Stats Grid -->
     <div class="stats-grid">
       @for (card of statsCards; track card.title) {
@@ -23,6 +24,35 @@
       }
     </div>
 
+    <!-- My Stores Section -->
+    <div class="stores-section">
+      <div class="section">
+        <div class="section-header" *ngIf="stores().length > 0">
+          <h2 class="section-title"><i class="pi pi-shop"></i> My Stores</h2>
+          <p-button label="Add Store" icon="pi pi-plus" (onClick)="openAddStoreDialog()"
+            [disabled]="stores().length >= 1" styleClass="add-store-btn">
+          </p-button>
+        </div>
+
+        <h2 class="section-title" *ngIf="stores().length === 0"><i class="pi pi-shop"></i> My Stores</h2>
+
+        @if (stores().length === 0) {
+        <div class="empty-stores">
+          <i class="pi pi-shop"></i>
+          <h3>No stores added yet</h3>
+          <p>Add your first store to start managing your pharmacy operations.</p>
+          <p-button label="Add Your First Store" icon="pi pi-plus" (onClick)="openAddStoreDialog()"
+            styleClass="add-first-store-btn">
+          </p-button>
+        </div>
+        } @else {
+        <app-generic-grid [data]="stores()" [columns]="storeColumns" [actions]="storeActions"
+          (actionExecuted)="onStoreAction($event)">
+        </app-generic-grid>
+        }
+      </div>
+    </div>
+
     <!-- Charts Section -->
     <div class="charts-grid mb-4">
       <div class="section chart-section">
@@ -39,42 +69,7 @@
       </div>
     </div>
 
-    <!-- Schedules Grid -->
-    <div class="content-grid">
-      <div class="section">
-        <h2 class="section-title"><i class="pi pi-map-marker"></i> Network Operation Hours</h2>
-        <div class="list-container">
-          @for (pharmacy of pharmacySchedules; track $index) {
-          <div class="schedule-item modern-item">
-            <div class="item-header">
-              <h3>{{ pharmacy.name }}</h3>
-              <span class="arrow-icon">›</span>
-            </div>
-            <p class="time-badge"><i class="pi pi-clock"></i> {{ pharmacy.time }}</p>
-            <p class="location-text"><i class="pi pi-directions"></i> {{ pharmacy.address }}</p>
-          </div>
-          }
-        </div>
-      </div>
-
-      <div class="section">
-        <h2 class="section-title"><i class="pi pi-bolt"></i> Urgent Deliveries</h2>
-        <div class="list-container">
-          @for (delivery of deliverySchedules; track $index) {
-          <div class="schedule-item modern-item alert-item">
-            <div class="item-header">
-              <h3>{{ delivery.orderId }}</h3>
-              <span class="arrow-icon">›</span>
-            </div>
-            <p class="time-badge alert"><i class="pi pi-info-circle"></i> {{ delivery.time }}</p>
-            <p class="location-text"><i class="pi pi-user"></i> {{ delivery.address }}</p>
-          </div>
-          }
-        </div>
-      </div>
-    </div>
-
-    <!-- Bottom Grid -->
+    <!-- Recent Activity -->
     <div class="bottom-grid">
       <div class="section">
         <h2 class="section-title"><i class="pi pi-history"></i> Recent Activity</h2>
@@ -93,25 +88,66 @@
           }
         </div>
       </div>
-
-      <div class="section">
-        <h2 class="section-title"><i class="pi pi-file-pdf"></i> Recent Reports</h2>
-        <div class="list-container">
-          @for (report of recentReports; track report.id) {
-          <div class="report-item modern-report">
-            <div class="report-info">
-              <div class="file-icon-wrapper">
-                <i class="pi pi-file-pdf"></i>
-              </div>
-              <span class="report-name">{{ report.name }}</span>
-            </div>
-            <button class="download-icon-btn" (click)="downloadReport(report)">
-              <i class="pi pi-download"></i>
-            </button>
-          </div>
-          }
-        </div>
-      </div>
     </div>
   </div>
 </div>
+
+<!-- Add Store Dialog -->
+<p-dialog header="Add New Store" [(visible)]="showAddStoreDialog" [modal]="true" [draggable]="false"
+  [resizable]="false" [style]="{ width: '600px', maxWidth: '95vw' }" styleClass="add-store-dialog">
+
+  <form [formGroup]="storeForm" class="store-form">
+    <div class="form-group">
+      <label>Store Name *</label>
+      <input pInputText formControlName="name" placeholder="e.g. City Medical Store" class="dialog-input" />
+      <app-form-error [form]="storeForm" controlName="name" requiredMessage="Store name is required"></app-form-error>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Phone *</label>
+        <input pInputText formControlName="phone" placeholder="10-digit phone number" class="dialog-input" />
+        <app-form-error [form]="storeForm" controlName="phone" requiredMessage="Phone is required" invalidMessage="Enter valid phone number (digits only)"></app-form-error>
+      </div>
+      <div class="form-group">
+        <label>License Number *</label>
+        <input pInputText formControlName="licenseNumber" placeholder="Drug License No." class="dialog-input" />
+        <app-form-error [form]="storeForm" controlName="licenseNumber" requiredMessage="License number is required"></app-form-error>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Address Line *</label>
+      <input pInputText formControlName="addressLine" placeholder="Street, Building, etc." class="dialog-input" />
+      <app-form-error [form]="storeForm" controlName="addressLine" requiredMessage="Address is required"></app-form-error>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>City *</label>
+        <input pInputText formControlName="city" placeholder="e.g. Mumbai" class="dialog-input" />
+        <app-form-error [form]="storeForm" controlName="city" requiredMessage="City is required"></app-form-error>
+      </div>
+      <div class="form-group">
+        <label>Postal Code *</label>
+        <input pInputText formControlName="postalCode" placeholder="e.g. 400001" class="dialog-input" />
+        <app-form-error [form]="storeForm" controlName="postalCode" requiredMessage="Postal code is required" invalidMessage="Enter valid 5-6 digit postal code"></app-form-error>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>State *</label>
+      <p-dropdown [options]="states()" optionLabel="name" optionValue="id" formControlName="stateId"
+        placeholder="Select State" styleClass="dialog-dropdown" appendTo="body"
+        [panelStyle]="{ minWidth: '250px' }">
+      </p-dropdown>
+      <app-form-error [form]="storeForm" controlName="stateId" requiredMessage="Please select a state"></app-form-error>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <p-button label="Cancel" [text]="true" (onClick)="closeAddStoreDialog()"></p-button>
+    <p-button label="Save Store" icon="pi pi-check" [loading]="savingStore()" [disabled]="storeForm.invalid"
+      (onClick)="saveStore()" styleClass="save-store-btn"></p-button>
+  </ng-template>
+</p-dialog>

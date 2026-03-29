@@ -1,0 +1,127 @@
+$cyan: #00BCD4;
+
+.invoice-mgmt-wrapper {
+  position: relative;
+  padding: clamp(80px, 5vh, 100px) clamp(20px, 4vw, 40px) 30px;
+  background-color: var(--background-primary);
+
+  background-image:
+    radial-gradient(rgba(0, 188, 212, 0.03) 1px, transparent 1px),
+    radial-gradient(rgba(0, 188, 212, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+
+  .hero-bg-bloom {
+    position: absolute;
+    filter: blur(150px);
+    z-index: 0;
+    opacity: 0.1;
+    border-radius: 50%;
+
+    &.bloom-1 {
+      width: 500px;
+      height: 500px;
+      background: rgba($cyan, 0.3);
+      top: -200px;
+      right: -100px;
+    }
+
+    &.bloom-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(16, 185, 129, 0.15);
+      bottom: -100px;
+      left: -100px;
+    }
+  }
+}
+
+.invoice-mgmt-container {
+  position: relative;
+  z-index: 5;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// ─── Header ───────────────────────────────────────────────
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+
+.page-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+::ng-deep .generate-btn {
+  background: $cyan !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  padding: 10px 20px !important;
+  box-shadow: 0 6px 20px -4px rgba($cyan, 0.35) !important;
+  transition: all 0.3s ease !important;
+
+  &:hover {
+    background: darken($cyan, 5%) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px -4px rgba($cyan, 0.45) !important;
+  }
+}
+
+// ─── Grid Section ─────────────────────────────────────────
+.grid-section {
+  background: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.06);
+
+  [data-theme='dark'] & {
+    box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// ─── Animation ────────────────────────────────────────────
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ─── Responsive ───────────────────────────────────────────
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  ::ng-deep .generate-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

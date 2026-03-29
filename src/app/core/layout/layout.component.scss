@@ -2,7 +2,6 @@
     display: flex;
     min-height: 100vh;
     background-color: var(--background-secondary);
-    overflow: visible !important;
 
     &.authenticated {
         .main-container {
@@ -28,13 +27,13 @@
         min-height: 100vh;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-sizing: border-box;
-        overflow: visible !important;
+        overflow: visible; // Key fix for double scrollbars
     }
 
     .content-area {
         flex-grow: 1;
         width: 100%;
-        overflow: visible !important;
+        overflow: visible; // Key fix for double scrollbars
     }
 }
 

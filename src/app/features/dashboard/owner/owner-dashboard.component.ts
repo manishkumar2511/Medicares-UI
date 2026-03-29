@@ -1,27 +1,59 @@
-import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, inject, PLATFORM_ID, signal } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PrimematerialModule } from '../../../core/primematerial.module';
 import { LayoutComponent } from '../../../core/layout/layout.component';
 import { ThemeService } from '../../../core/services/theme.service';
+import { CommonService } from '../../../core/services/common';
+import { StoreService } from '../../../core/services/store/store.service';
+import { ToastService } from '../../../core/services/notification/toast.service';
+import { GenericGridComponent, GridColumn, GridAction } from '../../../shared/components/generic-grid/generic-grid.component';
 import { MESSAGES } from '../../../core/constants/messages.const';
+import { State } from '../../../core/models';
+import { Store } from '../../../core/models/store/store.model';
+import { phoneNumberValidator } from '../../../core/validators';
+import { FormErrorComponent } from '../../../shared';
 
 @Component({
     selector: 'app-owner-dashboard',
     standalone: true,
-    imports: [CommonModule, PrimematerialModule],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, PrimematerialModule, GenericGridComponent, FormErrorComponent],
     templateUrl: './owner-dashboard.component.html',
     styleUrl: './owner-dashboard.component.scss'
 })
 export class OwnerDashboardComponent implements OnInit {
     private platformId = inject(PLATFORM_ID);
-    private layout = inject(LayoutComponent); // Inject parent layout
+    private layout = inject(LayoutComponent);
     private themeService = inject(ThemeService);
+    private commonService = inject(CommonService);
+    private storeService = inject(StoreService);
+    private toastService = inject(ToastService);
+    private fb = inject(FormBuilder);
     public dashboardMessages = MESSAGES.DASHBOARD;
 
     public chartData: any;
     public chartOptions: any;
     public pieData: any;
     public pieOptions: any;
+
+    // Store Management
+    stores = signal<Store[]>([]);
+    states = signal<State[]>([]);
+    showAddStoreDialog = signal(false);
+    savingStore = signal(false);
+    storeForm!: FormGroup;
+
+    storeColumns: GridColumn[] = [
+        { field: 'name', header: 'Store Name', sortable: true },
+        { field: 'city', header: 'City', sortable: true, width: '140px' },
+        { field: 'state', header: 'State', sortable: true, width: '140px' },
+        { field: 'phone', header: 'Phone', sortable: false, width: '140px' },
+        { field: 'isActive', header: 'Active', type: 'boolean', sortable: true, width: '80px' }
+    ];
+
+    storeActions: GridAction[] = [
+        { id: 'view', label: 'View', icon: 'pi pi-eye', severity: 'info', tooltip: 'View Store' }
+    ];
 
     toggleSidebar() {
         this.layout.toggleSidebar();
@@ -38,16 +70,79 @@ export class OwnerDashboardComponent implements OnInit {
         { title: MESSAGES.DASHBOARD.STATS.LOW_STOCK, value: '8', icon: 'pi pi-exclamation-triangle', color: '#F44336', trend: 'Critical', trendIcon: 'pi pi-info-circle' }
     ];
 
-    public pharmacySchedules = [
-        { name: 'City Central Pharmacy', time: '09:00 AM - 06:00 PM', address: '123 Medical Square, Downtown' },
-        { name: 'Green Valley Meds', time: '10:00 AM - 08:00 PM', address: '45 Garden Road, North Side' },
-        { name: 'Sunrise Health Hub', time: '08:00 AM - 10:00 PM', address: '88 Sunrise Blvd, East End' }
-    ];
+    ngOnInit() {
+        if (isPlatformBrowser(this.platformId)) {
+            this.initCharts();
+        }
+        this.initStoreForm();
+        this.loadStores();
+        this.loadStates();
+    }
 
-    public deliverySchedules = [
-        { orderId: 'ORD-7721', time: 'Expected by 2:00 PM', address: 'Patient: Amit Sharma | Batch #A-22' },
-        { orderId: 'ORD-7725', time: 'Expected by 4:30 PM', address: 'Patient: Priya Verma | Batch #B-09' }
-    ];
+    private initStoreForm(): void {
+        this.storeForm = this.fb.group({
+            name: ['', Validators.required],
+            phone: ['', [Validators.required, phoneNumberValidator()]],
+            licenseNumber: ['', Validators.required],
+            addressLine: ['', Validators.required],
+            city: ['', Validators.required],
+            postalCode: ['', [Validators.required, Validators.pattern(/^\d{5,6}$/)]],
+            stateId: ['', Validators.required]
+        });
+    }
+
+    loadStores(): void {
+        this.storeService.getMyStores().subscribe({
+            next: (res) => {
+                if (res.succeeded && res.data) {
+                    this.stores.set(res.data);
+                }
+            }
+        });
+    }
+
+    loadStates(): void {
+        this.commonService.getState().subscribe({
+            next: (res: State[]) => {
+                this.states.set(res);
+            }
+        });
+    }
+
+    openAddStoreDialog(): void {
+        this.storeForm.reset();
+        this.showAddStoreDialog.set(true);
+    }
+
+    closeAddStoreDialog(): void {
+        this.showAddStoreDialog.set(false);
+    }
+
+    saveStore(): void {
+        if (this.storeForm.invalid) {
+            this.storeForm.markAllAsTouched();
+            return;
+        }
+
+        this.savingStore.set(true);
+        this.storeService.addStore(this.storeForm.getRawValue()).subscribe({
+            next: (res) => {
+                this.savingStore.set(false);
+                if (res.succeeded) {
+                    this.toastService.success('Success', 'Store added successfully.');
+                    this.showAddStoreDialog.set(false);
+                    this.loadStores();
+                }
+            },
+            error: () => {
+                this.savingStore.set(false);
+            }
+        });
+    }
+
+    onStoreAction(event: { id: string; data: Store }): void {
+        // View store details - can be expanded later
+    }
 
     public recentActivities = [
         { title: 'Stock Updated', summary: 'Paracetamol 500mg (500 units)', eventTime: new Date() },
@@ -55,24 +150,8 @@ export class OwnerDashboardComponent implements OnInit {
         { title: 'New Sale', summary: 'Order #7728 - $145.50', eventTime: new Date(Date.now() - 7200000) }
     ];
 
-    public recentReports = [
-        { id: 'SALES_DEC_2025', name: 'Sales_Report_Dec_2025.pdf' },
-        { id: 'INV_DEC_2025', name: 'Inventory_Audit_Dec_2025.pdf' }
-    ];
-
-    ngOnInit() {
-        if (isPlatformBrowser(this.platformId)) {
-            this.initCharts();
-        }
-    }
-
-    public downloadReport(report: any) {
-        console.log('Downloading report:', report);
-    }
-
     private initCharts() {
         const documentStyle = getComputedStyle(document.documentElement);
-        // Correctly handle CSS variables
         const primaryColor = documentStyle.getPropertyValue('--primary-color') || '#19B6E6';
         const textColor = documentStyle.getPropertyValue('--text-primary') || '#212121';
         const textColorSecondary = documentStyle.getPropertyValue('--text-secondary') || '#757575';
@@ -96,88 +175,26 @@ export class OwnerDashboardComponent implements OnInit {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: {
-                    position: 'top',
-                    align: 'end',
-                    labels: {
-                        usePointStyle: true,
-                        pointStyle: 'circle',
-                        color: textColor,
-                        boxWidth: 8,
-                        padding: 10,
-                        font: { size: 10 }
-                    }
-                },
-                tooltip: {
-                    padding: 8,
-                    bodyFont: { size: 11 },
-                    titleFont: { size: 11 }
-                }
+                legend: { position: 'top', align: 'end', labels: { usePointStyle: true, pointStyle: 'circle', color: textColor, boxWidth: 8, padding: 10, font: { size: 10 } } },
+                tooltip: { padding: 8, bodyFont: { size: 11 }, titleFont: { size: 11 } }
             },
             scales: {
-                x: {
-                    ticks: {
-                        color: textColorSecondary,
-                        font: { size: 9 },
-                        maxRotation: 0,
-                        autoSkip: true
-                    },
-                    grid: {
-                        display: false
-                    }
-                },
-                y: {
-                    ticks: {
-                        color: textColorSecondary,
-                        font: { size: 9 },
-                        padding: 5
-                    },
-                    grid: {
-                        color: surfaceBorder,
-                        drawBorder: false
-                    }
-                }
+                x: { ticks: { color: textColorSecondary, font: { size: 9 }, maxRotation: 0, autoSkip: true }, grid: { display: false } },
+                y: { ticks: { color: textColorSecondary, font: { size: 9 }, padding: 5 }, grid: { color: surfaceBorder, drawBorder: false } }
             },
-            layout: {
-                padding: {
-                    left: 2,
-                    right: 15,
-                    top: 5,
-                    bottom: 5
-                }
-            }
+            layout: { padding: { left: 2, right: 15, top: 5, bottom: 5 } }
         };
 
         this.pieData = {
             labels: ['Medicines', 'Surgicals', 'Consumer', 'Others'],
-            datasets: [
-                {
-                    data: [45, 25, 20, 10],
-                    backgroundColor: [primaryColor, '#4CAF50', '#FF9800', '#9C27B0'],
-                    borderColor: 'transparent'
-                }
-            ]
+            datasets: [{ data: [45, 25, 20, 10], backgroundColor: [primaryColor, '#4CAF50', '#FF9800', '#9C27B0'], borderColor: 'transparent' }]
         };
 
         this.pieOptions = {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        usePointStyle: true,
-                        pointStyle: 'circle',
-                        color: textColor,
-                        boxWidth: 8,
-                        padding: 8,
-                        font: { size: 10 }
-                    }
-                }
-            },
-            layout: {
-                padding: 10
-            }
+            plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', color: textColor, boxWidth: 8, padding: 8, font: { size: 10 } } } },
+            layout: { padding: 10 }
         };
     }
 }

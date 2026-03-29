@@ -18,3 +18,5 @@ export * from "./grid.model";
 export * from "./subscription-plan/subscription-plan.model";
 export * from "./super-admin/owner-list-response.model";
 export * from "./payment/payment.model";
+export * from "./invoice/invoice.model";
+export * from "./store/store.model";

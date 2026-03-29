@@ -125,11 +125,22 @@
             }
 
             .brand-name {
-                font-size: 1.4rem;
-                font-weight: 900;
+                font-size: 1rem;
+                font-weight: 800;
                 color: var(--text-primary);
                 letter-spacing: -0.02em;
-                display: block !important; // Ensure it shows on desktop
+                display: block !important;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 140px;
+                line-height: 1.2;
+
+                &.no-store {
+                    color: var(--text-secondary);
+                    font-size: 0.82rem;
+                    font-weight: 600;
+                }
 
                 @media (max-width: 991px) {
                   display: none !important;
