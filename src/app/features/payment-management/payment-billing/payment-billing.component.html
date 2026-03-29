@@ -1,75 +1,184 @@
-<div class="billing-page animate-fadeIn overflow-x-hidden p-6 lg:p-10 flex justify-center items-center min-h-screen">
-  <div class="main-container w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-black">
-    <!-- Summary Pane -->
-    <div class="summary-section p-6 sm:p-10 lg:p-16 flex flex-col w-full">
-      <div class="summary-wrapper w-full">
-        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
-          <div class="flex items-center gap-3">
-            <button pButton icon="pi pi-arrow-left" class="p-button-text back-btn" (click)="goToPricing()"></button>
-            <h2 class="text-xl font-bold text-gray-400 uppercase tracking-widest text-sm">Order Summary</h2>
-          </div>
-          <button pButton class="p-button-text p-button-sm change-plan-btn font-bold px-3 py-1" label="Change Plan"
-            (click)="goToPricing()"></button>
+<div class="checkout-wrapper">
+  <div class="hero-bg-bloom bloom-1"></div>
+  <div class="hero-bg-bloom bloom-2"></div>
+
+  <div class="checkout-container">
+    <!-- Left Panel - Payment Illustration -->
+    <div class="checkout-left-panel">
+      <div class="left-content">
+        <div class="illustration-wrapper">
+          <svg viewBox="0 0 400 420" fill="none" xmlns="http://www.w3.org/2000/svg" class="payment-svg">
+            <!-- Background Circles -->
+            <circle cx="200" cy="200" r="150" fill="rgba(0,188,212,0.04)" />
+            <circle cx="200" cy="200" r="110" fill="rgba(0,188,212,0.03)" />
+
+            <!-- Credit Card - Main -->
+            <g class="card-float">
+              <rect x="80" y="120" width="240" height="150" rx="16" fill="rgba(0,188,212,0.1)" stroke="#00BCD4" stroke-width="2" />
+              <!-- Card stripe -->
+              <rect x="80" y="160" width="240" height="30" fill="rgba(0,188,212,0.08)" />
+              <!-- Card chip -->
+              <rect x="100" y="185" width="40" height="30" rx="6" fill="rgba(0,188,212,0.15)" stroke="rgba(0,188,212,0.3)" stroke-width="1.5" />
+              <line x1="100" y1="195" x2="140" y2="195" stroke="rgba(0,188,212,0.2)" stroke-width="1" />
+              <line x1="100" y1="205" x2="140" y2="205" stroke="rgba(0,188,212,0.2)" stroke-width="1" />
+              <line x1="115" y1="185" x2="115" y2="215" stroke="rgba(0,188,212,0.2)" stroke-width="1" />
+              <line x1="125" y1="185" x2="125" y2="215" stroke="rgba(0,188,212,0.2)" stroke-width="1" />
+              <!-- Card number dots -->
+              <circle cx="165" cy="200" r="3" fill="rgba(0,188,212,0.3)" />
+              <circle cx="180" cy="200" r="3" fill="rgba(0,188,212,0.3)" />
+              <circle cx="195" cy="200" r="3" fill="rgba(0,188,212,0.3)" />
+              <circle cx="210" cy="200" r="3" fill="rgba(0,188,212,0.3)" />
+              <circle cx="250" cy="200" r="3" fill="rgba(0,188,212,0.3)" />
+              <circle cx="265" cy="200" r="3" fill="rgba(0,188,212,0.3)" />
+              <circle cx="280" cy="200" r="3" fill="rgba(0,188,212,0.3)" />
+              <circle cx="295" cy="200" r="3" fill="rgba(0,188,212,0.3)" />
+              <!-- Card holder name -->
+              <rect x="100" y="235" width="100" height="6" rx="3" fill="rgba(0,188,212,0.15)" />
+              <!-- Expiry -->
+              <rect x="250" y="235" width="50" height="6" rx="3" fill="rgba(0,188,212,0.1)" />
+              <!-- Card logo circle -->
+              <circle cx="290" cy="145" r="18" fill="rgba(0,188,212,0.08)" stroke="rgba(0,188,212,0.2)" stroke-width="1" />
+              <circle cx="282" cy="145" r="14" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.2)" stroke-width="1" />
+            </g>
+
+            <!-- Shield / Security -->
+            <g class="shield-float" transform="translate(270, 60)">
+              <path d="M30 0 L60 12 L60 36 Q60 56 30 66 Q0 56 0 36 L0 12 Z" fill="rgba(16,185,129,0.1)" stroke="#10B981" stroke-width="2" />
+              <path d="M20 34 L27 41 L42 26" stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+
+            <!-- Lock Icon -->
+            <g class="lock-float" transform="translate(70, 290)">
+              <rect x="8" y="18" width="36" height="30" rx="6" fill="rgba(0,188,212,0.12)" stroke="#00BCD4" stroke-width="2" />
+              <path d="M14 18 L14 10 Q14 0 26 0 Q38 0 38 10 L38 18" stroke="#00BCD4" stroke-width="2" fill="none" />
+              <circle cx="26" cy="33" r="4" fill="#00BCD4" opacity="0.5" />
+              <line x1="26" y1="37" x2="26" y2="42" stroke="#00BCD4" stroke-width="2" stroke-linecap="round" />
+            </g>
+
+            <!-- Rupee Symbol -->
+            <g class="rupee-float" transform="translate(310, 200)">
+              <circle cx="20" cy="20" r="24" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.2)" stroke-width="1.5" />
+              <text x="20" y="27" text-anchor="middle" fill="rgba(245,158,11,0.5)" font-size="22" font-weight="700">&#8377;</text>
+            </g>
+
+            <!-- Medical Cross -->
+            <g class="cross-float" transform="translate(40, 80)">
+              <rect x="0" y="12" width="28" height="4" rx="2" fill="rgba(0,188,212,0.15)" />
+              <rect x="12" y="0" width="4" height="28" rx="2" fill="rgba(0,188,212,0.15)" />
+            </g>
+
+            <!-- Floating Pills -->
+            <g class="float-pill-1" transform="translate(330, 310)">
+              <rect width="28" height="14" rx="7" fill="rgba(0,188,212,0.1)" stroke="#00BCD4" stroke-width="1.5" />
+              <line x1="14" y1="0" x2="14" y2="14" stroke="#00BCD4" stroke-width="1.5" />
+              <circle cx="7" cy="7" r="2" fill="#00BCD4" opacity="0.3" />
+              <circle cx="21" cy="7" r="2" fill="#00BCD4" opacity="0.3" />
+            </g>
+
+            <g class="float-pill-2" transform="translate(20, 180)">
+              <rect width="24" height="12" rx="6" fill="rgba(16,185,129,0.1)" stroke="#10B981" stroke-width="1.5" />
+              <line x1="12" y1="0" x2="12" y2="12" stroke="#10B981" stroke-width="1.5" />
+            </g>
+
+            <!-- ECG Line -->
+            <g class="ecg-group">
+              <path d="M60 380 L100 380 L115 355 L130 400 L145 365 L160 390 L175 380 L240 380"
+                stroke="#00BCD4" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                class="ecg-line" />
+            </g>
+
+            <!-- Connection dots -->
+            <circle cx="300" cy="140" r="3" fill="rgba(0,188,212,0.2)" class="pulse-dot" />
+            <circle cx="100" cy="310" r="3" fill="rgba(16,185,129,0.2)" class="pulse-dot" />
+            <circle cx="350" cy="260" r="3" fill="rgba(245,158,11,0.2)" class="pulse-dot" />
+          </svg>
         </div>
 
-        <!-- Totals Card -->
-        <div class="total-summary-card p-6 sm:p-10 rounded-3xl bg-white dark:bg-gray-900 shadow-2xl mb-8 border border-gray-100 dark:border-gray-800">
-          <div class="plan-info mb-6 pb-6 border-b border-gray-50 dark:border-gray-800">
-            <span class="bg-primary bg-opacity-10 text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider">{{plan?.name}}</span>
-            <p class="text-xs text-gray-400 mt-2 font-medium" *ngIf="plan?.description">{{plan.description}}</p>
-            <div class="flex justify-between items-end mt-4">
-              <h3 class="text-3xl font-black">₹{{plan?.price}}</h3>
-              <span class="text-gray-400 text-xs mb-1">/ Recurring Subscription</span>
-            </div>
-          </div>
+        <div class="left-text">
+          <h2>Secure <span class="text-cyan">Checkout.</span></h2>
+          <p>Your payment is protected with 256-bit SSL encryption.</p>
+        </div>
+      </div>
+    </div>
 
-          <div class="tax-breakdown flex flex-col gap-3 mb-8">
-            <div class="flex justify-between text-gray-500 text-sm">
-              <span>Platform Fee</span>
-              <span class="text-green-500 font-bold uppercase text-[10px]">Free</span>
-            </div>
-            <div class="flex justify-between text-gray-500 text-sm">
-              <span>GST (18%)</span>
-              <span class="font-bold text-gray-900 dark:text-white">₹{{tax | number:'1.2-2'}}</span>
-            </div>
-          </div>
-
-          <div class="final-total mb-8 text-center bg-gray-50 dark:bg-gray-800 p-4 rounded-2xl">
-            <p class="text-gray-400 text-[10px] font-bold uppercase mb-1">Total Amount to Pay</p>
-            <h4 class="text-4xl font-black text-primary tracking-tighter">₹{{total | number:'1.2-2'}}</h4>
-          </div>
-
-          <div class="flex justify-center">
-            <button pButton class="p-button-raised py-4 px-10 rounded-xl p-button-lg shadow-primary transition-all w-full"
-              (click)="payNow()">
-              <div class="flex items-center justify-center gap-3">
-                <i class="pi pi-lock text-lg"></i>
-                <span class="text-lg font-bold">Secure Payment</span>
-                <i class="pi pi-arrow-right"></i>
-              </div>
-            </button>
-           
-          </div>
-          <div class="mt-3 text-center">
-            @if (error) {
-              <small class="form-error-text block">
-                {{ error }}
-              </small>
-            }
+    <!-- Right Panel - Checkout Form -->
+    <div class="checkout-right-panel">
+      <div class="checkout-section">
+        <!-- Back Button -->
+        <div class="checkout-header">
+          <button pButton icon="pi pi-arrow-left" class="p-button-text back-btn" (click)="goToPricing()"></button>
+          <div>
+            <h2 class="checkout-title">Order Summary</h2>
+            <p class="checkout-subtitle">Review your plan and complete payment</p>
           </div>
         </div>
 
-        <!-- Security & Trust -->
-        <div class="security-info text-center bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
-          <div class="flex justify-center gap-6 sm:gap-12 items-center mb-6">
-            <i class="pi pi-shield text-2xl sm:text-3xl text-gray-300" pTooltip="PCI DSS Certified"></i>
-            <i class="pi pi-verified text-2xl sm:text-3xl text-gray-300" pTooltip="SSL Encrypted"></i>
-            <i class="pi pi-money-bill text-2xl sm:text-3xl text-gray-300" pTooltip="Secure Transactions"></i>
+        <!-- Plan Card -->
+        <div class="plan-card">
+          <div class="plan-badge-row">
+            <span class="plan-badge">{{plan?.name}}</span>
+            <button pButton class="p-button-text p-button-sm change-plan-btn" label="Change Plan" (click)="goToPricing()"></button>
           </div>
-          <p class="text-[9px] text-gray-400 leading-relaxed font-bold uppercase tracking-[0.2em]">
-            Safe & Secure 256-bit SSL encrypted payments. <br>
-            We do not store your full card details.
-          </p>
+          <p class="plan-description" *ngIf="plan?.description">{{plan.description}}</p>
+          <div class="plan-price-row">
+            <h3 class="plan-price">&#8377;{{plan?.price}}</h3>
+            <span class="plan-period">/ month</span>
+          </div>
+        </div>
+
+        <!-- Tax Breakdown -->
+        <div class="breakdown-card">
+          <div class="breakdown-row">
+            <span class="breakdown-label">Platform Fee</span>
+            <span class="breakdown-value free">Free</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label">Subtotal</span>
+            <span class="breakdown-value">&#8377;{{subtotal | number:'1.2-2'}}</span>
+          </div>
+          <div class="breakdown-row">
+            <span class="breakdown-label">GST (18%)</span>
+            <span class="breakdown-value">&#8377;{{tax | number:'1.2-2'}}</span>
+          </div>
+          <div class="breakdown-divider"></div>
+          <div class="breakdown-row total-row">
+            <span class="breakdown-label">Total</span>
+            <span class="breakdown-value total-value">&#8377;{{total | number:'1.2-2'}}</span>
+          </div>
+        </div>
+
+        <!-- Pay Button -->
+        <button pButton class="pay-btn" (click)="payNow()">
+          <div class="pay-btn-content">
+            <i class="pi pi-lock"></i>
+            <span>Pay &#8377;{{total | number:'1.2-2'}}</span>
+          </div>
+        </button>
+
+        @if (error) {
+          <div class="error-box">
+            <i class="pi pi-exclamation-circle"></i>
+            <span>{{ error }}</span>
+          </div>
+        }
+
+        <!-- Trust Badges -->
+        <div class="trust-section">
+          <div class="trust-badges">
+            <div class="trust-badge">
+              <i class="pi pi-shield"></i>
+              <span>PCI DSS</span>
+            </div>
+            <div class="trust-badge">
+              <i class="pi pi-verified"></i>
+              <span>SSL Encrypted</span>
+            </div>
+            <div class="trust-badge">
+              <i class="pi pi-lock"></i>
+              <span>Secure</span>
+            </div>
+          </div>
+          <p class="trust-text">We do not store your card details</p>
         </div>
       </div>
     </div>
