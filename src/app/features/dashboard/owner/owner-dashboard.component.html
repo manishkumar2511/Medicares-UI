@@ -27,12 +27,12 @@
     <!-- My Stores Section -->
     <div class="stores-section">
       <div class="section">
-        <div class="section-header" *ngIf="stores().length > 0">
+        <!-- <div class="section-header" *ngIf="stores().length > 0">
           <h2 class="section-title"><i class="pi pi-shop"></i> My Stores</h2>
           <p-button label="Add Store" icon="pi pi-plus" (onClick)="openAddStoreDialog()"
             [disabled]="stores().length >= 1" styleClass="add-store-btn">
           </p-button>
-        </div>
+        </div> -->
 
         <h2 class="section-title" *ngIf="stores().length === 0"><i class="pi pi-shop"></i> My Stores</h2>
 
