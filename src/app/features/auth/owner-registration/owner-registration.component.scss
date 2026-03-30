@@ -91,6 +91,13 @@ $card-radius: clamp(20px, 2.5vw, 32px);
   display: inline-block;
 }
 
+.form-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
 .form-group {
   margin-bottom: 24px;
   
@@ -113,12 +120,16 @@ $card-radius: clamp(20px, 2.5vw, 32px);
     background: var(--background-primary) !important;
     color: var(--text-primary) !important;
     transition: all 0.3s ease !important;
-    min-height: 48px !important; // Consistent height
+    min-height: 48px !important;
 
     &:focus {
       outline: none !important;
       border-color: $primary-cyan !important;
       box-shadow: 0 0 0 4px rgba($primary-cyan, 0.1) !important;
+
+      &::placeholder {
+        color: transparent !important;
+      }
     }
   }
 

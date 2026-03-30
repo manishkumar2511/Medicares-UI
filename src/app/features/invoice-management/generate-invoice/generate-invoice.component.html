@@ -8,8 +8,7 @@
     <div class="nav-bar no-print">
       <button pButton icon="pi pi-arrow-left" label="Back" class="p-button-text back-btn" (click)="goBack()"></button>
       <div class="nav-actions" *ngIf="existingInvoice()">
-        <p-button label="Print" icon="pi pi-print" styleClass="p-button-outlined print-action-btn" (onClick)="printInvoice()"></p-button>
-        <p-button label="New Invoice" icon="pi pi-plus" styleClass="new-invoice-btn" (onClick)="createNew()"></p-button>
+        <p-button label="Print Invoice" icon="pi pi-print" styleClass="p-button-outlined print-action-btn" (onClick)="printInvoice()"></p-button>
       </div>
     </div>
 
@@ -20,15 +19,14 @@
       <div class="invoice-header">
         <div class="company-info">
           <div class="logo-row">
-            <img src="assets/images/medicares-logo.svg" alt="Medicares" class="company-logo" onerror="this.style.display='none'" />
+            <img src="assets/images/medicares-logo.svg" alt="Logo" class="company-logo" onerror="this.style.display='none'" />
             <div>
-              <h1 class="company-name">{{ selectedStore()?.name || 'Medicares' }}</h1>
-              <p class="company-tagline">Healthcare Solutions</p>
+              <h1 class="company-name">{{ getStoreDisplayName() }}</h1>
             </div>
           </div>
-          <p class="company-detail" *ngIf="selectedStore()?.addressLine">{{ selectedStore()?.addressLine }}, {{ selectedStore()?.city }}, {{ selectedStore()?.state }}</p>
-          <p class="company-detail">Phone: {{ selectedStore()?.phone || '+91 00000 00000' }}</p>
-          <p class="company-detail" *ngIf="selectedStore()?.licenseNumber">License: {{ selectedStore()?.licenseNumber }}</p>
+          <p class="company-detail" *ngIf="getStoreAddress()">{{ getStoreAddress() }}</p>
+          <p class="company-detail">Phone: {{ getStorePhone() }}</p>
+          <p class="company-detail" *ngIf="getStoreLicense()">License: {{ getStoreLicense() }}</p>
         </div>
         <div class="invoice-meta">
           <h2 class="invoice-label">TAX INVOICE</h2>
@@ -38,47 +36,47 @@
           </div>
           <div class="meta-row">
             <span class="meta-key">Date</span>
-            <span class="meta-val">{{ (existingInvoice()?.billingDate || now) | date:'mediumDate' }}</span>
+            <span class="meta-val">{{ (existingInvoice()?.billingDate || now) | date:'medium' }}</span>
           </div>
         </div>
       </div>
 
       <div class="divider"></div>
 
-      <!-- Customer Details -->
-      <div class="customer-section">
-        <div class="customer-row">
-          <div class="customer-field" *ngIf="!isViewMode()">
-            <label>Store *</label>
-            <p-dropdown [options]="stores()" [(ngModel)]="selectedStoreId" optionLabel="name"
-              optionValue="id" placeholder="Select Store" class="field-dropdown">
-            </p-dropdown>
+      <!-- Bill To -->
+      <div class="bill-to-section">
+        <h3 class="bill-to-label">Bill To</h3>
+
+        <!-- Create Mode -->
+        <div class="bill-to-row" *ngIf="!isViewMode()">
+          <div class="bill-to-field">
+            <label>Store</label>
+            <input pInputText [value]="getStoreDisplayName()" disabled class="field-input" />
           </div>
-          <div class="customer-field">
+          <div class="bill-to-field">
             <label>Customer Name *</label>
-            <input pInputText [(ngModel)]="customerName" placeholder="Customer name"
-              [disabled]="isViewMode()" class="field-input" />
+            <input pInputText [(ngModel)]="customerName" placeholder="Customer name" class="field-input" />
           </div>
-          <div class="customer-field">
+          <div class="bill-to-field">
             <label>Contact</label>
-            <input pInputText [(ngModel)]="customerContact" placeholder="Phone / Email"
-              [disabled]="isViewMode()" class="field-input" />
-          </div>
-          <div class="customer-field">
-            <label>Payment Mode</label>
-            <p-dropdown [options]="paymentModes" [(ngModel)]="paymentMode" optionLabel="label"
-              optionValue="value" [disabled]="isViewMode()" class="field-dropdown">
-            </p-dropdown>
+            <input pInputText [(ngModel)]="customerContact" placeholder="Phone / Email" class="field-input" />
           </div>
         </div>
-        <div class="customer-row" *ngIf="paymentMode() === 'UPI' || paymentMode() === 'Card'">
-          <div class="customer-field">
-            <label>Transaction ID</label>
-            <input pInputText [(ngModel)]="transactionId" placeholder="UPI / Card transaction ID"
-              [disabled]="isViewMode()" class="field-input" />
+
+        <!-- View Mode - Plain Text -->
+        <div class="bill-to-info" *ngIf="isViewMode()">
+          <div class="bill-to-item">
+            <span class="bill-to-key">Customer</span>
+            <span class="bill-to-val">{{ customerName() }}</span>
+          </div>
+          <div class="bill-to-item" *ngIf="customerContact()">
+            <span class="bill-to-key">Contact</span>
+            <span class="bill-to-val">{{ customerContact() }}</span>
           </div>
         </div>
       </div>
+
+      <div class="divider"></div>
 
       <!-- Quick Entry (hide in view mode) -->
       <div class="entry-section no-print" *ngIf="!isViewMode()">
@@ -122,12 +120,12 @@
               <th style="width:30px">#</th>
               <th>Item</th>
               <th>HSN/SAC</th>
+              <th style="background:#f0f2f5 !important; color:#374151 !important; font-weight:700 !important; text-align:center !important;">Qty</th>
               <th>Rate</th>
-              <th>Disc%</th>
+              <th>Disc %</th>
               <th>Disc Amt</th>
-              <th>Qty</th>
               <th>Taxable</th>
-              <th>Tax%</th>
+              <th>Tax %</th>
               <th>Tax Amt</th>
               <th>Total</th>
               <th class="no-print" *ngIf="!isViewMode()"></th>
@@ -138,10 +136,10 @@
               <td>{{ i + 1 }}</td>
               <td class="item-name">{{ item.name }}</td>
               <td>{{ item.hsnCode || '-' }}</td>
+              <td style="background:#ffffff !important; color:#1A1A1A !important; font-weight:700 !important; text-align:center !important;">{{ item.quantity }}</td>
               <td>{{ item.rate | currency:'INR':'symbol' }}</td>
               <td>{{ item.discountPercent }}%</td>
               <td>{{ getItemDiscountAmt(item) | currency:'INR':'symbol' }}</td>
-              <td>{{ item.quantity }}</td>
               <td>{{ getItemTaxableValue(item) | currency:'INR':'symbol' }}</td>
               <td>{{ item.taxPercent }}%</td>
               <td>{{ (getItemTotal(item) - getItemTaxableValue(item)) | currency:'INR':'symbol' }}</td>
@@ -207,8 +205,8 @@
 
       <!-- Actions -->
       <div class="action-bar no-print" *ngIf="!isViewMode()">
-        <p-button label="Save & Generate Invoice" icon="pi pi-check" [loading]="saving()"
-          (onClick)="saveInvoice()" styleClass="save-btn">
+        <p-button label="Generate & Print Bill" icon="pi pi-print" [loading]="saving()"
+          (onClick)="saveAndPrint()" styleClass="save-btn">
         </p-button>
       </div>
 

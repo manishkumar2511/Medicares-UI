@@ -35,7 +35,9 @@ export class InvoiceManagementComponent implements OnInit {
 
   actions: GridAction[] = [
     { ...COMMON_GRID_ACTIONS.VIEW, icon: 'pi pi-eye', severity: 'info' },
-    { id: 'print', label: 'Print', icon: 'pi pi-print', severity: 'secondary', tooltip: 'Print Invoice' }
+    { id: 'download', label: 'Download', icon: 'pi pi-download', severity: 'success', tooltip: 'Download Invoice PDF' },
+    { id: 'print', label: 'Print', icon: 'pi pi-print', severity: 'secondary', tooltip: 'Print Invoice' },
+    { id: 'share', label: 'Share', icon: 'pi pi-whatsapp', severity: 'success', tooltip: 'Share via WhatsApp' }
   ];
 
   ngOnInit(): void {
@@ -62,10 +64,44 @@ export class InvoiceManagementComponent implements OnInit {
   }
 
   onActionExecuted(event: { id: string; data: Invoice }): void {
-    if (event.id === 'view' || event.id === 'print') {
+    if (event.id === 'view' || event.id === 'print' || event.id === 'download') {
       this.router.navigate(['/invoice-management/generate'], {
-        queryParams: { invoiceId: event.data.id, mode: event.id === 'print' ? 'print' : 'view' }
+        queryParams: { invoiceId: event.data.id, mode: event.id }
       });
+    } else if (event.id === 'share') {
+      this.shareViaWhatsApp(event.data);
     }
+  }
+
+  shareViaWhatsApp(invoice: Invoice): void {
+    const date = new Date(invoice.billingDate).toLocaleDateString('en-IN', {
+      day: '2-digit', month: 'short', year: 'numeric'
+    });
+
+    const message = [
+      `*Invoice: ${invoice.invoiceNumber}*`,
+      `Date: ${date}`,
+      `Customer: ${invoice.customerName}`,
+      ``,
+      `Items: ${invoice.itemSummary || 'N/A'}`,
+      ``,
+      `Subtotal: ₹${invoice.subTotal.toFixed(2)}`,
+      `Discount: -₹${invoice.discountTotal.toFixed(2)}`,
+      `GST: +₹${invoice.taxTotal.toFixed(2)}`,
+      `*Grand Total: ₹${invoice.grandTotal.toFixed(2)}*`,
+      `Received: ₹${invoice.receivedAmount.toFixed(2)}`,
+      `Balance Due: ₹${invoice.balanceDue.toFixed(2)}`,
+      `Payment: ${invoice.paymentMode}`,
+      ``,
+      `Thank you for your business!`,
+      `_Powered by Medicares_`
+    ].join('\n');
+
+    const phone = invoice.customerContact?.replace(/\D/g, '') || '';
+    const url = phone
+      ? `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
+      : `https://wa.me/?text=${encodeURIComponent(message)}`;
+
+    window.open(url, '_blank');
   }
 }

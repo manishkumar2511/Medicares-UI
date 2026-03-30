@@ -5,6 +5,7 @@ $green: #10B981;
   position: relative;
   padding: clamp(80px, 5vh, 100px) clamp(16px, 3vw, 32px) 30px;
   background-color: var(--background-primary);
+  color: var(--text-primary);
 
   background-image:
     radial-gradient(rgba(0, 188, 212, 0.03) 1px, transparent 1px),
@@ -76,24 +77,15 @@ $green: #10B981;
   font-weight: 600 !important;
 }
 
-::ng-deep .new-invoice-btn {
-  background: $cyan !important;
-  border: none !important;
-  border-radius: 10px !important;
-  font-weight: 700 !important;
-}
-
 // ─── Invoice Card ─────────────────────────────────────────
 .invoice-card {
-  background: var(--background-secondary);
-  border: 1px solid var(--border-color);
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.06);
-
-  [data-theme='dark'] & {
-    box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.3);
-  }
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.08);
+  color: #1A1A1A !important;
 }
 
 // ─── Invoice Header ───────────────────────────────────────
@@ -101,8 +93,9 @@ $green: #10B981;
   display: flex;
   justify-content: space-between;
   gap: 24px;
-  padding: 28px 28px 20px;
+  padding: 24px 28px 18px;
   flex-wrap: wrap;
+  background: #ffffff !important;
 }
 
 .company-info {
@@ -114,34 +107,26 @@ $green: #10B981;
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .company-logo {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
 }
 
 .company-name {
-  font-size: 1.4rem;
-  font-weight: 900;
+  font-size: 1.3rem;
+  font-weight: 800;
   color: $cyan;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-.company-tagline {
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .company-detail {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
+  font-size: 0.73rem;
+  color: #6B7280;
+  line-height: 1.5;
 }
 
 .invoice-meta {
@@ -150,30 +135,33 @@ $green: #10B981;
 }
 
 .invoice-label {
-  font-size: 0.85rem;
-  font-weight: 900;
-  color: var(--text-primary);
-  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #1A1A1A;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #00BCD4;
+  display: inline-block;
 }
 
 .meta-row {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .meta-key {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+  font-size: 0.73rem;
+  color: #6B7280;
   font-weight: 600;
 }
 
 .meta-val {
-  font-size: 0.82rem;
-  color: var(--text-primary);
+  font-size: 0.8rem;
+  color: #1A1A1A;
   font-weight: 700;
   min-width: 80px;
   text-align: right;
@@ -182,49 +170,89 @@ $green: #10B981;
 // ─── Divider ──────────────────────────────────────────────
 .divider {
   height: 1px;
-  background: var(--border-color);
+  background: #e5e7eb;
   margin: 0 28px;
 }
 
-// ─── Customer Section ─────────────────────────────────────
-.customer-section {
-  padding: 20px 28px;
+// ─── Bill To Section ──────────────────────────────────────
+.bill-to-section {
+  padding: 16px 28px;
+  background: #ffffff !important;
 }
 
-.customer-row {
+.bill-to-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #00BCD4;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.bill-to-row {
   display: flex;
   gap: 16px;
-  margin-bottom: 12px;
   flex-wrap: wrap;
 }
 
-.customer-field {
+.bill-to-field {
   flex: 1;
   min-width: 160px;
 
   label {
     display: block;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    color: var(--text-secondary);
-    margin-bottom: 6px;
+    color: #6B7280;
+    margin-bottom: 5px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
   }
+}
+
+// ─── Bill To Info (View Mode) ─────────────────────────────
+.bill-to-info {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.bill-to-item {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.bill-to-key {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.bill-to-val {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1A1A1A;
 }
 
 ::ng-deep .field-input {
   width: 100%;
   padding: 8px 12px !important;
-  border: 1px solid var(--border-color) !important;
+  border: 1px solid #e5e7eb !important;
   border-radius: 8px !important;
-  font-size: 0.85rem !important;
-  background: var(--background-primary) !important;
-  color: var(--text-primary) !important;
+  font-size: 0.82rem !important;
+  background: #ffffff !important;
+  color: #1A1A1A !important;
 
   &:focus {
     border-color: $cyan !important;
     box-shadow: 0 0 0 3px rgba($cyan, 0.08) !important;
+
+    &::placeholder {
+      color: transparent !important;
+    }
   }
 }
 
@@ -234,20 +262,23 @@ $green: #10B981;
   .p-dropdown {
     width: 100%;
     border-radius: 8px;
-    border-color: var(--border-color);
+    border-color: #e5e7eb;
+    background: #ffffff !important;
+    color: #1A1A1A !important;
   }
 }
 
 // ─── Entry Section ────────────────────────────────────────
 .entry-section {
-  padding: 0 28px 20px;
+  padding: 0 28px 16px;
+  background: #ffffff !important;
 }
 
 .section-title {
-  font-size: 0.82rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -255,22 +286,33 @@ $green: #10B981;
 .entry-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   align-items: flex-end;
 }
 
 .entry-field {
   flex: 1;
-  min-width: 100px;
+  min-width: 90px;
 
   label {
     display: block;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    color: var(--text-secondary);
-    margin-bottom: 4px;
+    color: #6B7280;
+    margin-bottom: 3px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
+  }
+
+  ::ng-deep input, ::ng-deep .p-inputnumber-input {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #1A1A1A !important;
+    border-color: #e5e7eb !important;
+
+    &:focus::placeholder {
+      color: transparent !important;
+    }
   }
 }
 
@@ -289,32 +331,40 @@ $green: #10B981;
 
 // ─── Items Table ──────────────────────────────────────────
 .items-table {
-  padding: 0 28px 20px;
+  padding: 0 28px 16px;
   overflow-x: auto;
+  background: #ffffff !important;
 }
 
 ::ng-deep .invoice-table {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
+  background: #ffffff !important;
 
   th {
-    background: var(--background-primary) !important;
-    color: var(--text-secondary) !important;
+    background: #f0f2f5 !important;
+    background-color: #f0f2f5 !important;
+    color: #374151 !important;
     font-weight: 700 !important;
-    font-size: 0.7rem !important;
+    font-size: 0.68rem !important;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    padding: 10px 8px !important;
+    padding: 9px 8px !important;
     white-space: nowrap;
+    border-bottom: 2px solid #e5e7eb !important;
   }
 
   td {
-    padding: 8px !important;
+    padding: 7px 8px !important;
     vertical-align: middle;
+    border-bottom: 1px solid #f0f0f0 !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #1A1A1A !important;
   }
 
   .item-name {
     font-weight: 600;
-    max-width: 180px;
+    max-width: 160px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -326,63 +376,65 @@ $green: #10B981;
 
   .empty-row {
     text-align: center;
-    padding: 30px !important;
-    color: var(--text-secondary);
-    font-size: 0.85rem;
+    padding: 24px !important;
+    color: #6B7280;
+    font-size: 0.82rem;
+    background: #ffffff !important;
   }
 }
 
 // ─── Summary Section ──────────────────────────────────────
 .summary-section {
-  padding: 0 28px 24px;
+  padding: 0 28px 20px;
   display: flex;
   justify-content: flex-end;
+  background: #ffffff !important;
 }
 
 .summary-grid {
   width: 100%;
-  max-width: 350px;
+  max-width: 320px;
 }
 
 .summary-row {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
-  font-size: 0.82rem;
-  color: var(--text-secondary);
+  padding: 5px 0;
+  font-size: 0.8rem;
+  color: #6B7280;
 
   span:last-child {
     font-weight: 600;
-    color: var(--text-primary);
+    color: #1A1A1A;
   }
 }
 
 .summary-divider {
   height: 1px;
-  background: var(--border-color);
-  margin: 6px 0;
+  background: #e5e7eb;
+  margin: 4px 0;
 }
 
 .grand-total {
-  padding: 10px 0 6px;
+  padding: 8px 0 4px;
 
   span {
-    font-size: 1.05rem !important;
-    font-weight: 900 !important;
+    font-size: 1rem !important;
+    font-weight: 800 !important;
     color: $cyan !important;
   }
 }
 
 .balance-due {
-  padding-top: 8px;
+  padding-top: 6px;
 
   span:first-child {
     font-weight: 700;
-    color: var(--text-primary);
+    color: #1A1A1A;
   }
 
   span:last-child {
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     font-weight: 800;
   }
 }
@@ -397,16 +449,21 @@ $green: #10B981;
 
 ::ng-deep .received-input {
   .p-inputnumber-input {
-    font-size: 0.82rem !important;
+    font-size: 0.8rem !important;
     padding: 4px 8px !important;
     border-radius: 6px !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #1A1A1A !important;
+    border-color: #e5e7eb !important;
   }
 }
 
 // ─── Action Bar ───────────────────────────────────────────
 .action-bar {
-  padding: 0 28px 24px;
+  padding: 0 28px 20px;
   text-align: right;
+  background: #ffffff !important;
 }
 
 ::ng-deep .save-btn {
@@ -425,25 +482,26 @@ $green: #10B981;
 
 // ─── Footer ───────────────────────────────────────────────
 .invoice-footer {
-  padding: 16px 28px;
+  padding: 12px 28px;
   text-align: center;
+  background: #ffffff !important;
 }
 
 .footer-divider {
   height: 1px;
-  background: var(--border-color);
-  margin-bottom: 14px;
+  background: #e5e7eb;
+  margin-bottom: 10px;
 }
 
 .powered-by {
-  font-size: 0.72rem;
-  color: var(--text-secondary);
+  font-size: 0.68rem;
+  color: #6B7280;
   font-weight: 500;
   letter-spacing: 0.03em;
 
   strong {
-    color: $cyan;
-    font-weight: 800;
+    color: #00BCD4;
+    font-weight: 700;
   }
 }
 
@@ -468,7 +526,7 @@ $green: #10B981;
 @media (max-width: 768px) {
   .invoice-header {
     flex-direction: column;
-    padding: 20px;
+    padding: 18px 20px;
   }
 
   .invoice-meta {
@@ -483,24 +541,24 @@ $green: #10B981;
     text-align: left;
   }
 
-  .customer-section {
-    padding: 16px 20px;
+  .bill-to-section {
+    padding: 14px 20px;
   }
 
   .entry-section {
-    padding: 0 20px 16px;
+    padding: 0 20px 14px;
   }
 
   .items-table {
-    padding: 0 20px 16px;
+    padding: 0 20px 14px;
   }
 
   .summary-section {
-    padding: 0 20px 20px;
+    padding: 0 20px 16px;
   }
 
   .action-bar {
-    padding: 0 20px 20px;
+    padding: 0 20px 16px;
   }
 
   .divider {
@@ -508,21 +566,21 @@ $green: #10B981;
   }
 
   .invoice-footer {
-    padding: 14px 20px;
+    padding: 12px 20px;
   }
 
   .entry-grid {
-    gap: 8px;
+    gap: 6px;
   }
 
   .entry-field {
-    min-width: 80px;
+    min-width: 75px;
   }
 }
 
 @media (max-width: 480px) {
   .invoice-wrapper {
-    padding: 76px 0 20px;
+    padding: 76px 0 16px;
   }
 
   .invoice-card {
@@ -531,44 +589,44 @@ $green: #10B981;
   }
 
   .invoice-header {
-    padding: 16px;
+    padding: 14px;
   }
 
-  .customer-section {
-    padding: 12px 16px;
+  .bill-to-section {
+    padding: 12px 14px;
   }
 
   .entry-section {
-    padding: 0 16px 12px;
+    padding: 0 14px 10px;
   }
 
   .items-table {
-    padding: 0 16px 12px;
+    padding: 0 14px 10px;
   }
 
   .summary-section {
-    padding: 0 16px 16px;
+    padding: 0 14px 14px;
     justify-content: stretch;
   }
 
   .action-bar {
-    padding: 0 16px 16px;
+    padding: 0 14px 14px;
   }
 
   .divider {
-    margin: 0 16px;
+    margin: 0 14px;
   }
 
   .invoice-footer {
-    padding: 12px 16px;
+    padding: 10px 14px;
   }
 
-  .customer-field {
+  .bill-to-field {
     min-width: 100%;
   }
 
   .company-name {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 }
 
@@ -595,10 +653,10 @@ $green: #10B981;
   }
 
   .invoice-header {
-    padding: 20px;
+    padding: 16px 20px;
   }
 
-  .customer-section,
+  .bill-to-section,
   .items-table,
   .summary-section,
   .action-bar,
