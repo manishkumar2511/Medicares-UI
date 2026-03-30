@@ -1,7 +1,8 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { Component, OnInit, inject, signal, computed, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Input, Output, EventEmitter } from '@angular/core';
 import { PrimematerialModule } from '../../../core/primematerial.module';
 import { InvoiceService } from '../../../core/services/invoice/invoice.service';
 import { StoreService } from '../../../core/services/store/store.service';
@@ -31,6 +32,11 @@ export class GenerateInvoiceComponent implements OnInit {
   private invoiceService = inject(InvoiceService);
   private storeService = inject(StoreService);
   private toastService = inject(ToastService);
+  private cdr = inject(ChangeDetectorRef);
+
+  @Input() inputInvoiceId?: string;
+  @Input() silentDownload: boolean = false;
+  @Output() onDownloadComplete = new EventEmitter<boolean>();
 
   isViewMode = signal(false);
   isPrintMode = signal(false);
@@ -40,6 +46,7 @@ export class GenerateInvoiceComponent implements OnInit {
   stores = signal<Store[]>([]);
   now = new Date();
   private cachedStore = signal<Store | null>(null);
+  private storesLoaded = signal(false);
 
   // Store selection
   selectedStoreId = signal('');
@@ -109,8 +116,8 @@ export class GenerateInvoiceComponent implements OnInit {
   ngOnInit(): void {
     this.loadStores();
 
-    const invoiceId = this.route.snapshot.queryParamMap.get('invoiceId');
-    const mode = this.route.snapshot.queryParamMap.get('mode');
+    const invoiceId = this.inputInvoiceId || this.route.snapshot.queryParamMap.get('invoiceId');
+    const mode = this.silentDownload ? 'download' : this.route.snapshot.queryParamMap.get('mode');
 
     if (invoiceId) {
       this.isViewMode.set(true);
@@ -125,6 +132,7 @@ export class GenerateInvoiceComponent implements OnInit {
       next: (res) => {
         if (res.succeeded && res.data && res.data.length > 0) {
           this.stores.set(res.data);
+          this.storesLoaded.set(true);
           if (!this.isViewMode()) {
             this.selectedStoreId.set(res.data[0].id);
           }
@@ -134,8 +142,11 @@ export class GenerateInvoiceComponent implements OnInit {
               this.cachedStore.set(store);
             }
           }
+        } else {
+          this.storesLoaded.set(true);
         }
-      }
+      },
+      error: () => this.storesLoaded.set(true)
     });
   }
 
@@ -158,17 +169,69 @@ export class GenerateInvoiceComponent implements OnInit {
             }
           }
 
-          const store = this.stores().find(s => s.id === res.data!.storeId);
-          if (store) {
-            this.cachedStore.set(store);
-          }
+          // Ensure store info is loaded
+          const checkStores = () => {
+            try {
+              const storeId = res.data?.storeId?.toLowerCase() || '';
+              const store = this.stores().find(s => s?.id?.toLowerCase() === storeId);
+              if (store) {
+                this.cachedStore.set(store);
+              }
+              
+              if (!(this.cdr as any).destroyed) {
+                this.cdr.detectChanges();
+              }
 
-          if (this.isDownloadMode()) {
-            setTimeout(() => this.downloadPdf(), 1000);
+              if (this.isDownloadMode() || this.silentDownload) {
+                setTimeout(() => {
+                  try {
+                    if (!(this.cdr as any).destroyed) {
+                      this.cdr.detectChanges();
+                    }
+                    this.downloadPdf();
+                  } catch (e) {
+                    console.error('Error triggering download:', e);
+                    this.handleLoadError('Failed to initiate PDF rendering.');
+                  }
+                }, 1000);
+              }
+            } catch (err) {
+              console.error('Error checking stores:', err);
+              this.handleLoadError('Error parsing invoice data.');
+            }
+          };
+
+          if (this.storesLoaded()) {
+            checkStores();
+          } else {
+            // Wait for loadStores to complete
+            let attempts = 0;
+            const interval = setInterval(() => {
+              if (this.storesLoaded() || attempts > 50) { // Timeout after 5s
+                clearInterval(interval);
+                checkStores();
+              }
+              attempts++;
+            }, 100);
           }
+        } else {
+          this.handleLoadError('Failed to load invoice details.');
         }
+      },
+      error: (err) => {
+        console.error('API Error loading invoice:', err);
+        this.handleLoadError('Error fetching invoice for download.');
       }
     });
+  }
+
+  private handleLoadError(message: string): void {
+    this.toastService.error('Error', message);
+    if (this.silentDownload) {
+      this.onDownloadComplete.emit(false);
+    } else {
+      this.goBack();
+    }
   }
 
   private parseItemSummary(summary: string): CartItem[] {
@@ -189,22 +252,31 @@ export class GenerateInvoiceComponent implements OnInit {
   }
 
   getStoreDisplayName(): string {
-    return this.selectedStore()?.name || this.cachedStore()?.name || 'Medicares';
+    if (this.existingInvoice()?.storeName) return this.existingInvoice()!.storeName!;
+    const selId = this.selectedStoreId()?.toLowerCase();
+    const s = this.stores().find(s => s?.id?.toLowerCase() === selId);
+    return s?.name || this.cachedStore()?.name || 'Medicares';
   }
 
   getStoreAddress(): string {
-    const s = this.selectedStore() || this.cachedStore();
+    if (this.existingInvoice()?.storeAddress) return this.existingInvoice()!.storeAddress!;
+    const selId = this.selectedStoreId()?.toLowerCase();
+    const s = this.stores().find(s => s?.id?.toLowerCase() === selId) || this.cachedStore();
     if (!s?.addressLine) return '';
     return `${s.addressLine}, ${s.city || ''}, ${s.state || ''}`;
   }
 
   getStorePhone(): string {
-    const s = this.selectedStore() || this.cachedStore();
+    if (this.existingInvoice()?.storePhone) return this.existingInvoice()!.storePhone!;
+    const selId = this.selectedStoreId()?.toLowerCase();
+    const s = this.stores().find(s => s?.id?.toLowerCase() === selId) || this.cachedStore();
     return s?.phone || '+91 00000 00000';
   }
 
   getStoreLicense(): string {
-    const s = this.selectedStore() || this.cachedStore();
+    if (this.existingInvoice()?.storeLicense) return this.existingInvoice()!.storeLicense!;
+    const selId = this.selectedStoreId()?.toLowerCase();
+    const s = this.stores().find(s => s?.id?.toLowerCase() === selId) || this.cachedStore();
     return s?.licenseNumber || '';
   }
 
@@ -304,66 +376,67 @@ export class GenerateInvoiceComponent implements OnInit {
   async downloadPdf(): Promise<void> {
     const original = document.getElementById('invoice-content');
     if (!original) {
-      this.toastService.warn('Warning', 'Could not capture invoice. Navigating back.');
-      this.goBack();
+      this.toastService.warn('Warning', 'Could not capture invoice.');
+      if (this.silentDownload) {
+        this.onDownloadComplete.emit(false);
+      } else {
+        this.goBack();
+      }
       return;
     }
 
-    // Create off-screen container with white background (completely detached from theme)
     const container = document.createElement('div');
     container.style.cssText = 'position:fixed;left:-10000px;top:0;z-index:-1;background:#ffffff;width:900px;';
 
     const clone = original.cloneNode(true) as HTMLElement;
     clone.style.cssText = 'background:#ffffff !important;width:900px !important;';
 
-    // Inject scoped style into clone to override ALL CSS variables with light values
-    const cloneStyle = document.createElement('style');
-    cloneStyle.textContent = `
-      * { transition: none !important; }
-      :root, [data-theme], [data-theme="dark"] {
-        --background-primary:#ffffff !important;
-        --background-secondary:#F8F9FA !important;
-        --text-primary:#1A1A1A !important;
-        --text-secondary:#6B7280 !important;
-        --border-color:#E0E0E0 !important;
-        --app-bg:#ffffff !important;
-        --background-light:#F0F2F5 !important;
-        --primary-color:#00BCD4 !important;
-      }
-      .invoice-wrapper {
-        background:#ffffff !important;
-        background-image:none !important;
-        padding:0 !important;
-      }
-      .invoice-container { background:#ffffff !important; }
-      .invoice-card { background:#F8F9FA !important; border:1px solid #E0E0E0 !important; box-shadow:none !important; }
-      .invoice-wrapper, .invoice-container, .invoice-card,
-      .invoice-header, .bill-to-section, .bill-to-info,
-      .bill-to-key, .bill-to-val, .items-table,
-      .summary-section, .invoice-footer, .summary-row,
-      .meta-key, .meta-val, .company-detail,
-      .bill-to-field label, .invoice-label, .powered-by,
-      td, th, .empty-row {
-        color:#1A1A1A !important;
-      }
-      th { background:#F0F2F5 !important; }
-      .qty-col, td.qty-col { background:#ffffff !important; background-color:#ffffff !important; color:#1A1A1A !important; font-weight:700 !important; text-align:center !important; }
-      th.qty-col { background:#f0f2f5 !important; background-color:#f0f2f5 !important; color:#374151 !important; }
-      .grand-total span { color:#00BCD4 !important; }
-      .text-red { color:#ef4444 !important; }
-      .text-green { color:#10B981 !important; }
-      .company-name { color:#00BCD4 !important; }
-      .divider, .summary-divider, .footer-divider { background:#E0E0E0 !important; }
-    `;
-    clone.appendChild(cloneStyle);
+    // Apply inline styles to all elements (NO <style> tag — that causes global theme leak)
+    clone.querySelectorAll('*').forEach((el) => {
+      const h = el as HTMLElement;
+      const tag = h.tagName?.toLowerCase();
+      if (tag === 'style' || tag === 'script') return;
 
-    // Hide nav bar and action buttons in clone
+      if (['div','section','header','footer','table','thead','tbody','tr','ul','li'].includes(tag)) {
+        h.style.setProperty('background', '#ffffff', 'important');
+        h.style.setProperty('background-color', '#ffffff', 'important');
+      }
+      if (tag === 'th') {
+        h.style.setProperty('background', '#f0f2f5', 'important');
+        h.style.setProperty('background-color', '#f0f2f5', 'important');
+        h.style.setProperty('color', '#374151', 'important');
+      }
+      if (tag === 'td') {
+        h.style.setProperty('background', '#ffffff', 'important');
+        h.style.setProperty('background-color', '#ffffff', 'important');
+        h.style.setProperty('color', '#1A1A1A', 'important');
+      }
+      if (['p','span','h1','h2','h3','h4','h5','h6','label','a','strong','b','small'].includes(tag)) {
+        h.style.setProperty('color', '#1A1A1A', 'important');
+      }
+      if (h.classList.contains('company-name') || h.classList.contains('bill-to-label')) {
+        h.style.setProperty('color', '#00BCD4', 'important');
+      }
+      if (h.closest('.grand-total')) {
+        h.style.setProperty('color', '#00BCD4', 'important');
+      }
+      if (h.classList.contains('invoice-label')) {
+        h.style.setProperty('border-bottom', '2px solid #00BCD4', 'important');
+      }
+      if (['divider','summary-divider','footer-divider'].some(c => h.classList.contains(c))) {
+        h.style.setProperty('background', '#e5e7eb', 'important');
+      }
+      if (h.classList.contains('text-red')) h.style.setProperty('color', '#ef4444', 'important');
+      if (h.classList.contains('text-green')) h.style.setProperty('color', '#10B981', 'important');
+      h.style.setProperty('transition', 'none', 'important');
+      h.style.setProperty('box-shadow', 'none', 'important');
+    });
+
     const navBarClone = clone.querySelector('.nav-bar') as HTMLElement;
     if (navBarClone) navBarClone.style.display = 'none';
     const actionBarClone = clone.querySelector('.action-bar') as HTMLElement;
     if (actionBarClone) actionBarClone.style.display = 'none';
 
-    // Convert SVG logo to PNG data URL for html2canvas compatibility
     const logoClone = clone.querySelector('.company-logo') as HTMLImageElement;
     if (logoClone) {
       try {
@@ -398,7 +471,6 @@ export class GenerateInvoiceComponent implements OnInit {
       const html2canvas = (await import('html2canvas')).default;
       const { jsPDF } = await import('jspdf');
 
-      // Wait for images
       await new Promise(r => setTimeout(r, 300));
 
       const canvas = await html2canvas(clone, {
@@ -435,17 +507,82 @@ export class GenerateInvoiceComponent implements OnInit {
         : new Date().toISOString().slice(0, 10);
       pdf.save(`Sale_${invoiceNum}_${invoiceDate}.pdf`);
       this.toastService.success('PDF Downloaded', `Sale_${invoiceNum}_${invoiceDate}.pdf saved.`);
+      
+      if (this.silentDownload) {
+        this.onDownloadComplete.emit(true);
+      }
     } catch (err) {
       console.error('PDF generation failed:', err);
       this.toastService.error('Error', 'Failed to generate PDF.');
+      if (this.silentDownload) {
+        this.onDownloadComplete.emit(false);
+      }
     } finally {
       container.remove();
-      setTimeout(() => this.goBack(), 600);
+      if (!this.silentDownload) {
+        setTimeout(() => this.goBack(), 600);
+      }
     }
   }
 
   printInvoice(): void {
-    this.downloadPdf();
+    const printContent = document.getElementById('invoice-content');
+    if (!printContent) return;
+
+    // Isolate for printing
+    const printContainer = document.createElement('div');
+    printContainer.id = 'temp-print-section';
+    printContainer.style.width = '100%';
+    
+    const clone = printContent.cloneNode(true) as HTMLElement;
+    
+    // Remove no-print elements from clone
+    const noPrintElems = clone.querySelectorAll('.no-print');
+    noPrintElems.forEach(el => el.remove());
+
+    printContainer.appendChild(clone);
+
+    // Hide all direct children of body
+    const bodyChildren = Array.from(document.body.children) as HTMLElement[];
+    const hiddenElements: HTMLElement[] = [];
+
+    bodyChildren.forEach(child => {
+      if (child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+        hiddenElements.push(child);
+        child.style.display = 'none';
+      }
+    });
+
+    document.body.appendChild(printContainer);
+
+    const calcHeightPx = printContainer.offsetHeight || printContainer.scrollHeight;
+    const heightInMm = Math.ceil(calcHeightPx * 0.264583) + 40; 
+    
+    const dynamicStyle = document.createElement('style');
+    dynamicStyle.id = 'print-dynamic-style';
+    dynamicStyle.innerHTML = `
+      @media print {
+        @page {
+          size: 210mm ${Math.max(heightInMm, 150)}mm !important;
+          margin: 0 !important;
+        }
+        html, body {
+          overflow: hidden !important; /* Force no second page spill */
+          height: 100% !important;
+        }
+      }
+    `;
+    document.head.appendChild(dynamicStyle);
+
+    // Trigger Print
+    window.print();
+
+    // Restore Original DOM
+    dynamicStyle.remove();
+    printContainer.remove();
+    hiddenElements.forEach(child => {
+      child.style.display = '';
+    });
   }
 
   goBack(): void {

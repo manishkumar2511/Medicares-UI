@@ -523,7 +523,7 @@ $green: #10B981;
 }
 
 // ─── Responsive ───────────────────────────────────────────
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .invoice-header {
     flex-direction: column;
     padding: 18px 20px;
@@ -578,7 +578,7 @@ $green: #10B981;
   }
 }
 
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
   .invoice-wrapper {
     padding: 76px 0 16px;
   }
@@ -630,16 +630,33 @@ $green: #10B981;
   }
 }
 
-// ─── Print Styles ─────────────────────────────────────────
 @media print {
+  @page {
+    margin: 0 !important; /* Removes browser header/footer URLs */
+  }
+
+  ::ng-deep body {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    margin: 0;
+    padding: 12mm 15mm !important; /* Safe printer padding */
+    box-sizing: border-box;
+  }
+  
   .no-print {
     display: none !important;
   }
 
   .invoice-wrapper {
-    padding: 0;
+    padding: 0 !important;
     min-height: auto;
-    background: #fff;
+    background: transparent;
+  }
+
+  .invoice-container {
+    max-width: 100% !important; /* Allow it to fill A4 width */
+    width: 100% !important;
+    margin: 0 !important;
   }
 
   .hero-bg-bloom {
@@ -647,22 +664,10 @@ $green: #10B981;
   }
 
   .invoice-card {
-    box-shadow: none;
-    border: 1px solid #e5e7eb;
+    box-shadow: none !important;
+    border: none !important;
     border-radius: 0;
-  }
-
-  .invoice-header {
-    padding: 16px 20px;
-  }
-
-  .bill-to-section,
-  .items-table,
-  .summary-section,
-  .action-bar,
-  .invoice-footer {
-    padding-left: 20px;
-    padding-right: 20px;
+    margin: 0;
   }
 
   ::ng-deep .invoice-table {
@@ -671,10 +676,20 @@ $green: #10B981;
     th {
       background: #f3f4f6 !important;
       color: #374151 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
   }
 
   .grand-total span {
     color: #0891b2 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .company-name, .bill-to-label {
+    color: #00BCD4 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }

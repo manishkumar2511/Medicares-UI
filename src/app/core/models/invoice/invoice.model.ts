@@ -16,6 +16,10 @@ export interface Invoice {
   transactionId?: string;
   status: string;
   billingDate: string;
+  storeName?: string;
+  storePhone?: string;
+  storeAddress?: string;
+  storeLicense?: string;
 }
 
 export interface GenerateInvoiceRequest {

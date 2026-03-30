@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PrimematerialModule } from '../../core/primematerial.module';
 import { GenericGridComponent, GridColumn, GridAction } from '../../shared/components/generic-grid/generic-grid.component';
+import { GenerateInvoiceComponent } from './generate-invoice/generate-invoice.component';
 import { COMMON_GRID_ACTIONS } from '../../core/constants/grid-action-items';
 import { InvoiceService } from '../../core/services/invoice/invoice.service';
 import { ToastService } from '../../core/services/notification/toast.service';
@@ -11,7 +12,7 @@ import { Invoice } from '../../core/models/invoice/invoice.model';
 @Component({
   selector: 'app-invoice-management',
   standalone: true,
-  imports: [CommonModule, PrimematerialModule, GenericGridComponent],
+  imports: [CommonModule, PrimematerialModule, GenericGridComponent, GenerateInvoiceComponent],
   templateUrl: './invoice-management.component.html',
   styleUrl: './invoice-management.component.scss'
 })
@@ -22,6 +23,7 @@ export class InvoiceManagementComponent implements OnInit {
 
   invoices = signal<Invoice[]>([]);
   loading = signal(false);
+  downloadInvoiceId = signal<string | null>(null);
 
   columns: GridColumn[] = [
     { field: 'invoiceNumber', header: 'Invoice #', sortable: true, width: '140px' },
@@ -64,13 +66,20 @@ export class InvoiceManagementComponent implements OnInit {
   }
 
   onActionExecuted(event: { id: string; data: Invoice }): void {
-    if (event.id === 'view' || event.id === 'print' || event.id === 'download') {
+    if (event.id === 'view' || event.id === 'print') {
       this.router.navigate(['/invoice-management/generate'], {
         queryParams: { invoiceId: event.data.id, mode: event.id }
       });
+    } else if (event.id === 'download') {
+      this.toastService.info('Download Started', 'Preparing invoice PDF...');
+      this.downloadInvoiceId.set(event.data.id);
     } else if (event.id === 'share') {
       this.shareViaWhatsApp(event.data);
     }
+  }
+
+  onDownloadComplete(success: boolean): void {
+    this.downloadInvoiceId.set(null);
   }
 
   shareViaWhatsApp(invoice: Invoice): void {

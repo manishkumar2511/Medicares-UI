@@ -19,5 +19,14 @@
         (actionExecuted)="onActionExecuted($event)">
       </app-generic-grid>
     </div>
+
+    <!-- Hidden Download Component -->
+    <div style="position: absolute; top: -10000px; left: -10000px; width: 900px; visibility: visible;" *ngIf="downloadInvoiceId()">
+      <app-generate-invoice 
+        [inputInvoiceId]="downloadInvoiceId()!" 
+        [silentDownload]="true"
+        (onDownloadComplete)="onDownloadComplete($event)">
+      </app-generate-invoice>
+    </div>
   </div>
 </div>
