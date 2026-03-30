@@ -23,7 +23,8 @@ export class InvoiceManagementComponent implements OnInit {
 
   invoices = signal<Invoice[]>([]);
   loading = signal(false);
-  downloadInvoiceId = signal<string | null>(null);
+  activeInvoiceId = signal<string | null>(null);
+  activeAction = signal<'download' | 'print' | null>(null);
 
   columns: GridColumn[] = [
     { field: 'invoiceNumber', header: 'Invoice #', sortable: true, width: '140px' },
@@ -36,7 +37,6 @@ export class InvoiceManagementComponent implements OnInit {
   ];
 
   actions: GridAction[] = [
-    { ...COMMON_GRID_ACTIONS.VIEW, icon: 'pi pi-eye', severity: 'info' },
     { id: 'download', label: 'Download', icon: 'pi pi-download', severity: 'success', tooltip: 'Download Invoice PDF' },
     { id: 'print', label: 'Print', icon: 'pi pi-print', severity: 'secondary', tooltip: 'Print Invoice' },
     { id: 'share', label: 'Share', icon: 'pi pi-whatsapp', severity: 'success', tooltip: 'Share via WhatsApp' }
@@ -66,20 +66,22 @@ export class InvoiceManagementComponent implements OnInit {
   }
 
   onActionExecuted(event: { id: string; data: Invoice }): void {
-    if (event.id === 'view' || event.id === 'print') {
-      this.router.navigate(['/invoice-management/generate'], {
-        queryParams: { invoiceId: event.data.id, mode: event.id }
-      });
+    if (event.id === 'print') {
+      this.toastService.info('Print Started', 'Preparing invoice for printing...');
+      this.activeAction.set('print');
+      this.activeInvoiceId.set(event.data.id);
     } else if (event.id === 'download') {
       this.toastService.info('Download Started', 'Preparing invoice PDF...');
-      this.downloadInvoiceId.set(event.data.id);
+      this.activeAction.set('download');
+      this.activeInvoiceId.set(event.data.id);
     } else if (event.id === 'share') {
       this.shareViaWhatsApp(event.data);
     }
   }
 
-  onDownloadComplete(success: boolean): void {
-    this.downloadInvoiceId.set(null);
+  onActionComplete(success: boolean): void {
+    this.activeInvoiceId.set(null);
+    this.activeAction.set(null);
   }
 
   shareViaWhatsApp(invoice: Invoice): void {

@@ -20,12 +20,13 @@
       </app-generic-grid>
     </div>
 
-    <!-- Hidden Download Component -->
-    <div style="position: absolute; top: -10000px; left: -10000px; width: 900px; visibility: visible;" *ngIf="downloadInvoiceId()">
+    <!-- Hidden Action Component for Print/Download -->
+    <div style="position: absolute; top: -10000px; left: -10000px; width: 900px; visibility: visible;" *ngIf="activeInvoiceId()">
       <app-generate-invoice 
-        [inputInvoiceId]="downloadInvoiceId()!" 
-        [silentDownload]="true"
-        (onDownloadComplete)="onDownloadComplete($event)">
+        [inputInvoiceId]="activeInvoiceId()!" 
+        [silentDownload]="activeAction() === 'download'"
+        [silentPrint]="activeAction() === 'print'"
+        (onDownloadComplete)="onActionComplete($event)">
       </app-generate-invoice>
     </div>
   </div>

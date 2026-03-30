@@ -36,6 +36,7 @@ export class GenerateInvoiceComponent implements OnInit {
 
   @Input() inputInvoiceId?: string;
   @Input() silentDownload: boolean = false;
+  @Input() silentPrint: boolean = false;
   @Output() onDownloadComplete = new EventEmitter<boolean>();
 
   isViewMode = signal(false);
@@ -177,7 +178,7 @@ export class GenerateInvoiceComponent implements OnInit {
               if (store) {
                 this.cachedStore.set(store);
               }
-              
+
               if (!(this.cdr as any).destroyed) {
                 this.cdr.detectChanges();
               }
@@ -194,6 +195,18 @@ export class GenerateInvoiceComponent implements OnInit {
                     this.handleLoadError('Failed to initiate PDF rendering.');
                   }
                 }, 1000);
+              } else if (this.isPrintMode() || this.silentPrint) {
+                setTimeout(() => {
+                  try {
+                    if (!(this.cdr as any).destroyed) {
+                      this.cdr.detectChanges();
+                    }
+                    this.printInvoice();
+                  } catch (e) {
+                    console.error('Error triggering print:', e);
+                    this.handleLoadError('Failed to initiate Print dialog.');
+                  }
+                }, 500);
               }
             } catch (err) {
               console.error('Error checking stores:', err);
@@ -397,7 +410,7 @@ export class GenerateInvoiceComponent implements OnInit {
       const tag = h.tagName?.toLowerCase();
       if (tag === 'style' || tag === 'script') return;
 
-      if (['div','section','header','footer','table','thead','tbody','tr','ul','li'].includes(tag)) {
+      if (['div', 'section', 'header', 'footer', 'table', 'thead', 'tbody', 'tr', 'ul', 'li'].includes(tag)) {
         h.style.setProperty('background', '#ffffff', 'important');
         h.style.setProperty('background-color', '#ffffff', 'important');
       }
@@ -411,7 +424,7 @@ export class GenerateInvoiceComponent implements OnInit {
         h.style.setProperty('background-color', '#ffffff', 'important');
         h.style.setProperty('color', '#1A1A1A', 'important');
       }
-      if (['p','span','h1','h2','h3','h4','h5','h6','label','a','strong','b','small'].includes(tag)) {
+      if (['p', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'label', 'a', 'strong', 'b', 'small'].includes(tag)) {
         h.style.setProperty('color', '#1A1A1A', 'important');
       }
       if (h.classList.contains('company-name') || h.classList.contains('bill-to-label')) {
@@ -423,7 +436,7 @@ export class GenerateInvoiceComponent implements OnInit {
       if (h.classList.contains('invoice-label')) {
         h.style.setProperty('border-bottom', '2px solid #00BCD4', 'important');
       }
-      if (['divider','summary-divider','footer-divider'].some(c => h.classList.contains(c))) {
+      if (['divider', 'summary-divider', 'footer-divider'].some(c => h.classList.contains(c))) {
         h.style.setProperty('background', '#e5e7eb', 'important');
       }
       if (h.classList.contains('text-red')) h.style.setProperty('color', '#ef4444', 'important');
@@ -507,7 +520,7 @@ export class GenerateInvoiceComponent implements OnInit {
         : new Date().toISOString().slice(0, 10);
       pdf.save(`Sale_${invoiceNum}_${invoiceDate}.pdf`);
       this.toastService.success('PDF Downloaded', `Sale_${invoiceNum}_${invoiceDate}.pdf saved.`);
-      
+
       if (this.silentDownload) {
         this.onDownloadComplete.emit(true);
       }
@@ -533,9 +546,9 @@ export class GenerateInvoiceComponent implements OnInit {
     const printContainer = document.createElement('div');
     printContainer.id = 'temp-print-section';
     printContainer.style.width = '100%';
-    
+
     const clone = printContent.cloneNode(true) as HTMLElement;
-    
+
     // Remove no-print elements from clone
     const noPrintElems = clone.querySelectorAll('.no-print');
     noPrintElems.forEach(el => el.remove());
@@ -556,8 +569,8 @@ export class GenerateInvoiceComponent implements OnInit {
     document.body.appendChild(printContainer);
 
     const calcHeightPx = printContainer.offsetHeight || printContainer.scrollHeight;
-    const heightInMm = Math.ceil(calcHeightPx * 0.264583) + 40; 
-    
+    const heightInMm = Math.ceil(calcHeightPx * 0.264583) + 40;
+
     const dynamicStyle = document.createElement('style');
     dynamicStyle.id = 'print-dynamic-style';
     dynamicStyle.innerHTML = `
@@ -583,6 +596,13 @@ export class GenerateInvoiceComponent implements OnInit {
     hiddenElements.forEach(child => {
       child.style.display = '';
     });
+
+    // Automatically navigate back up to grid or emit completion
+    if (!this.silentDownload && !this.silentPrint) {
+      this.goBack();
+    } else if (this.silentPrint) {
+      this.onDownloadComplete.emit(true);
+    }
   }
 
   goBack(): void {
